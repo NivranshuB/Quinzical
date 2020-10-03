@@ -84,18 +84,20 @@ public class PracticeModule {
 							Question question = questionList.get(randomQuestionIndex);
 							String answerInput = "";
 							if (attempts == 2) {
-								answerInput = QuestionBox.displayConfirm("You picked the " + category.getCategoryName() + " category", question.getQuestion(), question.getQuestion()
-										+ "\n\nStarts with " + question.getAnswer().charAt(0));
+								answerInput = QuestionBox.displayConfirm("You picked the " + category.getCategoryName() + " category"
+										, question.getQuestion(), question.getQuestion()
+										+ "\n\nStarts with " + question.getAnswer().charAt(0), question.getClue(), true);
 							}
 							else {
 								//ask the user the question in a new QuestionBox window
-								answerInput = QuestionBox.displayConfirm("You picked the " + category.getCategoryName() + " category", question.getQuestion(), question.getQuestion());
+								answerInput = QuestionBox.displayConfirm("You picked the " + category.getCategoryName() + " category",
+										question.getQuestion(), question.getQuestion(), question.getClue(), true);
 							}
 							
 						
 						
 							//if the answer is correct 'echo correct' using BASH, send an alert box to the user and update winnings
-							if (answerInput.trim().equalsIgnoreCase(question.getAnswer())) {
+							if (question.answerValid(answerInput)) {
 								questionFeedback(true, question, false);
 								break;
 								//if the answer is wrong 'echo' the correct answer using BASH, send	an alert box to the user and update winnings
@@ -156,3 +158,4 @@ public class PracticeModule {
 		_stage.setScene(_menuScene);
 	}
 }
+
