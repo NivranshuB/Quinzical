@@ -1,27 +1,27 @@
 package quinzical;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
-import quinzical.HelperThread;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+
+/**
+ * Class that performs the practice module
+ * @author Whan Jung
+ *
+ */
 public class PracticeModule {
 	
 	private Stage _stage;
@@ -33,19 +33,11 @@ public class PracticeModule {
 		_questions = questions;
 		_menuScene = menuScene;
 	}
+	/**
+	 * Method that displays the practice module menu
+	 */
 	public void practiceModule() {
-		
-//		VBox menuLayout = new VBox();
-//		menuLayout.setSpacing(10);
-//		menuLayout.setAlignment(Pos.CENTER);
-//		menuLayout.setPadding(new Insets(20, 20, 30, 20)); 
-//		Scene _menuScene = new Scene(menuLayout, 700, 450);
-		
-		
-		displayCategoryBoard();
-	}
-	private void displayCategoryBoard() {
-		
+			
 		StackPane menuInfo = new StackPane();
 		Text infoText = new Text("Please select one of the following options: ");
 		infoText.setStyle("-fx-font-size: 15;");
@@ -62,6 +54,7 @@ public class PracticeModule {
 		topMenu.setPadding(new Insets(5, 5, 5, 5));
 		topMenu.setSpacing(8);
 		
+		//Create button for each category
 		for (Category category : _questions.getCategoryList()) {
 			
 			Button button = new Button();
@@ -75,6 +68,7 @@ public class PracticeModule {
 					int randomQuestionIndex = rand.nextInt(category.numberOfQuestions());
 					List<Question> questionList = category.getQuestions();
 					int attempts = 0;
+					
 					//Confirm with the user if they want the answer the question
 					boolean confirm = ConfirmBox.displayConfirm("Category confirmation",
 							"You picked the " + category.getCategoryName() + " category.\nAre you sure you want this category?");
@@ -84,9 +78,10 @@ public class PracticeModule {
 							Question question = questionList.get(randomQuestionIndex);
 							String answerInput = "";
 							if (attempts == 2) {
+								//On third attempt, display hint
 								answerInput = QuestionBox.displayConfirm("You picked the " + category.getCategoryName() + " category"
 										, question.getQuestion(), question.getQuestion()
-										+ "\n\nStarts with " + question.getAnswer().charAt(0), question.getClue(), true);
+										+ "\n\nHint: starts with " + question.getAnswer().charAt(0), question.getClue(), true);
 							}
 							else {
 								//ask the user the question in a new QuestionBox window
@@ -96,17 +91,16 @@ public class PracticeModule {
 							
 						
 						
-							//if the answer is correct 'echo correct' using BASH, send an alert box to the user and update winnings
+							//if the answer is correct, send an alert box to the user
 							if (question.answerValid(answerInput)) {
 								questionFeedback(true, question, false);
 								break;
-								//if the answer is wrong 'echo' the correct answer using BASH, send	an alert box to the user and update winnings
 							} else {
 							
 								attempts += 1;
+								//if the answer is wrong, send an alert box to the user
 								if (attempts == 3) {
 									questionFeedback(false, question, true);
-								
 								}
 								else {
 									questionFeedback(false, question, false);
@@ -144,6 +138,13 @@ public class PracticeModule {
 
 		_stage.setScene(quesScene);
 	}
+	/**
+	 * Method that alerts user with a pop-up window depending on the users answer
+	 * @param outcome | if answer is correct or not
+	 * @param ques | question
+	 * @param fullyAttempted | if question attemped 3 times or not
+	 *
+	 */
 	private void questionFeedback(boolean outcome, Question ques, boolean fullyAttempted) {
 		if (outcome) {
 			AlertBox.displayAlert("Correct answer", "Correct!!!", "#0E9109");

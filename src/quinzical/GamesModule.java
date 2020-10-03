@@ -350,27 +350,17 @@ public class GamesModule {
 		//ask the user the question in a new QuestionBox window
 		String answerInput = QuestionBox.displayConfirm("You picked category " + c.getCategoryName() +
 				" for " + Integer.toString(q.getValue()), q.getQuestion(), q.getQuestion(), q.getClue(), false);
-		String cmd = "";
 
-		//if the answer is correct 'echo correct' using BASH, send an alert box to the user and update winnings
+		//if the answer is correct, send an alert box to the user and update winnings
 		if (q.answerValid(answerInput)) {
-			cmd = "echo " + "Correct" + " | espeak";
 			_winnings += q.getValue();
 			questionFeedback(true, q);
 
-			//if the answer is wrong 'echo' the correct answer using BASH, send	an alert box to the user and update winnings
+			//if the answer is wrong, send an alert box to the user
 		} else {
-			cmd = "echo " + "Incorrect, the correct answer was " + q.getAnswer() + " | espeak";
+
 			questionFeedback(false, q);
 		}
-		//Run a BASH process from java using ProcessBuilder
-		ProcessBuilder builder =  new ProcessBuilder("/bin/bash", "-c", cmd);
-		try {
-			Process process = builder.start();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-
 	}
 
 	/**

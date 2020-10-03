@@ -1,11 +1,14 @@
 package quinzical;
 
 import quinzical.CompletedTaskPaper;
-
-import java.util.concurrent.CountDownLatch;
-
 import javafx.application.Platform;
 
+
+/**
+ * Class acts as a background thread for the main GUI
+ * @author Whan Jung
+ *
+ */
 public class HelperThread extends Thread {
 	
 	private String _question;

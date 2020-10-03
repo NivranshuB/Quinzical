@@ -1,7 +1,5 @@
 package quinzical;
 
-import java.io.IOException;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -24,7 +22,7 @@ import javafx.stage.Stage;
  * Class contains single static method which creates a new question box window and
  * also reads out the question input using a BASH command process.
  * 
- * @author Nivranshu Bose
+ * @author Nivranshu Bose, Modified by Whan Jung
  *
  */
 public class QuestionBox {
@@ -41,7 +39,7 @@ public class QuestionBox {
 
 	public static String displayConfirm(String title, String questionToSpeak, String questionDisplay, String clue, Boolean isPracticeQuestion) {
 		
-		
+		//HelperThread to run festival in background with
 		HelperThread helper = new HelperThread(questionToSpeak, realPlaySpeed);
 		helper.start();
 
@@ -93,6 +91,7 @@ public class QuestionBox {
 		
 		Button dontKnow = new Button("Don't know");
 		
+		//If in GamesModule then add dontKnow button
 		if (!isPracticeQuestion) {
 			dontKnow.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
 			dontKnow.setOnAction(new EventHandler<ActionEvent>() {
@@ -103,7 +102,7 @@ public class QuestionBox {
 			});
 		}
 		
-		Text speechSpeed = new Text("Playback speed: " + String.valueOf(Math.round(displayPlaySpeed * 10) / 10.0) + "x");
+		Text speechSpeed = new Text("Playback speed: " + String.valueOf(Math.round(displayPlaySpeed * 100) / 100.0) + "x");
 		speechSpeed.setTextAlignment(TextAlignment.CENTER);
 		
 		
@@ -115,12 +114,12 @@ public class QuestionBox {
 		faster.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
 				displayPlaySpeed += 0.1;
-				realPlaySpeed -= 0.1;
+				realPlaySpeed -= 0.05;
 				double roundPlaySpeed = Math.round(displayPlaySpeed * 10) / 10.0;
 				if (roundPlaySpeed == 2.1) {
 					faster.setText("MAX");
 					displayPlaySpeed = 2.0;
-					realPlaySpeed = 0.1;
+					realPlaySpeed = 0.5;
 				}
 				else {
 					faster.setText("Faster");
@@ -135,12 +134,12 @@ public class QuestionBox {
 		slower.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
 				displayPlaySpeed -= 0.1;
-				realPlaySpeed += 0.1;
+				realPlaySpeed += 0.05;
 				double roundPlaySpeed = Math.round(displayPlaySpeed * 10) / 10.0;
 				if (roundPlaySpeed == 0.0) {
 					slower.setText("MIN");
 					displayPlaySpeed = 0.1;
-					realPlaySpeed = 2.0;
+					realPlaySpeed = 1.5;
 				}
 				else {
 					faster.setText("Faster");
@@ -158,6 +157,7 @@ public class QuestionBox {
 		HBox bottomMenuBox = new HBox();
 		bottomMenuBox.setSpacing(30);
 		
+		//If in PracticeModule, do not add the dontKnow Button
 		if (isPracticeQuestion) {
 			bottomMenuBox.getChildren().addAll(replay, submit, speedAdjustmentBox);
 		} else {

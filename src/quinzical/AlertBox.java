@@ -17,7 +17,7 @@ import javafx.stage.Stage;
  * Class that has a single static method which generates an Alert Box via a 
  * new window.
  * 
- * @author Nivranshu Bose
+ * @author Nivranshu Bose, Modified by Whan Jung
  *
  */
 public class AlertBox {
@@ -31,6 +31,7 @@ public class AlertBox {
 	 */
 	public static void displayAlert(String title, String message, String color) {
 		
+		//HelperThread to run festival in background
 		HelperThread helper = new HelperThread(message);
 		helper.start();
 		
