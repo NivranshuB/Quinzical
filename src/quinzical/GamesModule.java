@@ -356,9 +356,9 @@ public class GamesModule {
 			_winnings += q.getValue();
 			questionFeedback(true, q);
 
-			//if the answer is wrong, send an alert box to the user
+			//if the answer is wrong, send an alert box to the user and update winnings
 		} else {
-
+			_winnings -= q.getValue();
 			questionFeedback(false, q);
 		}
 	}

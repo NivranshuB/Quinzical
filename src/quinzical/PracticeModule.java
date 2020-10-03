@@ -150,10 +150,10 @@ public class PracticeModule {
 			AlertBox.displayAlert("Correct answer", "Correct!!!", "#0E9109");
 		} else {
 			if (!fullyAttempted) {
-				AlertBox.displayAlert("Incorrect answer", "Incorrect, Try again!", "#BC0808");
+				AlertBox.displayAlert("Incorrect answer", "Incorrect. Try again!", "#BC0808");
 			}
 			else {
-				AlertBox.displayAlert("Incorrect answer", "Incorrect, " + "The correct answer to '" + ques.getQuestion() + "' is " + ques.getAnswer(), "#BC0808");
+				AlertBox.displayAlert("Incorrect answer", "Incorrect. " + "The correct answer to '" + ques.getQuestion() + "' is " + ques.getAnswer(), "#BC0808");
 			}
 		}
 		_stage.setScene(_menuScene);
