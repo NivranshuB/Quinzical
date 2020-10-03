@@ -30,6 +30,10 @@ public class AlertBox {
 	 * @param color | The color of the text message of the alert box
 	 */
 	public static void displayAlert(String title, String message, String color) {
+		
+		HelperThread helper = new HelperThread(message);
+		helper.start();
+		
 		Stage window = new Stage();
 		
 		window.initModality(Modality.APPLICATION_MODAL);
