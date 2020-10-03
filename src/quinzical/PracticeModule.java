@@ -84,26 +84,23 @@ public class PracticeModule {
 							Question question = questionList.get(randomQuestionIndex);
 							String answerInput = "";
 							if (attempts == 2) {
-								answerInput = QuestionBox.displayConfirm("You picked the " + category.getCategoryName() + " category", question.getQuestion()
+								answerInput = QuestionBox.displayConfirm("You picked the " + category.getCategoryName() + " category", question.getQuestion(), question.getQuestion()
 										+ "\n\nStarts with " + question.getAnswer().charAt(0));
 							}
 							else {
 								//ask the user the question in a new QuestionBox window
-								answerInput = QuestionBox.displayConfirm("You picked the " + category.getCategoryName() + " category", question.getQuestion());
+								answerInput = QuestionBox.displayConfirm("You picked the " + category.getCategoryName() + " category", question.getQuestion(), question.getQuestion());
 							}
 							
 						
 						
 							//if the answer is correct 'echo correct' using BASH, send an alert box to the user and update winnings
 							if (answerInput.trim().equalsIgnoreCase(question.getAnswer())) {
-								HelperThread helper = new HelperThread("Correct");
-								helper.start();
 								questionFeedback(true, question, false);
 								break;
 								//if the answer is wrong 'echo' the correct answer using BASH, send	an alert box to the user and update winnings
 							} else {
-								HelperThread helper = new HelperThread("Incorrect, try again");
-								helper.start();
+							
 								attempts += 1;
 								if (attempts == 3) {
 									questionFeedback(false, question, true);
@@ -150,10 +147,10 @@ public class PracticeModule {
 			AlertBox.displayAlert("Correct answer", "Correct!!!", "#0E9109");
 		} else {
 			if (!fullyAttempted) {
-				AlertBox.displayAlert("Incorrect answer", "Incorrect. Try again!", "#BC0808");
+				AlertBox.displayAlert("Incorrect answer", "Incorrect, Try again!", "#BC0808");
 			}
 			else {
-				AlertBox.displayAlert("Incorrect answer", "Incorrect. " + "The correct answer to '" + ques.getQuestion() + "' is " + ques.getAnswer(), "#BC0808");
+				AlertBox.displayAlert("Incorrect answer", "Incorrect, " + "The correct answer to '" + ques.getQuestion() + "' is " + ques.getAnswer(), "#BC0808");
 			}
 		}
 		_stage.setScene(_menuScene);
