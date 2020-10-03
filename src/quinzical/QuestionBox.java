@@ -90,9 +90,9 @@ public class QuestionBox {
 				helper.start();
 			}
 		});
-		
+		Button dontKnow = new Button("Don't know");
 		if (!isPracticeQuestion) {
-			Button dontKnow = new Button("Don't know");
+
 			dontKnow.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
 			dontKnow.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle (ActionEvent e) {

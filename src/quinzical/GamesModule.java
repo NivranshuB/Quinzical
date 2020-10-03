@@ -349,7 +349,7 @@ public class GamesModule {
 
 		//ask the user the question in a new QuestionBox window
 		String answerInput = QuestionBox.displayConfirm("You picked category " + c.getCategoryName() +
-				" for " + Integer.toString(q.getValue()), q.getQuestion(), q.getClue());
+				" for " + Integer.toString(q.getValue()), q.getQuestion(), q.getQuestion(), q.getClue(), false);
 		String cmd = "";
 
 		//if the answer is correct 'echo correct' using BASH, send an alert box to the user and update winnings
