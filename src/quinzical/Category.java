@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * A Category instance represents a category of the application. It has a name, a path
  * (path of the file that it was extracted from) and a list of questions of the category.
@@ -46,7 +45,7 @@ public class Category {
 	 * @param questionDetails
 	 */
 	private void createNewQuestion(String questionDetails) {
-		
+
 		int firstDivider = questionDetails.indexOf('|');
 		int lastDivider = questionDetails.lastIndexOf('|');
 		
@@ -73,6 +72,7 @@ public class Category {
 			_questions.add(new Question(questionPart, answerPart, cluePart));
 		}
 	}
+
 	
 	/**
 	 * Returns a string representation of the Category.

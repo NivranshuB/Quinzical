@@ -1,7 +1,5 @@
 package quinzical;
 
-import java.io.File;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -55,7 +53,7 @@ public class ConfirmBox {
 		});
 		
 		Button yes = new Button("Yes");
-		yes.setText("Yes");
+
 		yes.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
 		yes.setPrefSize(60, 30);
 		yes.setOnAction(new EventHandler<ActionEvent>() {
@@ -66,7 +64,7 @@ public class ConfirmBox {
 		});
 		
 		Button no = new Button("No");
-		no.setText("No");
+
 		no.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
 		no.setPrefSize(60, 30);
 		no.setOnAction(new EventHandler<ActionEvent>() {

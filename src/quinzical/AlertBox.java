@@ -30,6 +30,10 @@ public class AlertBox {
 	 * @param color | The color of the text message of the alert box
 	 */
 	public static void displayAlert(String title, String message, String color) {
+		
+		HelperThread helper = new HelperThread(message);
+		helper.start();
+		
 		Stage window = new Stage();
 		
 		window.initModality(Modality.APPLICATION_MODAL);
@@ -56,7 +60,7 @@ public class AlertBox {
 		StackPane bottomMenu = new StackPane();
 		bottomMenu.getChildren().add(ok);  
 		bottomMenu.setPadding(new Insets(0, 0, 20, 0));
-        StackPane.setAlignment(ok, Pos.CENTER);
+        	StackPane.setAlignment(ok, Pos.CENTER);
 
         
 		BorderPane layout = new BorderPane();
@@ -69,3 +73,4 @@ public class AlertBox {
 		window.showAndWait();
 	}
 }
+
