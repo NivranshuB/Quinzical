@@ -90,9 +90,10 @@ public class QuestionBox {
 				helper.start();
 			}
 		});
+		
 		Button dontKnow = new Button("Don't know");
+		
 		if (!isPracticeQuestion) {
-
 			dontKnow.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
 			dontKnow.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle (ActionEvent e) {
@@ -176,7 +177,7 @@ public class QuestionBox {
 		layout.setCenter(answerPrompt);
 		layout.setBottom(bottomMenu);
 
-		Scene scene = new Scene(layout, 500, 275);
+		Scene scene = new Scene(layout, 700, 275);
 		window.setScene(scene);
 		window.showAndWait();
 		

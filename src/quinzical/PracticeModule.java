@@ -158,4 +158,3 @@ public class PracticeModule {
 		_stage.setScene(_menuScene);
 	}
 }
-

@@ -58,7 +58,8 @@ public class Main extends Application {
 		gamesModuleButton.setStyle("-fx-border-color: #200459;-fx-border-width: 1;-fx-font-size: 16;");
 		gamesModuleButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
-				//gamesModule(_gameWindow);
+				GamesModule gameMenu = new GamesModule();
+				gameMenu.start(_gameWindow);
 			}
 		});
 		
