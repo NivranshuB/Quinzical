@@ -1,4 +1,4 @@
-package quinzical;
+package practice;
 
 import java.util.List;
 import java.util.Random;
@@ -15,6 +15,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import questions.Category;
+import questions.Question;
+import questions.QuestionBox;
+import questions.QuestionRetriever;
+import quinzical.AlertBox;
+import quinzical.ConfirmBox;
 
 
 /**

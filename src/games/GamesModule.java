@@ -1,4 +1,4 @@
-package quinzical;
+package games;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -10,6 +10,10 @@ import java.util.Random;
 
 import javafx.event.ActionEvent;
 import javafx.stage.WindowEvent;
+import questions.Category;
+import questions.Question;
+import questions.QuestionBank;
+import questions.QuestionBox;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -19,12 +23,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import quinzical.Winnings;
 import quinzical.AlertBox;
-import quinzical.Category;
 import quinzical.ConfirmBox;
-import quinzical.Question;
-import quinzical.QuestionBox;
 
 /**
  * This class helps provide the functionality of the 'Games Module' for the Quinzical application.

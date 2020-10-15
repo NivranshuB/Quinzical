@@ -1,4 +1,4 @@
-package quinzical;
+package questions;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -17,6 +17,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import quinzical.HelperThread;
 
 /**
  * Class contains single static method which creates a new question box window and

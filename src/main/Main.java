@@ -1,5 +1,6 @@
-package quinzical;
+package main;
 
+import games.GamesModule;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -15,6 +16,9 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import practice.PracticeModule;
+import questions.QuestionRetriever;
+import quinzical.ConfirmBox;
 
 
 
