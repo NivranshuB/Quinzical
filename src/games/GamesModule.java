@@ -246,6 +246,7 @@ public class GamesModule {
 		//if the question has been attempted or not
 		for (Category c : _questionBank.getCategoryList()) {
 
+			
 			int questionsDone = 0;//this variable enables the check to see if all questions
 			//of a category have been attempted or not
 
@@ -284,7 +285,7 @@ public class GamesModule {
 
 					questionsDone++;
 
-				} else if (lowestValueQuestion != null && q.equals(lowestValueQuestion)){
+				} else if (lowestValueQuestion != null && q.equals(lowestValueQuestion) && (!(c.getCategoryName().equalsIgnoreCase("international") && (categoriesDone < 2)))){
 
 					//Creation of button instance for a question
 					Button button = new Button();
