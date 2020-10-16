@@ -92,6 +92,7 @@ public class GamesModule {
 		if (Files.exists(save_data.toPath())) {
 			String categoryDir = save_loc + System.getProperty("file.separator") + "categories";
 			_questionBank = new QuestionBank(categoryDir);//load saved categories and questions data
+			moveInternationalToEnd();
 			displayQuestionBoard();
 		} else {
 			String categoryDir = System.getProperty("user.dir") + System.getProperty("file.separator") + "categories";
@@ -223,7 +224,7 @@ public class GamesModule {
 		layout.setCenter(quesLayout);
 		layout.setBottom(bottomMenu);
 
-		Scene quesScene = new Scene(layout, 500, 500);
+		Scene quesScene = new Scene(layout, 600, 600);
 
 		_gameWindow.setScene(quesScene);
 	}
@@ -343,6 +344,12 @@ public class GamesModule {
 				categoryLabel.setStyle("-fx-font-size: 15;-fx-border-width: 1;"
 						+ "-fx-background-color: #040662;-fx-text-fill: #ffffff");
 			}
+			
+			if (c.getCategoryName().equalsIgnoreCase("international")) {
+				categoryLabel.setStyle("-fx-font-size: 18;-fx-border-width: 1;"
+						+ "-fx-background-color: #ab0f96;-fx-text-fill: #ffffff");
+			}
+			
 			topMenu.getChildren().add(categoryLabel);
 		}
 
@@ -541,7 +548,7 @@ public class GamesModule {
 			}
 		}
 
-		Scene _categorySelectScene = new Scene(categorySelectLayout, 500, 500);
+		Scene _categorySelectScene = new Scene(categorySelectLayout, 500, 400);
 		_gameWindow.setScene(_categorySelectScene);
 		_gameWindow.show();
 
@@ -571,6 +578,20 @@ public class GamesModule {
 		for (Category c : toRemove) {
 			_questionBank.getCategoryList().remove(c);
 		}
+		
+		moveInternationalToEnd();
+	}
+	
+	private void moveInternationalToEnd() {
+		Category international = _questionBank.getCategoryList().get(0); 
+		
+		for (Category c : _questionBank.getCategoryList()) {
+			if (c.getCategoryName().equalsIgnoreCase("international")) {
+				international = c;
+			}
+		}
+		_questionBank.getCategoryList().remove(international);
+		_questionBank.getCategoryList().add(international);
 	}
 
 	/**
