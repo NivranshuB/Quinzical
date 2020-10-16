@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import javafx.event.ActionEvent;
@@ -22,6 +24,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import quinzical.AlertBox;
 import quinzical.ConfirmBox;
@@ -66,9 +69,12 @@ public class GamesModule {
 		_gameWindow = primaryStage;
 		_gameWindow.setTitle("Games Module");
 		_gameWindow.show();
+
 		checkSaveData();
 
-		displayQuestionBoard();
+		if (this._questionBank != null) {
+			//displayQuestionBoard();
+		}
 	}
 
 	/**
@@ -86,11 +92,19 @@ public class GamesModule {
 		if (Files.exists(save_data.toPath())) {
 			String categoryDir = save_loc + System.getProperty("file.separator") + "categories";
 			_questionBank = new QuestionBank(categoryDir);//load saved categories and questions data
+			displayQuestionBoard();
 		} else {
 			String categoryDir = System.getProperty("user.dir") + System.getProperty("file.separator") + "categories";
-			_questionBank = new QuestionBank(categoryDir);//initialise new categories and questions
-			initialiseNewQuestions();
+			_questionBank = new QuestionBank(categoryDir);//load new categories and questions data
+			categorySelector();
 		}
+	}
+
+	/**
+	 * 
+	 */
+	public void setQuestionBank(QuestionBank questions) {
+		_questionBank = questions;
 	}
 
 	/**
@@ -102,14 +116,14 @@ public class GamesModule {
 	private void initialiseNewQuestions() {
 
 		int numberOfCategories = _questionBank.getCategoryList().size();
-		
+
 		//until the number of categories in the question bank is not equal to 5, randomly remove a category
 		while (numberOfCategories > 5) {
 			int randomCategory = generateRandomNumber(0, numberOfCategories);
 			_questionBank.getCategoryList().remove(randomCategory);
 			numberOfCategories = _questionBank.getCategoryList().size();
 		}
-		
+
 		//until the number of questions in a particular category is not equal to 5, randomly remove a question
 		for (Category c : _questionBank.getCategoryList()) {
 			int numberOfQuestions = c.getQuestions().size();
@@ -391,7 +405,7 @@ public class GamesModule {
 
 		try {
 			Files.createDirectories(pathCategoryData);
-			
+
 
 		} catch (IOException e) {
 			System.err.println("Failed to create directory!" + e.getMessage());
@@ -449,12 +463,12 @@ public class GamesModule {
 		File save_data = new File(save_loc);
 
 		deleteDirectory(save_data);
-		
+
 		_currentWinnings = new Winnings();//initialise winnings
 		_winnings = _currentWinnings.getValue();
 		checkSaveData();
 		saveAndExitGame();
-		
+
 	}
 
 	/**
@@ -465,12 +479,124 @@ public class GamesModule {
 	private void gameFinished() {
 
 		AlertBox.displayAlert("Game finished", "Congratulations!!! You earned $" + _winnings + ". Well done.", "#067CA0");
-		
+
 		boolean playAgain = ConfirmBox.displayConfirm("Play Again", "Would you like to play again?");
-		
+
 		if (playAgain) {
 			resetGame();
 			AlertBox.displayAlert("New Game", "A new game has been created, come back to the Games Module to play again", "#000000");
+		}
+	}
+
+	private void categorySelector() {
+
+		//Set up the layout for the contents of the main menu
+		VBox categorySelectLayout = new VBox();
+		categorySelectLayout.setSpacing(10);
+		categorySelectLayout.setPadding(new Insets(20, 20, 30, 20)); 
+
+
+		List<String> selectedCategories = new ArrayList<String>();
+
+		String categoryDir = System.getProperty("user.dir") + System.getProperty("file.separator") + "categories";
+		File directory = new File(categoryDir);
+		// get all the files from a directory
+		File[] fList = directory.listFiles();
+
+		for (File x : fList) {
+
+			if (!(x.getName().equalsIgnoreCase("international"))) {
+				
+				//Creation of button instance for a category
+				Button categoryButton = new Button();
+				categoryButton.setText(x.getName());
+				categoryButton.setPrefSize(160, 40);
+				categoryButton.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;"
+						+ "-fx-font-size: 18;");
+
+				categoryButton.setOnAction(new EventHandler<ActionEvent>() {
+					public void handle (ActionEvent e) {
+						for (String selected : selectedCategories) {
+							if (x.getName().equalsIgnoreCase(selected)) {
+								return;
+							}
+						}
+
+						selectedCategories.add(x.getName());
+						
+						if (selectedCategories.size() == 5) {
+							System.out.println("5 categories selected");
+							System.out.print("The selected categories were: ");
+							for (String d : selectedCategories) {
+								System.out.print(d + ", ");
+							}
+							removeUnselectedCategories(selectedCategories);
+							removeExtraQuestions();
+							assignQuestionValues();
+							displayQuestionBoard();
+						}
+					}
+				});
+				categorySelectLayout.getChildren().addAll(categoryButton);
+			}
+		}
+
+		Scene _categorySelectScene = new Scene(categorySelectLayout, 500, 500);
+		_gameWindow.setScene(_categorySelectScene);
+		_gameWindow.show();
+
+	}
+
+	private void removeUnselectedCategories(List<String> selectedCategories) {
+
+		boolean categorySelected;
+
+		List<Category> toRemove = new ArrayList<Category>();
+
+		for (Category c : _questionBank.getCategoryList()) {
+			categorySelected = false;
+
+			for (String s : selectedCategories) {
+				if ((c.getCategoryName().equalsIgnoreCase(s)) || (c.getCategoryName().equalsIgnoreCase("International"))) {
+					categorySelected = true;
+					break;
+				}
+			}
+
+			if (!categorySelected) {
+				toRemove.add(c);
+			}
+		}
+
+		for (Category c : toRemove) {
+			_questionBank.getCategoryList().remove(c);
+		}
+	}
+
+	/**
+	 * 
+	 */
+	private void removeExtraQuestions() {
+		//until the number of questions in a particular category is not equal to 5, randomly remove a question
+		for (Category c : _questionBank.getCategoryList()) {
+			int numberOfQuestions = c.getQuestions().size();
+			while (numberOfQuestions > 5) {
+				int randomQuestion = generateRandomNumber(0, numberOfQuestions);
+				c.getQuestions().remove(randomQuestion);
+				numberOfQuestions = c.getQuestions().size();
+			}
+		}
+	}
+
+	private void assignQuestionValues() {
+		//Assign the value of the questions for each category randomly from 100, 200, 300, 400, 500.
+		int value;
+		for (Category c : _questionBank.getCategoryList()) {
+			value = 100;
+			for (Question q : c.getQuestions()) {
+				q.setValue(value);
+				value += 100;
+			}
 		}
 	}
 }
