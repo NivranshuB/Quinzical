@@ -18,13 +18,20 @@ import questions.QuestionBank;
 import questions.QuestionBox;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import quinzical.AlertBox;
 import quinzical.ConfirmBox;
@@ -208,14 +215,17 @@ public class GamesModule {
 		Label winnings = new Label();
 		winnings.setText("Winnings: $" + _winnings);
 		winnings.setPrefSize(180, 40);
-		winnings.setMaxSize(200, 50);_gameWindow.setScene(_menuScene);
+		winnings.setMaxSize(200, 50);
 		winnings.setPadding(new Insets(2, 2, 2, 24));
 		winnings.setStyle("-fx-font-size: 17;-fx-border-width: 1;-fx-background-color: #2A9600;-fx-text-fill: #ffffff");
 
+		StackPane backAllignment = new StackPane();
+		backAllignment.getChildren().add(backButton);
+		StackPane.setAlignment(backButton, Pos.BOTTOM_CENTER);
+		
 		//Bottom menu consists of the winnings amount and tbe back button
-		HBox bottomMenu = new HBox();_gameWindow.setScene(_menuScene);
-		bottomMenu.getChildren().addAll(winnings, backButton);  
-		bottomMenu.setSpacing(10);
+		VBox bottomMenu = new VBox();
+		bottomMenu.getChildren().addAll(winnings, backAllignment);  
 		bottomMenu.setPadding(new Insets(0, 0, 20, 0));
 
 		//Overall layout for the Games Module scene/window
@@ -246,7 +256,7 @@ public class GamesModule {
 		//if the question has been attempted or not
 		for (Category c : _questionBank.getCategoryList()) {
 
-			
+
 			int questionsDone = 0;//this variable enables the check to see if all questions
 			//of a category have been attempted or not
 
@@ -345,12 +355,12 @@ public class GamesModule {
 				categoryLabel.setStyle("-fx-font-size: 15;-fx-border-width: 1;"
 						+ "-fx-background-color: #040662;-fx-text-fill: #ffffff");
 			}
-			
+
 			if (c.getCategoryName().equalsIgnoreCase("international")) {
 				categoryLabel.setStyle("-fx-font-size: 18;-fx-border-width: 1;"
 						+ "-fx-background-color: #ab0f96;-fx-text-fill: #ffffff");
 			}
-			
+
 			topMenu.getChildren().add(categoryLabel);
 		}
 
@@ -498,10 +508,29 @@ public class GamesModule {
 
 	private void categorySelector() {
 
+		HBox selectMenuLayout = new HBox();
+		
+		//Set up the layout for the list displaying all the selected categories
+		VBox selectedCategoryDisplay = new VBox();
+		selectedCategoryDisplay.setSpacing(10);
+		selectedCategoryDisplay.setPadding(new Insets(20, 20, 30, 20)); 
+		
+		Text selection = new Text("Selected Categories:");
+		selection.setFill(Color.ORANGE);
+		selection.setFont(Font.font("Helvetica", FontWeight.BOLD, 16));
+		selection.setTextAlignment(TextAlignment.CENTER);
+		selectedCategoryDisplay.getChildren().add(selection);
+		
 		//Set up the layout for the contents of the main menu
 		VBox categorySelectLayout = new VBox();
 		categorySelectLayout.setSpacing(10);
 		categorySelectLayout.setPadding(new Insets(20, 20, 30, 20)); 
+		
+		Text infoText = new Text("Please select five\n categories: ");
+		infoText.setStyle("-fx-font-size: 18;");
+		infoText.setTextAlignment(TextAlignment.CENTER);
+		categorySelectLayout.getChildren().add(infoText);
+		StackPane.setAlignment(infoText, Pos.CENTER);
 
 
 		List<String> selectedCategories = new ArrayList<String>();
@@ -514,7 +543,7 @@ public class GamesModule {
 		for (File x : fList) {
 
 			if (!(x.getName().equalsIgnoreCase("international"))) {
-				
+
 				//Creation of button instance for a category
 				Button categoryButton = new Button();
 				categoryButton.setText(x.getName());
@@ -532,6 +561,15 @@ public class GamesModule {
 
 						selectedCategories.add(x.getName());
 						
+						//Create a new label for the category selected by the user
+						Label selectedCategoryLabel = new Label();
+						selectedCategoryLabel.setText(x.getName());
+						selectedCategoryLabel.setPrefSize(160, 40);
+						selectedCategoryLabel.setPadding(new Insets(2, 2, 2, 40));
+						selectedCategoryLabel.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;"
+								+ "-fx-font-size: 18;");
+						selectedCategoryDisplay.getChildren().addAll(selectedCategoryLabel);
+
 						if (selectedCategories.size() == 5) {
 							System.out.println("5 categories selected");
 							System.out.print("The selected categories were: ");
@@ -548,8 +586,32 @@ public class GamesModule {
 				categorySelectLayout.getChildren().addAll(categoryButton);
 			}
 		}
+		
+		selectMenuLayout.getChildren().addAll(categorySelectLayout, selectedCategoryDisplay);
 
-		Scene _categorySelectScene = new Scene(categorySelectLayout, 500, 400);
+		//backButton will cause the control of the application to go back to the main menu
+		Button backButton = new Button();
+		backButton.setText("Back");
+		backButton.setPrefSize(80, 40);
+		backButton.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
+		backButton.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle (ActionEvent e) {
+				_gameWindow.setScene(_menuScene);
+			}
+		});
+		
+		//Bottom menu consists of the winnings amount and tbe back button
+		StackPane bottomMenu = new StackPane();
+		bottomMenu.getChildren().add(backButton);  
+		bottomMenu.setPadding(new Insets(0, 0, 20, 0));
+		StackPane.setAlignment(backButton, Pos.CENTER);
+
+		//Overall layout for the Games Module scene/window
+		BorderPane layout = new BorderPane();
+		layout.setCenter(selectMenuLayout);
+		layout.setBottom(bottomMenu);
+
+		Scene _categorySelectScene = new Scene(layout, 600, 600);
 		_gameWindow.setScene(_categorySelectScene);
 		_gameWindow.show();
 
@@ -579,13 +641,13 @@ public class GamesModule {
 		for (Category c : toRemove) {
 			_questionBank.getCategoryList().remove(c);
 		}
-		
+
 		moveInternationalToEnd();
 	}
-	
+
 	private void moveInternationalToEnd() {
 		Category international = _questionBank.getCategoryList().get(0); 
-		
+
 		for (Category c : _questionBank.getCategoryList()) {
 			if (c.getCategoryName().equalsIgnoreCase("international")) {
 				international = c;
