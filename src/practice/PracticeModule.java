@@ -131,16 +131,17 @@ public class PracticeModule {
 		});
 
 		StackPane bottomMenu = new StackPane();
-		bottomMenu.getChildren().add(backButton);  
-		bottomMenu.setPadding(new Insets(0, 0, 20, 0));
+		bottomMenu.getChildren().add(backButton);
+		bottomMenu.setPadding(new Insets(10));
 		StackPane.setAlignment(backButton, Pos.CENTER);
 
 		BorderPane layout = new BorderPane();
 		layout.setTop(menuInfo);
 		layout.setCenter(topMenu);
 		layout.setBottom(bottomMenu);
+		layout.setPadding(new Insets(20, 100, 30, 100));
 
-		Scene quesScene = new Scene(layout, 500, 500);
+		Scene quesScene = new Scene(layout);
 
 		_stage.setScene(quesScene);
 	}
