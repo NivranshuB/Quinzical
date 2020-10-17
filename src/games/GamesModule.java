@@ -172,9 +172,9 @@ public class GamesModule {
 
 		//initial setup for the graphical layout of the questions
 		GridPane quesLayout = new GridPane();
-		quesLayout.setPadding(new Insets(10, 10,10, 10));
-		quesLayout.setVgap(8);
-		quesLayout.setHgap(20);
+		quesLayout.setPadding(new Insets(20, 20, 20, 20));
+		quesLayout.setVgap(20);
+		quesLayout.setHgap(50);
 
 		displayQuestions(topMenu, quesLayout);
 
@@ -207,10 +207,12 @@ public class GamesModule {
 		//Label that will display the winnings value to the user in the Games Module menu
 		Label winnings = new Label();
 		winnings.setText("Winnings: $" + _winnings);
-		winnings.setPrefSize(180, 40);
-		winnings.setMaxSize(200, 50);
+		winnings.setPrefSize(200, 50);
+		winnings.setMaxSize(240, 50);
 		winnings.setPadding(new Insets(2, 2, 2, 24));
-		winnings.setStyle("-fx-font-size: 17;-fx-border-width: 1;-fx-background-color: #2A9600;-fx-text-fill: #ffffff");
+		winnings.setStyle("-fx-font-size: 20;-fx-border-width: 1;-fx-background-color: #2A9600;-fx-text-fill: #ffffff");
+		winnings.setAlignment(Pos.CENTER);
+
 
 		StackPane backAllignment = new StackPane();
 		backAllignment.getChildren().add(backButton);
@@ -227,7 +229,7 @@ public class GamesModule {
 		layout.setCenter(quesLayout);
 		layout.setBottom(bottomMenu);
 
-		Scene quesScene = new Scene(layout, 600, 600);
+		Scene quesScene = new Scene(layout, 800, 600);
 
 		_gameWindow.setScene(quesScene);
 		_gameWindow.show();
@@ -279,10 +281,11 @@ public class GamesModule {
 					//'Done' label is for a question that has already been attempted
 					Label label = new Label();
 					label.setText("Done");
-					label.setPrefSize(80, 40);
-					label.setPadding(new Insets(0, 0, 0, 14));
+					label.setPrefSize(90, 50);
 					label.setStyle("-fx-font-size: 18;-fx-border-color: " + doneColor +
 							";-fx-text-fill: " + doneColor);
+					label.setAlignment(Pos.CENTER);
+					
 					GridPane.setConstraints(label, i, j);
 					quesLayout.getChildren().add(label);
 
@@ -293,7 +296,7 @@ public class GamesModule {
 					//Creation of button instance for a question
 					Button button = new Button();
 					button.setText(Integer.toString(q.getValue()));
-					button.setPrefSize(80, 40);
+					button.setPrefSize(90, 50);
 					button.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;"
 							+ "-fx-font-size: 18;");
 
@@ -313,11 +316,12 @@ public class GamesModule {
 					});
 					GridPane.setConstraints(button, i, j);
 					quesLayout.getChildren().add(button);
+					
 				} else {
 					//Creation of label instance for a locked question
 					Label lockedButton = new Label();
 					lockedButton.setText(Integer.toString(q.getValue()));
-					lockedButton.setPrefSize(80, 40);
+					lockedButton.setPrefSize(90, 50);
 					lockedButton.setStyle("-fx-border-width: 2; -fx-font-size: 18; -fx-background-color: #d5e5f2");
 					lockedButton.setPadding(new Insets(0, 0, 0, 23));
 
@@ -334,18 +338,16 @@ public class GamesModule {
 			Label categoryLabel = new Label();
 
 			if (questionsDone == c.numberOfQuestions()) {
-				categoryLabel.setText("Complete");
-				categoryLabel.setPrefSize(100, 50);
-				categoryLabel.setMaxSize(100, 50);
-				categoryLabel.setPadding(new Insets(2, 2, 2, 2));
+				categoryLabel.setText(c.getCategoryName());
+				categoryLabel.setPrefSize(130, 50);
+				categoryLabel.setMaxSize(130, 50);
 				categoryLabel.setStyle("-fx-font-size: 18;-fx-border-width: 1;"
 						+ "-fx-background-color: #2A9600;-fx-text-fill: #ffffff");
 				categoriesDone++;
 			} else {
 				categoryLabel.setText(c.getCategoryName());
-				categoryLabel.setPrefSize(100, 50);
-				categoryLabel.setPadding(new Insets(2, 2, 2, 6));
-				categoryLabel.setStyle("-fx-font-size: 15;-fx-border-width: 1;"
+				categoryLabel.setPrefSize(130, 50);
+				categoryLabel.setStyle("-fx-font-size: 18;-fx-border-width: 1;"
 						+ "-fx-background-color: #040662;-fx-text-fill: #ffffff");
 			}
 
@@ -353,6 +355,8 @@ public class GamesModule {
 				categoryLabel.setStyle("-fx-font-size: 18;-fx-border-width: 1;"
 						+ "-fx-background-color: #ab0f96;-fx-text-fill: #ffffff");
 			}
+			
+			categoryLabel.setAlignment(Pos.CENTER);
 
 			topMenu.getChildren().add(categoryLabel);
 
@@ -546,7 +550,7 @@ public class GamesModule {
 				//Creation of button instance for a category
 				Button categoryButton = new Button();
 				categoryButton.setText(x.getName());
-				categoryButton.setPrefSize(160, 40);
+				categoryButton.setPrefSize(200, 40);
 				categoryButton.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;"
 						+ "-fx-font-size: 18;");
 
@@ -563,10 +567,11 @@ public class GamesModule {
 						//Create a new label for the category selected by the user
 						Label selectedCategoryLabel = new Label();
 						selectedCategoryLabel.setText(x.getName());
-						selectedCategoryLabel.setPrefSize(160, 40);
-						selectedCategoryLabel.setPadding(new Insets(2, 2, 2, 40));
+						selectedCategoryLabel.setPrefSize(200, 40);
 						selectedCategoryLabel.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;"
 								+ "-fx-font-size: 18;");
+						selectedCategoryLabel.setAlignment(Pos.CENTER);
+						
 						selectedCategoryDisplay.getChildren().addAll(selectedCategoryLabel);
 
 						if (selectedCategories.size() == 5) {
@@ -611,7 +616,7 @@ public class GamesModule {
 		layout.setCenter(selectMenuLayout);
 		layout.setBottom(bottomMenu);
 
-		Scene _categorySelectScene = new Scene(layout, 600, 600);
+		Scene _categorySelectScene = new Scene(layout, 500, 600);
 		_gameWindow.setScene(_categorySelectScene);
 		_gameWindow.show();
 
