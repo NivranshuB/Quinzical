@@ -1,5 +1,6 @@
 package questions;
 
+import javafx.animation.PauseTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -23,6 +24,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 import quinzical.HelperThread;
 
 /**
@@ -198,6 +200,14 @@ public class QuestionBox {
 		if (isPracticeQuestion) {
 			bottomMenuBox.getChildren().addAll(replay, submit, speedAdjustmentBox);
 		} else {
+//			PauseTransition delay = new PauseTransition(Duration.seconds(15));
+//			delay.setOnFinished(new EventHandler<ActionEvent>() {
+//				public void handle (ActionEvent e) {
+//					answer = answerPrompt.getText();
+//					window.close();
+//
+//				}
+//			});	
 			bottomMenuBox.getChildren().addAll(replay, submit, dontKnow, speedAdjustmentBox);
 		}
 		
@@ -217,6 +227,9 @@ public class QuestionBox {
 		Scene scene = new Scene(layout, 700, 275);
 		window.setScene(scene);
 		window.showAndWait();
+		PauseTransition delay = new PauseTransition(Duration.seconds(5));
+		delay.setOnFinished( event -> window.close() );
+		delay.play();
 		
 		return answer;
 	}

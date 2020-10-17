@@ -21,6 +21,7 @@ import questions.QuestionBox;
 import questions.QuestionRetriever;
 import quinzical.AlertBox;
 import quinzical.ConfirmBox;
+import main.Main;
 
 
 /**
@@ -154,13 +155,25 @@ public class PracticeModule {
 	 */
 	private void questionFeedback(boolean outcome, Question ques, boolean fullyAttempted) {
 		if (outcome) {
-			AlertBox.displayAlert("Correct answer", "Correct!!!", "#0E9109");
+			if (Main.colourBlindMode()) {
+				AlertBox.displayAlert("Correct answer", "Correct!!!", "#008837");
+			} else {
+				AlertBox.displayAlert("Correct answer", "Correct!!!", "#0E9109");
+			}
 		} else {
 			if (!fullyAttempted) {
-				AlertBox.displayAlert("Incorrect answer", "Incorrect. Try again!", "#BC0808");
+				if (Main.colourBlindMode()) {
+					AlertBox.displayAlert("Incorrect answer", "Incorrect. Try again!", "#7B3294");
+				} else {
+					AlertBox.displayAlert("Incorrect answer", "Incorrect. Try again!", "#BC0808");
+				}
 			}
 			else {
-				AlertBox.displayAlert("Incorrect answer", "Incorrect. " + "The correct answer to '" + ques.getQuestion() + "' is " + ques.getAnswer(), "#BC0808");
+				if (Main.colourBlindMode()) {
+					AlertBox.displayAlert("Incorrect answer", "Incorrect. " + "The correct answer to '" + ques.getQuestion() + "' is " + ques.getAnswer(), "#7B3294");
+				} else {
+					AlertBox.displayAlert("Incorrect answer", "Incorrect. " + "The correct answer to '" + ques.getQuestion() + "' is " + ques.getAnswer(), "#BC0808");
+				}
 			}
 		}
 		_stage.setScene(_menuScene);

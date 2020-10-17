@@ -3,6 +3,7 @@ package games;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -10,6 +11,7 @@ import java.util.Random;
 
 import javafx.event.ActionEvent;
 import javafx.stage.WindowEvent;
+import main.Main;
 import questions.Category;
 import questions.Question;
 import questions.QuestionBank;
@@ -192,10 +194,14 @@ public class GamesModule {
 		//Label that will display the winnings value to the user in the Games Module menu
 		Label winnings = new Label();
 		winnings.setText("Winnings: $" + _winnings);
-		winnings.setPrefSize(180, 40);
-		winnings.setMaxSize(200, 50);_gameWindow.setScene(_menuScene);
-		winnings.setPadding(new Insets(2, 2, 2, 24));
-		winnings.setStyle("-fx-font-size: 17;-fx-border-width: 1;-fx-background-color: #2A9600;-fx-text-fill: #ffffff");
+		winnings.setPrefHeight(40);
+		_gameWindow.setScene(_menuScene);
+		winnings.setPadding(new Insets(2, 10, 2, 24));
+		if (Main.colourBlindMode()) {
+			winnings.setStyle("-fx-font-size: 17;-fx-border-width: 1;-fx-background-color: #008837;-fx-text-fill: #ffffff");
+		} else {
+			winnings.setStyle("-fx-font-size: 17;-fx-border-width: 1;-fx-background-color: #2A9600;-fx-text-fill: #ffffff");
+		}
 
 		//Bottom menu consists of the winnings amount and tbe back button
 		HBox bottomMenu = new HBox();_gameWindow.setScene(_menuScene);
@@ -252,9 +258,17 @@ public class GamesModule {
 					//if the question was answered correctly the color of text 'Done' is 
 					//green, else the color of text 'Done' is red
 					if (q.getValue() == 1) {
-						doneColor = "#0E9109";
+						if (Main.colourBlindMode()) {
+							doneColor = "#008837";
+						} else {
+							doneColor = "#0E9109";
+						}	
 					} else if (q.getValue() == -1) {
-						doneColor = "#BC0808";
+						if (Main.colourBlindMode()) {
+							doneColor = "#7B3294";
+						} else {
+							doneColor = "#BC0808";
+						}
 					}
 
 					//'Done' label is for a question that has already been attempted
@@ -319,15 +333,25 @@ public class GamesModule {
 				categoryLabel.setPrefSize(100, 50);
 				categoryLabel.setMaxSize(100, 50);
 				categoryLabel.setPadding(new Insets(2, 2, 2, 2));
-				categoryLabel.setStyle("-fx-font-size: 18;-fx-border-width: 1;"
-						+ "-fx-background-color: #2A9600;-fx-text-fill: #ffffff");
+				if (Main.colourBlindMode()) {
+					categoryLabel.setStyle("-fx-font-size: 18;-fx-border-width: 1;"
+							+ "-fx-background-color: #008837;-fx-text-fill: #ffffff");
+				} else {
+					categoryLabel.setStyle("-fx-font-size: 18;-fx-border-width: 1;"
+							+ "-fx-background-color: #2A9600;-fx-text-fill: #ffffff");
+				}
 				categoriesDone++;
 			} else {
 				categoryLabel.setText(c.getCategoryName());
 				categoryLabel.setPrefSize(100, 50);
 				categoryLabel.setPadding(new Insets(2, 2, 2, 6));
-				categoryLabel.setStyle("-fx-font-size: 15;-fx-border-width: 1;"
-						+ "-fx-background-color: #040662;-fx-text-fill: #ffffff");
+				if (Main.colourBlindMode()) {
+					categoryLabel.setStyle("-fx-font-size: 15;-fx-border-width: 1;"
+							+ "-fx-background-color: #040662;-fx-text-fill: #ffffff");
+				} else {
+					categoryLabel.setStyle("-fx-font-size: 15;-fx-border-width: 1;"
+							+ "-fx-background-color: #040662;-fx-text-fill: #ffffff");
+				}
 			}
 			topMenu.getChildren().add(categoryLabel);
 		}
@@ -371,10 +395,19 @@ public class GamesModule {
 	 */
 	private void questionFeedback(boolean outcome, Question ques) {
 		if (outcome) {
-			AlertBox.displayAlert("Correct answer", "Congratulations!!! You just won $" + ques.getValue(), "#0E9109");
+			if (Main.colourBlindMode()) {
+				AlertBox.displayAlert("Correct answer", "Congratulations!!! You just won $" + ques.getValue(), "#008837");
+			} else {
+				AlertBox.displayAlert("Correct answer", "Congratulations!!! You just won $" + ques.getValue(), "#0E9109");
+			}
 		} else {
-			AlertBox.displayAlert("Incorrect answer", "Oops that was the wrong answer. You just lost $" + 
-					ques.getValue() + ". The correct answer was '" + ques.getAnswer() + "'.", "#BC0808");
+			if (Main.colourBlindMode()) {
+				AlertBox.displayAlert("Incorrect answer", "Oops that was the wrong answer. You just lost $" + 
+						ques.getValue() + ". The correct answer was '" + ques.getAnswer() + "'.", "#7B3294");
+			} else {
+				AlertBox.displayAlert("Incorrect answer", "Oops that was the wrong answer. You just lost $" + 
+						ques.getValue() + ". The correct answer was '" + ques.getAnswer() + "'.", "#BC0808");
+			}
 		}
 		ques.questionAttempted(outcome);
 		displayQuestionBoard();
@@ -442,7 +475,7 @@ public class GamesModule {
 	 * This method deletes all the save_data for the game category/questions and the
 	 * winnings and then reinitialises the category/questions and the winnings.
 	 */
-	private void resetGame() {
+	public void resetGame() {
 
 		//if saved data exists then also need to delete this
 		String save_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "save_data";
@@ -463,8 +496,14 @@ public class GamesModule {
 	 * have been attempted.
 	 */
 	private void gameFinished() {
-
-		AlertBox.displayAlert("Game finished", "Congratulations!!! You earned $" + _winnings + ". Well done.", "#067CA0");
+		if (_winnings >= 1000) {
+			AlertBox.displayAlert("Game finished", "Congratulations!!! You earned $" + _winnings + ". Check your grand prize from the main menu.", "#067CA0");
+		}
+		else {
+			int prize = 1000 - _winnings;
+			AlertBox.displayAlert("Game finished", "Congratulations!!! You earned $" + _winnings + ". Unfortunately, you were $" + String.valueOf(prize) +
+					" off the grand prize.", "#067CA0");
+		}
 		
 		boolean playAgain = ConfirmBox.displayConfirm("Play Again", "Would you like to play again?");
 		
