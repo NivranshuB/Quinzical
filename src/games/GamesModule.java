@@ -386,9 +386,8 @@ public class GamesModule {
 			_winnings += q.getValue();
 			questionFeedback(true, q);
 
-			//if the answer is wrong, send an alert box to the user and update winnings
+			//if the answer is wrong, send an alert box to the user and the total winnings stay the same
 		} else {
-			_winnings -= q.getValue();
 			questionFeedback(false, q);
 		}
 	}
@@ -403,8 +402,7 @@ public class GamesModule {
 		if (outcome) {
 			AlertBox.displayAlert("Correct answer", "Congratulations!!! You just won $" + ques.getValue(), "#0E9109");
 		} else {
-			AlertBox.displayAlert("Incorrect answer", "Oops that was the wrong answer. You just lost $" + 
-					ques.getValue() + ". The correct answer was '" + ques.getAnswer() + "'.", "#BC0808");
+			AlertBox.displayAlert("Incorrect answer", "Oops, that was the wrong answer.", "#BC0808");
 		}
 		ques.questionAttempted(outcome);
 		displayQuestionBoard();
