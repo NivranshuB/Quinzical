@@ -100,6 +100,19 @@ public class Main extends Application {
 		
 		
 	}
+	
+	/**
+	 * 
+	 */
+	public static void restartGame(Stage gameWindow) {
+		GamesModule newGame = new GamesModule();
+		newGame.start(gameWindow);
+	}
+	
+	/**
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		launch(args);		
 	}

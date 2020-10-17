@@ -10,8 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.stage.WindowEvent;
+import main.Main;
 import questions.Category;
 import questions.Question;
 import questions.QuestionBank;
@@ -59,6 +61,8 @@ public class GamesModule {
 	Scene _quesScene;//the games module scene for the application
 	Scene _menuScene;//the main menu scene for the application
 
+	boolean _questionsLeft = false; 
+
 	boolean _returnToMenu;
 
 	/**
@@ -74,14 +78,9 @@ public class GamesModule {
 		_winnings = _currentWinnings.getValue();
 
 		_gameWindow = primaryStage;
-		_gameWindow.setTitle("Games Module");
 		_gameWindow.show();
 
 		checkSaveData();
-
-		if (this._questionBank != null) {
-			//displayQuestionBoard();
-		}
 	}
 
 	/**
@@ -106,13 +105,6 @@ public class GamesModule {
 			_questionBank = new QuestionBank(categoryDir);//load new categories and questions data
 			categorySelector();
 		}
-	}
-
-	/**
-	 * 
-	 */
-	public void setQuestionBank(QuestionBank questions) {
-		_questionBank = questions;
 	}
 
 	/**
@@ -208,6 +200,7 @@ public class GamesModule {
 			public void handle (ActionEvent e) {
 				saveAndExitGame();
 				_gameWindow.setScene(_menuScene);
+				_gameWindow.show();
 			}
 		});
 
@@ -222,7 +215,7 @@ public class GamesModule {
 		StackPane backAllignment = new StackPane();
 		backAllignment.getChildren().add(backButton);
 		StackPane.setAlignment(backButton, Pos.BOTTOM_CENTER);
-		
+
 		//Bottom menu consists of the winnings amount and tbe back button
 		VBox bottomMenu = new VBox();
 		bottomMenu.getChildren().addAll(winnings, backAllignment);  
@@ -237,6 +230,7 @@ public class GamesModule {
 		Scene quesScene = new Scene(layout, 600, 600);
 
 		_gameWindow.setScene(quesScene);
+		_gameWindow.show();
 	}
 
 
@@ -255,7 +249,6 @@ public class GamesModule {
 		//for each question from each category create a new button or label depending on
 		//if the question has been attempted or not
 		for (Category c : _questionBank.getCategoryList()) {
-
 
 			int questionsDone = 0;//this variable enables the check to see if all questions
 			//of a category have been attempted or not
@@ -314,7 +307,7 @@ public class GamesModule {
 
 							if (confirm) {
 								askQuestion(c,q);
-							} 
+							}
 
 						}
 					});
@@ -362,11 +355,16 @@ public class GamesModule {
 			}
 
 			topMenu.getChildren().add(categoryLabel);
-		}
 
-
-		if (categoriesDone == 5) {
-			gameFinished();
+			if (categoriesDone > 5) {
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						gameFinished();
+						System.out.println(_questionBank);
+					}
+				});
+			}
 		}
 
 	}
@@ -481,12 +479,7 @@ public class GamesModule {
 		File save_data = new File(save_loc);
 
 		deleteDirectory(save_data);
-
-		_currentWinnings = new Winnings();//initialise winnings
-		_winnings = _currentWinnings.getValue();
-		checkSaveData();
-		saveAndExitGame();
-
+		System.out.println("Save directory was deleted");
 	}
 
 	/**
@@ -496,36 +489,44 @@ public class GamesModule {
 	 */
 	private void gameFinished() {
 
+		System.out.println("Reward screen was displayed");
 		AlertBox.displayAlert("Game finished", "Congratulations!!! You earned $" + _winnings + ". Well done.", "#067CA0");
 
+		_gameWindow.setScene(_menuScene);
+		_gameWindow.show();
+		
 		boolean playAgain = ConfirmBox.displayConfirm("Play Again", "Would you like to play again?");
-
+		
 		if (playAgain) {
-			resetGame();
 			AlertBox.displayAlert("New Game", "A new game has been created, come back to the Games Module to play again", "#000000");
+			resetGame();
+			Main.restartGame(_gameWindow);
+		} else {
+			saveAndExitGame();
 		}
+
 	}
 
 	private void categorySelector() {
 
 		HBox selectMenuLayout = new HBox();
-		
+
 		//Set up the layout for the list displaying all the selected categories
 		VBox selectedCategoryDisplay = new VBox();
 		selectedCategoryDisplay.setSpacing(10);
 		selectedCategoryDisplay.setPadding(new Insets(20, 20, 30, 20)); 
-		
+
 		Text selection = new Text("Selected Categories:");
 		selection.setFill(Color.ORANGE);
 		selection.setFont(Font.font("Helvetica", FontWeight.BOLD, 16));
 		selection.setTextAlignment(TextAlignment.CENTER);
 		selectedCategoryDisplay.getChildren().add(selection);
-		
+
 		//Set up the layout for the contents of the main menu
 		VBox categorySelectLayout = new VBox();
 		categorySelectLayout.setSpacing(10);
 		categorySelectLayout.setPadding(new Insets(20, 20, 30, 20)); 
-		
+
 		Text infoText = new Text("Please select five\n categories: ");
 		infoText.setStyle("-fx-font-size: 18;");
 		infoText.setTextAlignment(TextAlignment.CENTER);
@@ -560,7 +561,7 @@ public class GamesModule {
 						}
 
 						selectedCategories.add(x.getName());
-						
+
 						//Create a new label for the category selected by the user
 						Label selectedCategoryLabel = new Label();
 						selectedCategoryLabel.setText(x.getName());
@@ -586,7 +587,7 @@ public class GamesModule {
 				categorySelectLayout.getChildren().addAll(categoryButton);
 			}
 		}
-		
+
 		selectMenuLayout.getChildren().addAll(categorySelectLayout, selectedCategoryDisplay);
 
 		//backButton will cause the control of the application to go back to the main menu
@@ -597,9 +598,10 @@ public class GamesModule {
 		backButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
 				_gameWindow.setScene(_menuScene);
+				_gameWindow.show();
 			}
 		});
-		
+
 		//Bottom menu consists of the winnings amount and tbe back button
 		StackPane bottomMenu = new StackPane();
 		bottomMenu.getChildren().add(backButton);  
