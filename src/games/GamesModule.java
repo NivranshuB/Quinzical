@@ -273,21 +273,21 @@ public class GamesModule {
 					//if the question was answered correctly the color of text 'Done' is 
 					//green, else the color of text 'Done' is red
 					if (q.getValue() == 1) {
-						doneColor = "#0E9109";
+						doneColor = "#c2ffc2";
 					} else if (q.getValue() == -1) {
-						doneColor = "#BC0808";
+						doneColor = "#ffc2c2";
 					}
 
 					//'Done' label is for a question that has already been attempted
-					Label label = new Label();
-					label.setText("Done");
-					label.setPrefSize(90, 50);
-					label.setStyle("-fx-font-size: 18;-fx-border-color: " + doneColor +
-							";-fx-text-fill: " + doneColor);
-					label.setAlignment(Pos.CENTER);
+					Label attemptedQues = new Label();
+					attemptedQues.setText(Integer.toString(Math.abs((questionsDone + 1) * 100)));
+					attemptedQues.setPrefSize(90, 50);
+					attemptedQues.setStyle("-fx-font-size: 18;-fx-border-width: 1;-fx-background-color: " + doneColor +
+							";-fx-text-fill: #000000;-fx-border-color: #000000");
+					attemptedQues.setAlignment(Pos.CENTER);
 					
-					GridPane.setConstraints(label, i, j);
-					quesLayout.getChildren().add(label);
+					GridPane.setConstraints(attemptedQues, i, j);
+					quesLayout.getChildren().add(attemptedQues);
 
 					questionsDone++;
 
@@ -325,6 +325,10 @@ public class GamesModule {
 					lockedButton.setStyle("-fx-border-width: 2; -fx-font-size: 18; -fx-background-color: #d5e5f2");
 					lockedButton.setPadding(new Insets(0, 0, 0, 23));
 
+					if (c.getCategoryName().equalsIgnoreCase("international")) {
+						lockedButton.setStyle("-fx-border-width: 2; -fx-font-size: 18; -fx-background-color: #ddbdff");
+					}
+					
 					GridPane.setConstraints(lockedButton, i, j);
 					quesLayout.getChildren().add(lockedButton);
 				}
@@ -353,7 +357,7 @@ public class GamesModule {
 
 			if (c.getCategoryName().equalsIgnoreCase("international")) {
 				categoryLabel.setStyle("-fx-font-size: 18;-fx-border-width: 1;"
-						+ "-fx-background-color: #ab0f96;-fx-text-fill: #ffffff");
+						+ "-fx-background-color: #681773;-fx-text-fill: #ffffff");
 			}
 			
 			categoryLabel.setAlignment(Pos.CENTER);
