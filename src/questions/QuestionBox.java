@@ -1,5 +1,6 @@
 package questions;
 
+import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -13,10 +14,15 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import quinzical.HelperThread;
 
 /**
@@ -149,10 +155,40 @@ public class QuestionBox {
 				}
 			}
 		});	
+		double r = 20;
+		Button helpButton = new Button("?");
+		helpButton.setShape(new Circle(r));
+		helpButton.setMinSize(2*r, 2*r);
+		helpButton.setMaxSize(2*r, 2*r);
+		helpButton.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
+		helpButton.setStyle("-fx-background-color: #FF8C00; -fx-text-fill: #F0F8FF");
+		
+		Text helpText = new Text("Replay button: replay the given question\n\nSubmit button: submit your answer to the question\n\nDon't know button (For Games module): Once clicked"
+	    		+ " answer is displayed and attempt is considered incorrect\n\nFaster/Slower buttons: Increase or decrease playspeed of speech synthesis by 0.1");
+	    helpText.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+	    
+		Stage helpButtonStage = new Stage();
+		helpButtonStage.initOwner(window);
+		helpButtonStage.initStyle(StageStyle.TRANSPARENT);
+	    StackPane helpButtonPane = new StackPane();
+	    helpButtonPane.setPadding(new Insets(20));
+	    helpButtonPane.getChildren().add(helpText);
+	    helpButtonPane.setStyle("-fx-background-color: orange; -fx-background-radius: 40; -fx-border-color: grey; -fx-border-width: 10px; -fx-border-radius: 30;");
+	    Scene helpButtonScene = new Scene(helpButtonPane);
+	    helpButtonScene.setFill(Color.TRANSPARENT);
+	    helpButtonStage.setScene(helpButtonScene);
+	    
+	    helpButton.hoverProperty().addListener((ChangeListener<Boolean>) (observable, oldValue, newValue) -> {
+            if (newValue) {
+            	helpButtonStage.show();
+            } else {
+            	helpButtonStage.hide();
+            }
+        });
 		
 		HBox speedAdjustmentBox = new HBox();
 		speedAdjustmentBox.setSpacing(10);
-		speedAdjustmentBox.getChildren().addAll(speechSpeed, speedButtonsBox);
+		speedAdjustmentBox.getChildren().addAll(speechSpeed, speedButtonsBox, helpButton);
 		speedAdjustmentBox.setAlignment(Pos.CENTER);
 		
 		HBox bottomMenuBox = new HBox();
