@@ -8,11 +8,11 @@ Instructions are below:
 
 1) Move the provided 'akl_nz_jdt_diphone' folder into 'Computer/usr/share/festival/voices'
 
-2) Unzip provided 'assignment3_team41.zip' folder into 'HOME' directory
+2) Unzip provided 'assignment4_team41.zip' folder into 'HOME' directory
 
 3) Launch terminal window
 
-4) Enter "cd $HOME/Assignment3_team41/assignment-3-and-project-team-41-master"
+4) Enter "cd $HOME/assignment4_team41/assignment-3-and-project-team-41-master"
 
 5) Enter "chmod +x run.sh"
 
