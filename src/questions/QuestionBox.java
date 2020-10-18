@@ -41,10 +41,10 @@ public class QuestionBox {
 	private static double displayPlaySpeed = 1.0;
 	private static double realPlaySpeed = 1.0;
 	 // private class constant and some variables
-    private static final Integer STARTTIME = 15;
-    private static Timeline timeline;
+    private static final Integer STARTTIME = 30;
+    private static Timeline _timeline;
     private static Label _timerLabel = new Label();
-    private static Integer timeSeconds = STARTTIME;
+    private static Integer _timeSeconds = STARTTIME;
 
 	/**
 	 * Given a title and a question, creates a new window with the question and 
@@ -76,7 +76,7 @@ public class QuestionBox {
 		answerLayout.setPadding(new Insets(10, 10,10, 10));
 		answerLayout.setVgap(8);
 		answerLayout.setHgap(10);
-
+		
 		TextField answerPrompt = new TextField();
 		answerPrompt.setPromptText(clue);
 		answerPrompt.setPrefSize(80, 50);
@@ -84,26 +84,97 @@ public class QuestionBox {
 		answerPrompt.setStyle("-fx-font-size: 18;");
 		GridPane.setConstraints(answerPrompt, 0, 0);
 		
-		VBox timerAndTitleBox = new VBox();
-		timerAndTitleBox.setAlignment(Pos.CENTER);
-		timerAndTitleBox.getChildren().addAll(_timerLabel, questionLabel);
+		Button aButton = new Button("ā");
+		Button eButton = new Button("ē");
+		Button iButton = new Button("ī");
+		Button oButton = new Button("ō");
+		Button uButton = new Button("ū");
+		aButton.setFont(Font.font("Verdana", 18));
+		eButton.setFont(Font.font("Verdana", 18));
+		iButton.setFont(Font.font("Verdana", 18));
+		oButton.setFont(Font.font("Verdana", 18));
+		uButton.setFont(Font.font("Verdana", 18));
 		
-		_timerLabel.setText(timeSeconds.toString());
+		aButton.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle (ActionEvent e) {
+				answerPrompt.setText(answerPrompt.getText() + "ā");
+			}
+		});
+		eButton.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle (ActionEvent e) {
+				answerPrompt.setText(answerPrompt.getText() + "ē");
+			}
+		});
+		iButton.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle (ActionEvent e) {
+				answerPrompt.setText(answerPrompt.getText() + "ī");
+			}
+		});
+		oButton.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle (ActionEvent e) {
+				answerPrompt.setText(answerPrompt.getText() + "ō");
+			}
+		});
+		uButton.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle (ActionEvent e) {
+				answerPrompt.setText(answerPrompt.getText() + "ū");
+			}
+		});
+		
+		HBox macronsBox = new HBox();
+		macronsBox.setSpacing(5);
+		macronsBox.setAlignment(Pos.CENTER);
+		macronsBox.getChildren().addAll(aButton, eButton, iButton, oButton, uButton);
+
+		
+		_timerLabel.setText(_timeSeconds.toString());
 		if (Main.colourBlindMode()) {
 			_timerLabel.setStyle("-fx-font-size: 4em; -fx-text-fill: #7B3294");
 		} else {
 			_timerLabel.setStyle("-fx-font-size: 4em; -fx-text-fill: red");
 		}
-        
+		
+		VBox timerAndTitleBox = new VBox();
+		timerAndTitleBox.setAlignment(Pos.CENTER);
+		if (isPracticeQuestion) {
+			timerAndTitleBox.getChildren().addAll(questionLabel, macronsBox);     
+		} else {
+			if (_timeline != null) {
+	            _timeline.stop();
+	        }
+	        _timeSeconds = STARTTIME;
+	 
+	        // update timerLabel
+	        _timerLabel.setText(_timeSeconds.toString());
+	        _timeline = new Timeline();
+	        _timeline.setCycleCount(Timeline.INDEFINITE);
+	        _timeline.getKeyFrames().add(
+	                new KeyFrame(Duration.seconds(1),
+	                	new EventHandler<ActionEvent>() {
+
+						@Override
+						public void handle(ActionEvent arg0) {
+							_timeSeconds--;
+		                    // update timerLabel
+		                    _timerLabel.setText(_timeSeconds.toString());
+		                    if (_timeSeconds <= 0) {
+		                    	answer = answerPrompt.getText();
+		    					window.close();
+		                    }
+						}
+	                }));
+	        _timeline.playFromStart();
+			timerAndTitleBox.getChildren().addAll(_timerLabel, questionLabel, macronsBox);  
+		}   
 		
 		Button submit = new Button("Submit");
 		submit.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
 		submit.setOnAction(new EventHandler<ActionEvent>() {
-					public void handle (ActionEvent e) {
-						answer = answerPrompt.getText();
-						window.close();
-					}
-				});
+			public void handle (ActionEvent e) {
+				answer = answerPrompt.getText();
+				window.close();
+			}
+		});
 		submit.setTextAlignment(TextAlignment.CENTER);
 		
 		Button replay = new Button("Replay");
@@ -183,7 +254,8 @@ public class QuestionBox {
 		helpButton.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
 		helpButton.setStyle("-fx-background-color: #FF8C00; -fx-text-fill: #F0F8FF");
 		
-		Text helpText = new Text("Replay button: replay the given question\n\nSubmit button: submit your answer to the question\n\nDon't know button (For Games module): Once clicked"
+		Text helpText = new Text("ā ē ī ō ū buttons: Insert Māori macrons to your answer\n\nReplay button: replay the given question\n\n"
+				+ "Submit button: submit your answer to the question\n\nDon't know button (For Games module): Once clicked"
 	    		+ " answer is displayed and attempt is considered incorrect\n\nFaster/Slower buttons: Increase or decrease playspeed of speech synthesis by 0.1");
 	    helpText.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
 	    
@@ -230,39 +302,13 @@ public class QuestionBox {
 		bottomMenu.getChildren().add(bottomMenuBox);  
 		bottomMenu.setPadding(new Insets(0, 0, 20, 0));
         StackPane.setAlignment(submit, Pos.CENTER);
-        	
-        if (timeline != null) {
-            timeline.stop();
-        }
-        timeSeconds = STARTTIME;
- 
-        // update timerLabel
-        _timerLabel.setText(timeSeconds.toString());
-        timeline = new Timeline();
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.getKeyFrames().add(
-                new KeyFrame(Duration.seconds(1),
-                	new EventHandler<ActionEvent>() {
-
-					@Override
-					public void handle(ActionEvent arg0) {
-						timeSeconds--;
-	                    // update timerLabel
-	                    _timerLabel.setText(timeSeconds.toString());
-	                    if (timeSeconds <= 0) {
-	                    	answer = answerPrompt.getText();
-	    					window.close();
-	                    }
-					}
-                }));
-        timeline.playFromStart();
 		
 		VBox layout = new VBox();
 		layout.setPadding(new Insets(10, 10,10, 10));
 		layout.setSpacing(15);
 		layout.getChildren().addAll(timerAndTitleBox, answerPrompt, bottomMenu);
 
-		Scene scene = new Scene(layout, 700, 275);
+		Scene scene = new Scene(layout);
 		window.setScene(scene);
 		window.showAndWait();
 

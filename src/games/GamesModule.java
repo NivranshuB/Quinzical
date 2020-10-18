@@ -407,13 +407,7 @@ public class GamesModule {
 			} else {
 				categoryLabel.setText(c.getCategoryName());
 				categoryLabel.setPrefSize(130, 50);
-				if (Main.colourBlindMode()) {
-					categoryLabel.setStyle("-fx-font-size: 15;-fx-border-width: 1;"
-							+ "-fx-background-color: #040662;-fx-text-fill: #ffffff");
-				} else {
-					categoryLabel.setStyle("-fx-font-size: 15;-fx-border-width: 1;"
-							+ "-fx-background-color: #040662;-fx-text-fill: #ffffff");
-				}
+				categoryLabel.setStyle("-fx-font-size: 15;-fx-border-width: 1; -fx-background-color: #040662;-fx-text-fill: #ffffff");
 			}
 
 			if (c.getCategoryName().equalsIgnoreCase("international")) {
