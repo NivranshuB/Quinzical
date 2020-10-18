@@ -6,22 +6,34 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.stage.WindowEvent;
+import main.Main;
 import questions.Category;
 import questions.Question;
 import questions.QuestionBank;
 import questions.QuestionBox;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import quinzical.AlertBox;
 import quinzical.ConfirmBox;
@@ -49,6 +61,8 @@ public class GamesModule {
 	Scene _quesScene;//the games module scene for the application
 	Scene _menuScene;//the main menu scene for the application
 
+	boolean _questionsLeft = false; 
+
 	boolean _returnToMenu;
 
 	/**
@@ -64,11 +78,9 @@ public class GamesModule {
 		_winnings = _currentWinnings.getValue();
 
 		_gameWindow = primaryStage;
-		_gameWindow.setTitle("Games Module");
 		_gameWindow.show();
-		checkSaveData();
 
-		displayQuestionBoard();
+		checkSaveData();
 	}
 
 	/**
@@ -86,10 +98,12 @@ public class GamesModule {
 		if (Files.exists(save_data.toPath())) {
 			String categoryDir = save_loc + System.getProperty("file.separator") + "categories";
 			_questionBank = new QuestionBank(categoryDir);//load saved categories and questions data
+			moveInternationalToEnd();
+			displayQuestionBoard();
 		} else {
 			String categoryDir = System.getProperty("user.dir") + System.getProperty("file.separator") + "categories";
-			_questionBank = new QuestionBank(categoryDir);//initialise new categories and questions
-			initialiseNewQuestions();
+			_questionBank = new QuestionBank(categoryDir);//load new categories and questions data
+			categorySelector();
 		}
 	}
 
@@ -102,14 +116,14 @@ public class GamesModule {
 	private void initialiseNewQuestions() {
 
 		int numberOfCategories = _questionBank.getCategoryList().size();
-		
+
 		//until the number of categories in the question bank is not equal to 5, randomly remove a category
 		while (numberOfCategories > 5) {
 			int randomCategory = generateRandomNumber(0, numberOfCategories);
 			_questionBank.getCategoryList().remove(randomCategory);
 			numberOfCategories = _questionBank.getCategoryList().size();
 		}
-		
+
 		//until the number of questions in a particular category is not equal to 5, randomly remove a question
 		for (Category c : _questionBank.getCategoryList()) {
 			int numberOfQuestions = c.getQuestions().size();
@@ -158,9 +172,9 @@ public class GamesModule {
 
 		//initial setup for the graphical layout of the questions
 		GridPane quesLayout = new GridPane();
-		quesLayout.setPadding(new Insets(10, 10,10, 10));
-		quesLayout.setVgap(8);
-		quesLayout.setHgap(20);
+		quesLayout.setPadding(new Insets(20, 20, 20, 20));
+		quesLayout.setVgap(20);
+		quesLayout.setHgap(50);
 
 		displayQuestions(topMenu, quesLayout);
 
@@ -186,21 +200,27 @@ public class GamesModule {
 			public void handle (ActionEvent e) {
 				saveAndExitGame();
 				_gameWindow.setScene(_menuScene);
+				_gameWindow.show();
 			}
 		});
 
 		//Label that will display the winnings value to the user in the Games Module menu
 		Label winnings = new Label();
 		winnings.setText("Winnings: $" + _winnings);
-		winnings.setPrefSize(180, 40);
-		winnings.setMaxSize(200, 50);_gameWindow.setScene(_menuScene);
+		winnings.setPrefSize(200, 50);
+		winnings.setMaxSize(240, 50);
 		winnings.setPadding(new Insets(2, 2, 2, 24));
-		winnings.setStyle("-fx-font-size: 17;-fx-border-width: 1;-fx-background-color: #2A9600;-fx-text-fill: #ffffff");
+		winnings.setStyle("-fx-font-size: 20;-fx-border-width: 1;-fx-background-color: #2A9600;-fx-text-fill: #ffffff");
+		winnings.setAlignment(Pos.CENTER);
+
+
+		StackPane backAllignment = new StackPane();
+		backAllignment.getChildren().add(backButton);
+		StackPane.setAlignment(backButton, Pos.BOTTOM_CENTER);
 
 		//Bottom menu consists of the winnings amount and tbe back button
-		HBox bottomMenu = new HBox();_gameWindow.setScene(_menuScene);
-		bottomMenu.getChildren().addAll(winnings, backButton);  
-		bottomMenu.setSpacing(10);
+		VBox bottomMenu = new VBox();
+		bottomMenu.getChildren().addAll(winnings, backAllignment);  
 		bottomMenu.setPadding(new Insets(0, 0, 20, 0));
 
 		//Overall layout for the Games Module scene/window
@@ -209,9 +229,10 @@ public class GamesModule {
 		layout.setCenter(quesLayout);
 		layout.setBottom(bottomMenu);
 
-		Scene quesScene = new Scene(layout, 500, 500);
+		Scene quesScene = new Scene(layout, 800, 600);
 
 		_gameWindow.setScene(quesScene);
+		_gameWindow.show();
 	}
 
 
@@ -258,23 +279,23 @@ public class GamesModule {
 					}
 
 					//'Done' label is for a question that has already been attempted
-					Label label = new Label();
-					label.setText("Done");
-					label.setPrefSize(80, 40);
-					label.setPadding(new Insets(0, 0, 0, 14));
-					label.setStyle("-fx-font-size: 18;-fx-border-color: " + doneColor +
-							";-fx-text-fill: " + doneColor);
-					GridPane.setConstraints(label, i, j);
-					quesLayout.getChildren().add(label);
+					Label attemptedQues = new Label();
+					attemptedQues.setText(Integer.toString(Math.abs((questionsDone + 1) * 100)));
+					attemptedQues.setPrefSize(90, 50);
+					attemptedQues.setStyle("-fx-font-size: 18;-fx-border-width: 1; -fx-text-fill: " + doneColor + ";-fx-border-color: " + doneColor);
+					attemptedQues.setAlignment(Pos.CENTER);
+					
+					GridPane.setConstraints(attemptedQues, i, j);
+					quesLayout.getChildren().add(attemptedQues);
 
 					questionsDone++;
 
-				} else if (lowestValueQuestion != null && q.equals(lowestValueQuestion)){
+				} else if (lowestValueQuestion != null && q.equals(lowestValueQuestion) && (!(c.getCategoryName().equalsIgnoreCase("international") && (categoriesDone < 2)))){
 
 					//Creation of button instance for a question
 					Button button = new Button();
 					button.setText(Integer.toString(q.getValue()));
-					button.setPrefSize(80, 40);
+					button.setPrefSize(90, 50);
 					button.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;"
 							+ "-fx-font-size: 18;");
 
@@ -288,20 +309,25 @@ public class GamesModule {
 
 							if (confirm) {
 								askQuestion(c,q);
-							} 
+							}
 
 						}
 					});
 					GridPane.setConstraints(button, i, j);
 					quesLayout.getChildren().add(button);
+					
 				} else {
 					//Creation of label instance for a locked question
 					Label lockedButton = new Label();
 					lockedButton.setText(Integer.toString(q.getValue()));
-					lockedButton.setPrefSize(80, 40);
+					lockedButton.setPrefSize(90, 50);
 					lockedButton.setStyle("-fx-border-width: 2; -fx-font-size: 18; -fx-background-color: #d5e5f2");
 					lockedButton.setPadding(new Insets(0, 0, 0, 23));
 
+					if (c.getCategoryName().equalsIgnoreCase("international")) {
+						lockedButton.setStyle("-fx-border-width: 2; -fx-font-size: 18; -fx-background-color: #ddbdff");
+					}
+					
 					GridPane.setConstraints(lockedButton, i, j);
 					quesLayout.getChildren().add(lockedButton);
 				}
@@ -315,26 +341,36 @@ public class GamesModule {
 			Label categoryLabel = new Label();
 
 			if (questionsDone == c.numberOfQuestions()) {
-				categoryLabel.setText("Complete");
-				categoryLabel.setPrefSize(100, 50);
-				categoryLabel.setMaxSize(100, 50);
-				categoryLabel.setPadding(new Insets(2, 2, 2, 2));
+				categoryLabel.setText(c.getCategoryName());
+				categoryLabel.setPrefSize(130, 50);
+				categoryLabel.setMaxSize(130, 50);
 				categoryLabel.setStyle("-fx-font-size: 18;-fx-border-width: 1;"
 						+ "-fx-background-color: #2A9600;-fx-text-fill: #ffffff");
 				categoriesDone++;
 			} else {
 				categoryLabel.setText(c.getCategoryName());
-				categoryLabel.setPrefSize(100, 50);
-				categoryLabel.setPadding(new Insets(2, 2, 2, 6));
-				categoryLabel.setStyle("-fx-font-size: 15;-fx-border-width: 1;"
+				categoryLabel.setPrefSize(130, 50);
+				categoryLabel.setStyle("-fx-font-size: 18;-fx-border-width: 1;"
 						+ "-fx-background-color: #040662;-fx-text-fill: #ffffff");
 			}
+
+			if (c.getCategoryName().equalsIgnoreCase("international")) {
+				categoryLabel.setStyle("-fx-font-size: 18;-fx-border-width: 1;"
+						+ "-fx-background-color: #681773;-fx-text-fill: #ffffff");
+			}
+			
+			categoryLabel.setAlignment(Pos.CENTER);
+
 			topMenu.getChildren().add(categoryLabel);
-		}
 
-
-		if (categoriesDone == 5) {
-			gameFinished();
+			if (categoriesDone > 5) {
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						gameFinished();
+					}
+				});
+			}
 		}
 
 	}
@@ -356,9 +392,8 @@ public class GamesModule {
 			_winnings += q.getValue();
 			questionFeedback(true, q);
 
-			//if the answer is wrong, send an alert box to the user and update winnings
+			//if the answer is wrong, send an alert box to the user and the total winnings stay the same
 		} else {
-			_winnings -= q.getValue();
 			questionFeedback(false, q);
 		}
 	}
@@ -373,8 +408,7 @@ public class GamesModule {
 		if (outcome) {
 			AlertBox.displayAlert("Correct answer", "Congratulations!!! You just won $" + ques.getValue(), "#0E9109");
 		} else {
-			AlertBox.displayAlert("Incorrect answer", "Oops that was the wrong answer. You just lost $" + 
-					ques.getValue() + ". The correct answer was '" + ques.getAnswer() + "'.", "#BC0808");
+			AlertBox.displayAlert("Incorrect answer", "Oops, that was the wrong answer.", "#BC0808");
 		}
 		ques.questionAttempted(outcome);
 		displayQuestionBoard();
@@ -391,7 +425,7 @@ public class GamesModule {
 
 		try {
 			Files.createDirectories(pathCategoryData);
-			
+
 
 		} catch (IOException e) {
 			System.err.println("Failed to create directory!" + e.getMessage());
@@ -449,12 +483,6 @@ public class GamesModule {
 		File save_data = new File(save_loc);
 
 		deleteDirectory(save_data);
-		
-		_currentWinnings = new Winnings();//initialise winnings
-		_winnings = _currentWinnings.getValue();
-		checkSaveData();
-		saveAndExitGame();
-		
 	}
 
 	/**
@@ -465,12 +493,197 @@ public class GamesModule {
 	private void gameFinished() {
 
 		AlertBox.displayAlert("Game finished", "Congratulations!!! You earned $" + _winnings + ". Well done.", "#067CA0");
+
+		_gameWindow.setScene(_menuScene);
+		_gameWindow.show();
 		
 		boolean playAgain = ConfirmBox.displayConfirm("Play Again", "Would you like to play again?");
 		
 		if (playAgain) {
-			resetGame();
 			AlertBox.displayAlert("New Game", "A new game has been created, come back to the Games Module to play again", "#000000");
+			resetGame();
+			Main.restartGame(_gameWindow);
+		} else {
+			saveAndExitGame();
+		}
+
+	}
+
+	private void categorySelector() {
+
+		HBox selectMenuLayout = new HBox();
+
+		//Set up the layout for the list displaying all the selected categories
+		VBox selectedCategoryDisplay = new VBox();
+		selectedCategoryDisplay.setSpacing(10);
+		selectedCategoryDisplay.setPadding(new Insets(20, 20, 30, 20)); 
+
+		Text selection = new Text("Selected Categories:");
+		selection.setFill(Color.ORANGE);
+		selection.setFont(Font.font("Helvetica", FontWeight.BOLD, 16));
+		selection.setTextAlignment(TextAlignment.CENTER);
+		selectedCategoryDisplay.getChildren().add(selection);
+
+		//Set up the layout for the contents of the main menu
+		VBox categorySelectLayout = new VBox();
+		categorySelectLayout.setSpacing(10);
+		categorySelectLayout.setPadding(new Insets(20, 20, 30, 20)); 
+
+		Text infoText = new Text("Please select five\n categories: ");
+		infoText.setStyle("-fx-font-size: 18;");
+		infoText.setTextAlignment(TextAlignment.CENTER);
+		categorySelectLayout.getChildren().add(infoText);
+		StackPane.setAlignment(infoText, Pos.CENTER);
+
+
+		List<String> selectedCategories = new ArrayList<String>();
+
+		String categoryDir = System.getProperty("user.dir") + System.getProperty("file.separator") + "categories";
+		File directory = new File(categoryDir);
+		// get all the files from a directory
+		File[] fList = directory.listFiles();
+
+		for (File x : fList) {
+
+			if (!(x.getName().equalsIgnoreCase("international"))) {
+
+				//Creation of button instance for a category
+				Button categoryButton = new Button();
+				categoryButton.setText(x.getName());
+				categoryButton.setPrefSize(200, 40);
+				categoryButton.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;"
+						+ "-fx-font-size: 18;");
+
+				categoryButton.setOnAction(new EventHandler<ActionEvent>() {
+					public void handle (ActionEvent e) {
+						for (String selected : selectedCategories) {
+							if (x.getName().equalsIgnoreCase(selected)) {
+								return;
+							}
+						}
+
+						selectedCategories.add(x.getName());
+
+						//Create a new label for the category selected by the user
+						Label selectedCategoryLabel = new Label();
+						selectedCategoryLabel.setText(x.getName());
+						selectedCategoryLabel.setPrefSize(200, 40);
+						selectedCategoryLabel.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;"
+								+ "-fx-font-size: 18;");
+						selectedCategoryLabel.setAlignment(Pos.CENTER);
+						
+						selectedCategoryDisplay.getChildren().addAll(selectedCategoryLabel);
+
+						if (selectedCategories.size() == 5) {
+							for (String d : selectedCategories) {
+								System.out.print(d + ", ");
+							}
+							removeUnselectedCategories(selectedCategories);
+							removeExtraQuestions();
+							assignQuestionValues();
+							displayQuestionBoard();
+						}
+					}
+				});
+				categorySelectLayout.getChildren().addAll(categoryButton);
+			}
+		}
+
+		selectMenuLayout.getChildren().addAll(categorySelectLayout, selectedCategoryDisplay);
+
+		//backButton will cause the control of the application to go back to the main menu
+		Button backButton = new Button();
+		backButton.setText("Back");
+		backButton.setPrefSize(80, 40);
+		backButton.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
+		backButton.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle (ActionEvent e) {
+				_gameWindow.setScene(_menuScene);
+				_gameWindow.show();
+			}
+		});
+
+		//Bottom menu consists of the winnings amount and tbe back button
+		StackPane bottomMenu = new StackPane();
+		bottomMenu.getChildren().add(backButton);  
+		bottomMenu.setPadding(new Insets(0, 0, 20, 0));
+		StackPane.setAlignment(backButton, Pos.CENTER);
+
+		//Overall layout for the Games Module scene/window
+		BorderPane layout = new BorderPane();
+		layout.setCenter(selectMenuLayout);
+		layout.setBottom(bottomMenu);
+
+		Scene _categorySelectScene = new Scene(layout, 500, 600);
+		_gameWindow.setScene(_categorySelectScene);
+		_gameWindow.show();
+
+	}
+
+	private void removeUnselectedCategories(List<String> selectedCategories) {
+
+		boolean categorySelected;
+
+		List<Category> toRemove = new ArrayList<Category>();
+
+		for (Category c : _questionBank.getCategoryList()) {
+			categorySelected = false;
+
+			for (String s : selectedCategories) {
+				if ((c.getCategoryName().equalsIgnoreCase(s)) || (c.getCategoryName().equalsIgnoreCase("International"))) {
+					categorySelected = true;
+					break;
+				}
+			}
+
+			if (!categorySelected) {
+				toRemove.add(c);
+			}
+		}
+
+		for (Category c : toRemove) {
+			_questionBank.getCategoryList().remove(c);
+		}
+
+		moveInternationalToEnd();
+	}
+
+	private void moveInternationalToEnd() {
+		Category international = _questionBank.getCategoryList().get(0); 
+
+		for (Category c : _questionBank.getCategoryList()) {
+			if (c.getCategoryName().equalsIgnoreCase("international")) {
+				international = c;
+			}
+		}
+		_questionBank.getCategoryList().remove(international);
+		_questionBank.getCategoryList().add(international);
+	}
+
+	/**
+	 * 
+	 */
+	private void removeExtraQuestions() {
+		//until the number of questions in a particular category is not equal to 5, randomly remove a question
+		for (Category c : _questionBank.getCategoryList()) {
+			int numberOfQuestions = c.getQuestions().size();
+			while (numberOfQuestions > 5) {
+				int randomQuestion = generateRandomNumber(0, numberOfQuestions);
+				c.getQuestions().remove(randomQuestion);
+				numberOfQuestions = c.getQuestions().size();
+			}
+		}
+	}
+
+	private void assignQuestionValues() {
+		//Assign the value of the questions for each category randomly from 100, 200, 300, 400, 500.
+		int value;
+		for (Category c : _questionBank.getCategoryList()) {
+			value = 100;
+			for (Question q : c.getQuestions()) {
+				q.setValue(value);
+				value += 100;
+			}
 		}
 	}
 }
