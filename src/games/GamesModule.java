@@ -243,8 +243,8 @@ public class GamesModule {
 		Label winnings = new Label();
 		winnings.setText("Winnings: $" + _winnings);
 
-		winnings.setPrefSize(200, 50);
-		winnings.setMaxSize(240, 50);
+		winnings.setPrefHeight(50);
+		//winnings.setMaxSize(240, 50);
 		winnings.setPadding(new Insets(2, 10, 2, 24));
 		winnings.setAlignment(Pos.CENTER);
 
