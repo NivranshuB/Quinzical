@@ -25,7 +25,7 @@ import main.Main;
 
 
 /**
- * Class that performs the practice module
+ * Class that performs all the functionality of the practice module scene of the application.
  * @author Whan Jung
  *
  */
@@ -40,6 +40,7 @@ public class PracticeModule {
 		_questions = questions;
 		_menuScene = menuScene;
 	}
+	
 	/**
 	 * Method that displays the practice module menu
 	 */
@@ -146,6 +147,7 @@ public class PracticeModule {
 
 		_stage.setScene(quesScene);
 	}
+	
 	/**
 	 * Method that alerts user with a pop-up window depending on the users answer
 	 * @param outcome | if answer is correct or not

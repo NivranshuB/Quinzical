@@ -12,7 +12,6 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -33,7 +32,8 @@ import quinzical.ConfirmBox;
 
 
 /**
- * GUI for main menu
+ * GUI for main menu. This class launches the application and contains all the buttons to
+ * navigate between different scenes of the application.
  * @author Whan Jung
  *
  */
@@ -106,10 +106,7 @@ public class Main extends Application {
 					    //Setting image to the image view
 					    imageView.setImage(image);
 					    //Setting the image view parameters
-//					    imageView.setX(10);
-//					    imageView.setY(10);
-//					    imageView.setFitWidth(575);
-//					    imageView.setPreserveRatio(true);
+
 					    //Setting the Scene object
 					    Stage stage = new Stage();
 					    Group root = new Group(imageView);
@@ -129,6 +126,7 @@ public class Main extends Application {
 				
 			}
 		});
+		
 		Button settingsButton = new Button("Settings");
 		settingsButton.setPrefSize(460,60);
 		settingsButton.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 16;");
@@ -170,7 +168,7 @@ public class Main extends Application {
 		
 	}
 	
-	/**
+	/**This method launches a new Games Module.
 	 * 
 	 */
 	public static void restartGame(Stage gameWindow) {
@@ -185,6 +183,11 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch(args);		
 	}
+	
+	/**
+	 * Settings scene that allows the user to change to color blindness mode, or lets the user reset the game.
+	 * @param primaryStage
+	 */
 	public void settings(Stage primaryStage) {
 		
 		Text title = new Text("Settings");
@@ -198,6 +201,7 @@ public class Main extends Application {
 				AlertBox.displayAlert("Game reset", "Your current Games Module game has been reset", "#000000");
 			}
 		});
+		
 		_colourBlindButton.setPrefSize(400, 60);
 		_colourBlindButton.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 16;");
 		_colourBlindButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -234,6 +238,11 @@ public class Main extends Application {
 		primaryStage.setScene(settingScene);
 		primaryStage.show();
 	}
+	
+	/**
+	 * Checks if the color blind mode is enabled or not. If enabled returns true, else returns false.
+	 * @return
+	 */
 	public static boolean colourBlindMode() {
 		if (_colourBlindButton.getText().equals("Click to enable colour blind mode")) {
 			return false;

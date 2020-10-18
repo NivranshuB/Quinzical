@@ -581,6 +581,10 @@ public class GamesModule {
 
 	}
 
+	/**
+	 * This method starts the category select scene which allows the user to pick 5 categories
+	 * they would like questions from. This scene is only provided at the start of a new game.
+	 */
 	private void categorySelector() {
 
 		HBox selectMenuLayout = new HBox();
@@ -689,6 +693,12 @@ public class GamesModule {
 
 	}
 
+	/**
+	 * Given a list of String, where each string is a category name, this method removes 
+	 * every category that is not in the input list from the _questionBank.
+	 * 
+	 * @param selectedCategories
+	 */
 	private void removeUnselectedCategories(List<String> selectedCategories) {
 
 		boolean categorySelected;
@@ -717,6 +727,10 @@ public class GamesModule {
 		moveInternationalToEnd();
 	}
 
+	/**
+	 * This method moves the 'International' question category in the _questionBank to the last
+	 * category in the _questionBank.
+	 */
 	private void moveInternationalToEnd() {
 		Category international = _questionBank.getCategoryList().get(0); 
 
@@ -730,7 +744,8 @@ public class GamesModule {
 	}
 
 	/**
-	 * 
+	 * This method randomly removes a question from a category in the _questionBank until every
+	 * category in the _questionBank has exactly 5 Questions each.
 	 */
 	private void removeExtraQuestions() {
 		//until the number of questions in a particular category is not equal to 5, randomly remove a question
@@ -744,6 +759,9 @@ public class GamesModule {
 		}
 	}
 
+	/**
+	 * This method assigns the questions in the _questionBank appropriately.
+	 */
 	private void assignQuestionValues() {
 		//Assign the value of the questions for each category randomly from 100, 200, 300, 400, 500.
 		int value;
