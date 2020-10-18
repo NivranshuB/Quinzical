@@ -92,7 +92,10 @@ public class Main extends Application {
 		checkPrize.setStyle("-fx-border-color: #070459;-fx-border-width: 1;-fx-font-size: 16;");
 		checkPrize.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
-				if (_winnings >= 1000) {
+				_currentWinnings = new Winnings();//initialise winnings
+				_winnings = _currentWinnings.getValue();
+				
+				if (_winnings >= 4500) {
 					//creating the image object
 				    InputStream stream;
 					try {

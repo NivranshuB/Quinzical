@@ -340,7 +340,7 @@ public class GamesModule {
 					lockedButton.setPadding(new Insets(0, 0, 0, 23));
 
 					if (c.getCategoryName().equalsIgnoreCase("international")) {
-						lockedButton.setStyle("-fx-border-width: 2; -fx-font-size: 18; -fx-background-color: #ddbdff");
+						lockedButton.setStyle("-fx-border-width: 2; -fx-font-size: 18; -fx-background-color: #f7e1b2");
 					}
 					
 					GridPane.setConstraints(lockedButton, i, j);
@@ -372,17 +372,17 @@ public class GamesModule {
 				categoryLabel.setText(c.getCategoryName());
 				categoryLabel.setPrefSize(130, 50);
 				if (Main.colourBlindMode()) {
-					categoryLabel.setStyle("-fx-font-size: 15;-fx-border-width: 1;"
+					categoryLabel.setStyle("-fx-font-size: 18;-fx-border-width: 1;"
 							+ "-fx-background-color: #040662;-fx-text-fill: #ffffff");
 				} else {
-					categoryLabel.setStyle("-fx-font-size: 15;-fx-border-width: 1;"
+					categoryLabel.setStyle("-fx-font-size: 18;-fx-border-width: 1;"
 							+ "-fx-background-color: #040662;-fx-text-fill: #ffffff");
 				}
 			}
 
 			if (c.getCategoryName().equalsIgnoreCase("international")) {
 				categoryLabel.setStyle("-fx-font-size: 18;-fx-border-width: 1;"
-						+ "-fx-background-color: #681773;-fx-text-fill: #ffffff");
+						+ "-fx-background-color: #cf5a00;-fx-text-fill: #ffffff");
 			}
 			
 			categoryLabel.setAlignment(Pos.CENTER);
