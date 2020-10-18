@@ -2,7 +2,7 @@
 
 Instructions are below:
 
-1) Unzip provided 'assignment4_team41.zip' folder into 'HOME' directory
+1) Unzip provided 'assignment4beta_team41.zip' folder into 'HOME' directory
 
 2) Move the provided 'akl_nz_jdt_diphone' folder into 'Computer/usr/share/festival/voices'
 
