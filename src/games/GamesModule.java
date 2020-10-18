@@ -647,9 +647,6 @@ public class GamesModule {
 						selectedCategoryDisplay.getChildren().addAll(selectedCategoryLabel);
 
 						if (selectedCategories.size() == 5) {
-							for (String d : selectedCategories) {
-								System.out.print(d + ", ");
-							}
 							removeUnselectedCategories(selectedCategories);
 							removeExtraQuestions();
 							assignQuestionValues();
