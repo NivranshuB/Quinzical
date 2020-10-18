@@ -345,13 +345,8 @@ public class GamesModule {
 				categoryLabel.setText(c.getCategoryName());
 				categoryLabel.setPrefSize(100, 50);
 				categoryLabel.setPadding(new Insets(2, 2, 2, 6));
-				if (Main.colourBlindMode()) {
-					categoryLabel.setStyle("-fx-font-size: 15;-fx-border-width: 1;"
+				categoryLabel.setStyle("-fx-font-size: 15;-fx-border-width: 1;"
 							+ "-fx-background-color: #040662;-fx-text-fill: #ffffff");
-				} else {
-					categoryLabel.setStyle("-fx-font-size: 15;-fx-border-width: 1;"
-							+ "-fx-background-color: #040662;-fx-text-fill: #ffffff");
-				}
 			}
 			topMenu.getChildren().add(categoryLabel);
 		}
