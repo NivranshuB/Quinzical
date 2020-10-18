@@ -1,13 +1,22 @@
 package main;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 import games.GamesModule;
+import games.Winnings;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -18,6 +27,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import practice.PracticeModule;
 import questions.QuestionRetriever;
+import quinzical.AlertBox;
 import quinzical.ConfirmBox;
 
 
@@ -29,14 +39,22 @@ import quinzical.ConfirmBox;
  */
 public class Main extends Application {
 	
-	QuestionRetriever _questions;//all access to category and questions is through this
-	Stage _gameWindow;
-	Scene _menuScene;//the default scene for the game (also the main menu)
+	private QuestionRetriever _questions;//all access to category and questions is through this
+	private Winnings _currentWinnings;
+	private int _winnings;
+	private Stage _gameWindow;
+	private Scene _menuScene;//the default scene for the game (also the main menu)
+	private GamesModule _gameMenu;
+	public static Button _colourBlindButton;
 	
 	@Override
 	public void start(Stage primaryStage) {
 		
 		_questions = new QuestionRetriever();//initialise categories and questions
+		_currentWinnings = new Winnings();//initialise winnings
+		_winnings = _currentWinnings.getValue();
+		_gameMenu = new GamesModule();
+		_colourBlindButton = new Button("Click to enable colour blind mode");
 		_gameWindow = primaryStage;
 		primaryStage.setTitle("Quinzical!");
 
@@ -58,16 +76,64 @@ public class Main extends Application {
 		Button gamesModuleButton = new Button("Games Module");
 		gamesModuleButton.setPrefSize(460,60);
 		gamesModuleButton.setStyle("-fx-border-color: #200459;-fx-border-width: 1;-fx-font-size: 16;");
+		GamesModule gameMenu = new GamesModule();
 		gamesModuleButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
-				GamesModule gameMenu = new GamesModule();
-				gameMenu.start(_gameWindow);
+				_gameMenu.start(_gameWindow);
 			}
 		});
 		
 		Button practiceModuleButton = new Button("Practice Module");
 		practiceModuleButton.setPrefSize(460,60);
 		practiceModuleButton.setStyle("-fx-border-color: #070459;-fx-border-width: 1;-fx-font-size: 16;");
+		
+		Button checkPrize = new Button("Check your prize");
+		checkPrize.setPrefSize(460,60);
+		checkPrize.setStyle("-fx-border-color: #070459;-fx-border-width: 1;-fx-font-size: 16;");
+		checkPrize.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle (ActionEvent e) {
+				if (_winnings >= 1000) {
+					//creating the image object
+				    InputStream stream;
+					try {
+						stream = new FileInputStream("winningsMeme.jpg");
+						Image image = new Image(stream);
+					    //Creating the image view
+					    ImageView imageView = new ImageView();
+					    //Setting image to the image view
+					    imageView.setImage(image);
+					    //Setting the image view parameters
+//					    imageView.setX(10);
+//					    imageView.setY(10);
+//					    imageView.setFitWidth(575);
+//					    imageView.setPreserveRatio(true);
+					    //Setting the Scene object
+					    Stage stage = new Stage();
+					    Group root = new Group(imageView);
+					    Scene scene = new Scene(root);
+					    stage.setResizable(false);
+					    stage.setTitle("Grand Prize");
+					    stage.setScene(scene);
+					    stage.show();
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				else {
+					AlertBox.displayAlert("Prize error", "Please obtain the grand prize from Games Module to view your prize", 	"#000000");
+				}
+				
+			}
+		});
+		Button settingsButton = new Button("Settings");
+		settingsButton.setPrefSize(460,60);
+		settingsButton.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 16;");
+		settingsButton.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle (ActionEvent e) {
+				settings(primaryStage);
+			}
+		});
 		
 		Button exitButton = new Button("Exit Game");
 		exitButton.setPrefSize(460,60);
@@ -86,7 +152,7 @@ public class Main extends Application {
 		menuLayout.setSpacing(10);
 		menuLayout.setAlignment(Pos.CENTER);
 		menuLayout.setPadding(new Insets(20, 20, 30, 20)); 
-		menuLayout.getChildren().addAll(menuTitleText, menuInfo, gamesModuleButton, practiceModuleButton, exitButton);
+		menuLayout.getChildren().addAll(menuTitleText, menuInfo, gamesModuleButton, practiceModuleButton, checkPrize, settingsButton, exitButton);
 
 		_menuScene = new Scene(menuLayout, 700, 450);
 		practiceModuleButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -115,5 +181,62 @@ public class Main extends Application {
 	 */
 	public static void main(String[] args) {
 		launch(args);		
+	}
+	public void settings(Stage primaryStage) {
+		
+		Text title = new Text("Settings");
+		title.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
+		Button resetGameButton = new Button("Click to reset current Games Modules game");
+		resetGameButton.setPrefSize(400,60);
+		resetGameButton.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 16;");
+		resetGameButton.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle (ActionEvent e) {
+				_gameMenu.resetGame();
+				AlertBox.displayAlert("Game reset", "Your current Games Module game has been reset", "#000000");
+			}
+		});
+		_colourBlindButton.setPrefSize(400, 60);
+		_colourBlindButton.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 16;");
+		_colourBlindButton.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle (ActionEvent e) {
+				if (_colourBlindButton.getText().equals("Click to enable colour blind mode")) {
+					_colourBlindButton.setText("Click to disable colour blind mode");
+				}
+				else {
+					_colourBlindButton.setText("Click to enable colour blind mode");
+				}
+				
+			}
+		});
+		
+		Button back = new Button("Back");
+		back.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 16;");
+		back.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle (ActionEvent e) {
+				primaryStage.setScene(_menuScene);
+				primaryStage.show();
+			}
+		});
+		
+		VBox coreButtonBox = new VBox();
+		coreButtonBox.setSpacing(10);
+		coreButtonBox.getChildren().addAll(resetGameButton, _colourBlindButton);
+		
+		VBox settingBox = new VBox();
+		settingBox.setSpacing(20);
+		settingBox.setPadding(new Insets(20));
+		settingBox.setAlignment(Pos.CENTER);
+		settingBox.getChildren().addAll(title,coreButtonBox, back);
+		Scene settingScene = new Scene(settingBox);
+		primaryStage.setScene(settingScene);
+		primaryStage.show();
+	}
+	public static boolean colourBlindMode() {
+		if (_colourBlindButton.getText().equals("Click to enable colour blind mode")) {
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 }

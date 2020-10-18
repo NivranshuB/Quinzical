@@ -1,5 +1,8 @@
 package questions;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -8,15 +11,21 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.util.Duration;
+import main.Main;
 import quinzical.HelperThread;
 
 /**
@@ -31,6 +40,11 @@ public class QuestionBox {
 	static String answer = "";
 	private static double displayPlaySpeed = 1.0;
 	private static double realPlaySpeed = 1.0;
+	 // private class constant and some variables
+    private static final Integer STARTTIME = 15;
+    private static Timeline timeline;
+    private static Label _timerLabel = new Label();
+    private static Integer timeSeconds = STARTTIME;
 
 	/**
 	 * Given a title and a question, creates a new window with the question and 
@@ -69,6 +83,18 @@ public class QuestionBox {
 		answerPrompt.setFocusTraversable(false);
 		answerPrompt.setStyle("-fx-font-size: 18;");
 		GridPane.setConstraints(answerPrompt, 0, 0);
+		
+		VBox timerAndTitleBox = new VBox();
+		timerAndTitleBox.setAlignment(Pos.CENTER);
+		timerAndTitleBox.getChildren().addAll(_timerLabel, questionLabel);
+		
+		_timerLabel.setText(timeSeconds.toString());
+		if (Main.colourBlindMode()) {
+			_timerLabel.setStyle("-fx-font-size: 4em; -fx-text-fill: #7B3294");
+		} else {
+			_timerLabel.setStyle("-fx-font-size: 4em; -fx-text-fill: red");
+		}
+        
 		
 		Button submit = new Button("Submit");
 		submit.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
@@ -149,10 +175,40 @@ public class QuestionBox {
 				}
 			}
 		});	
+		double r = 20;
+		Button helpButton = new Button("?");
+		helpButton.setShape(new Circle(r));
+		helpButton.setMinSize(2*r, 2*r);
+		helpButton.setMaxSize(2*r, 2*r);
+		helpButton.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
+		helpButton.setStyle("-fx-background-color: #FF8C00; -fx-text-fill: #F0F8FF");
+		
+		Text helpText = new Text("Replay button: replay the given question\n\nSubmit button: submit your answer to the question\n\nDon't know button (For Games module): Once clicked"
+	    		+ " answer is displayed and attempt is considered incorrect\n\nFaster/Slower buttons: Increase or decrease playspeed of speech synthesis by 0.1");
+	    helpText.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+	    
+		Stage helpButtonStage = new Stage();
+		helpButtonStage.initOwner(window);
+		helpButtonStage.initStyle(StageStyle.TRANSPARENT);
+	    StackPane helpButtonPane = new StackPane();
+	    helpButtonPane.setPadding(new Insets(20));
+	    helpButtonPane.getChildren().add(helpText);
+	    helpButtonPane.setStyle("-fx-background-color: orange; -fx-background-radius: 40; -fx-border-color: grey; -fx-border-width: 10px; -fx-border-radius: 30;");
+	    Scene helpButtonScene = new Scene(helpButtonPane);
+	    helpButtonScene.setFill(Color.TRANSPARENT);
+	    helpButtonStage.setScene(helpButtonScene);
+	    
+	    helpButton.hoverProperty().addListener((ChangeListener<Boolean>) (observable, oldValue, newValue) -> {
+            if (newValue) {
+            	helpButtonStage.show();
+            } else {
+            	helpButtonStage.hide();
+            }
+        });
 		
 		HBox speedAdjustmentBox = new HBox();
 		speedAdjustmentBox.setSpacing(10);
-		speedAdjustmentBox.getChildren().addAll(speechSpeed, speedButtonsBox);
+		speedAdjustmentBox.getChildren().addAll(speechSpeed, speedButtonsBox, helpButton);
 		speedAdjustmentBox.setAlignment(Pos.CENTER);
 		
 		HBox bottomMenuBox = new HBox();
@@ -162,7 +218,10 @@ public class QuestionBox {
 		if (isPracticeQuestion) {
 			bottomMenuBox.getChildren().addAll(replay, submit, speedAdjustmentBox);
 		} else {
-			bottomMenuBox.getChildren().addAll(replay, submit, dontKnow, speedAdjustmentBox);
+			HBox groupBox = new HBox();
+			groupBox.setAlignment(Pos.CENTER);
+			groupBox.getChildren().addAll(submit, dontKnow);
+			bottomMenuBox.getChildren().addAll(replay, groupBox, speedAdjustmentBox);
 		}
 		
 		bottomMenuBox.setAlignment(Pos.CENTER);
@@ -170,17 +229,43 @@ public class QuestionBox {
 		StackPane bottomMenu = new StackPane();
 		bottomMenu.getChildren().add(bottomMenuBox);  
 		bottomMenu.setPadding(new Insets(0, 0, 20, 0));
-        	StackPane.setAlignment(submit, Pos.CENTER);
+        StackPane.setAlignment(submit, Pos.CENTER);
+        	
+        if (timeline != null) {
+            timeline.stop();
+        }
+        timeSeconds = STARTTIME;
+ 
+        // update timerLabel
+        _timerLabel.setText(timeSeconds.toString());
+        timeline = new Timeline();
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.getKeyFrames().add(
+                new KeyFrame(Duration.seconds(1),
+                	new EventHandler<ActionEvent>() {
+
+					@Override
+					public void handle(ActionEvent arg0) {
+						timeSeconds--;
+	                    // update timerLabel
+	                    _timerLabel.setText(timeSeconds.toString());
+	                    if (timeSeconds <= 0) {
+	                    	answer = answerPrompt.getText();
+	    					window.close();
+	                    }
+					}
+                }));
+        timeline.playFromStart();
 		
-		BorderPane layout = new BorderPane();
+		VBox layout = new VBox();
 		layout.setPadding(new Insets(10, 10,10, 10));
-		layout.setTop(questionLabel);
-		layout.setCenter(answerPrompt);
-		layout.setBottom(bottomMenu);
+		layout.setSpacing(15);
+		layout.getChildren().addAll(timerAndTitleBox, answerPrompt, bottomMenu);
 
 		Scene scene = new Scene(layout, 700, 275);
 		window.setScene(scene);
 		window.showAndWait();
+
 		
 		return answer;
 	}
