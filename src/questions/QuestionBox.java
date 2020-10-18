@@ -40,11 +40,11 @@ public class QuestionBox {
 	static String answer = "";
 	private static double displayPlaySpeed = 1.0;
 	private static double realPlaySpeed = 1.0;
-	 // private class constant and some variables
-    private static final Integer STARTTIME = 15;
-    private static Timeline timeline;
-    private static Label _timerLabel = new Label();
-    private static Integer timeSeconds = STARTTIME;
+	// private class constant and some variables
+	private static final Integer STARTTIME = 30;
+	private static Timeline _timeline;
+	private static Label _timerLabel = new Label();
+	private static Integer _timeSeconds = STARTTIME;
 
 	/**
 	 * Given a title and a question, creates a new window with the question and 
@@ -53,7 +53,7 @@ public class QuestionBox {
 	 */
 
 	public static String displayConfirm(String title, String questionToSpeak, String questionDisplay, String clue, Boolean isPracticeQuestion) {
-		
+
 		//HelperThread to run festival in background with
 		HelperThread helper = new HelperThread(questionToSpeak, realPlaySpeed);
 		helper.start();
@@ -71,7 +71,7 @@ public class QuestionBox {
 		questionLabel.setWrapText(true);
 		questionLabel.setPadding(new Insets(20, 20, 20, 20));
 		questionLabel.setStyle("-fx-font-size: 18;");
-		
+
 		GridPane answerLayout = new GridPane();
 		answerLayout.setPadding(new Insets(10, 10,10, 10));
 		answerLayout.setVgap(8);
@@ -83,29 +83,100 @@ public class QuestionBox {
 		answerPrompt.setFocusTraversable(false);
 		answerPrompt.setStyle("-fx-font-size: 18;");
 		GridPane.setConstraints(answerPrompt, 0, 0);
-		
-		VBox timerAndTitleBox = new VBox();
-		timerAndTitleBox.setAlignment(Pos.CENTER);
-		timerAndTitleBox.getChildren().addAll(_timerLabel, questionLabel);
-		
-		_timerLabel.setText(timeSeconds.toString());
+
+		Button aButton = new Button("ā");
+		Button eButton = new Button("ē");
+		Button iButton = new Button("ī");
+		Button oButton = new Button("ō");
+		Button uButton = new Button("ū");
+		aButton.setFont(Font.font("Verdana", 18));
+		eButton.setFont(Font.font("Verdana", 18));
+		iButton.setFont(Font.font("Verdana", 18));
+		oButton.setFont(Font.font("Verdana", 18));
+		uButton.setFont(Font.font("Verdana", 18));
+
+		aButton.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle (ActionEvent e) {
+				answerPrompt.setText(answerPrompt.getText() + "ā");
+			}
+		});
+		eButton.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle (ActionEvent e) {
+				answerPrompt.setText(answerPrompt.getText() + "ē");
+			}
+		});
+		iButton.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle (ActionEvent e) {
+				answerPrompt.setText(answerPrompt.getText() + "ī");
+			}
+		});
+		oButton.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle (ActionEvent e) {
+				answerPrompt.setText(answerPrompt.getText() + "ō");
+			}
+		});
+		uButton.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle (ActionEvent e) {
+				answerPrompt.setText(answerPrompt.getText() + "ū");
+			}
+		});
+
+		HBox macronsBox = new HBox();
+		macronsBox.setSpacing(5);
+		macronsBox.setAlignment(Pos.CENTER);
+		macronsBox.getChildren().addAll(aButton, eButton, iButton, oButton, uButton);
+
+
+		_timerLabel.setText(_timeSeconds.toString());
 		if (Main.colourBlindMode()) {
 			_timerLabel.setStyle("-fx-font-size: 4em; -fx-text-fill: #7B3294");
 		} else {
 			_timerLabel.setStyle("-fx-font-size: 4em; -fx-text-fill: red");
 		}
-        
-		
+
+		VBox timerAndTitleBox = new VBox();
+		timerAndTitleBox.setAlignment(Pos.CENTER);
+		if (isPracticeQuestion) {
+			timerAndTitleBox.getChildren().addAll(questionLabel, macronsBox);     
+		} else {
+			if (_timeline != null) {
+				_timeline.stop();
+			}
+			_timeSeconds = STARTTIME;
+
+			// update timerLabel
+			_timerLabel.setText(_timeSeconds.toString());
+			_timeline = new Timeline();
+			_timeline.setCycleCount(Timeline.INDEFINITE);
+			_timeline.getKeyFrames().add(
+					new KeyFrame(Duration.seconds(1),
+							new EventHandler<ActionEvent>() {
+
+						@Override
+						public void handle(ActionEvent arg0) {
+							_timeSeconds--;
+							// update timerLabel
+							_timerLabel.setText(_timeSeconds.toString());
+							if (_timeSeconds <= 0) {
+								answer = answerPrompt.getText();
+								window.close();
+							}
+						}
+					}));
+			_timeline.playFromStart();
+			timerAndTitleBox.getChildren().addAll(_timerLabel, questionLabel, macronsBox);  
+		}   
+
 		Button submit = new Button("Submit");
 		submit.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
 		submit.setOnAction(new EventHandler<ActionEvent>() {
-					public void handle (ActionEvent e) {
-						answer = answerPrompt.getText();
-						window.close();
-					}
-				});
+			public void handle (ActionEvent e) {
+				answer = answerPrompt.getText();
+				window.close();
+			}
+		});
 		submit.setTextAlignment(TextAlignment.CENTER);
-		
+
 		Button replay = new Button("Replay");
 		replay.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
 		replay.setAlignment(Pos.CENTER);
@@ -115,9 +186,9 @@ public class QuestionBox {
 				helper.start();
 			}
 		});
-		
+
 		Button dontKnow = new Button("Don't know");
-		
+
 		//If in GamesModule then add dontKnow button
 		if (!isPracticeQuestion) {
 			dontKnow.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
@@ -128,16 +199,16 @@ public class QuestionBox {
 				}
 			});
 		}
-		
+
 		Text speechSpeed = new Text("Playback speed: " + String.valueOf(Math.round(displayPlaySpeed * 100) / 100.0) + "x");
 		speechSpeed.setTextAlignment(TextAlignment.CENTER);
-		
-		
+
+
 		Button faster = new Button("Faster");
 		Button slower = new Button("slower");
 		VBox speedButtonsBox = new VBox();
 		speedButtonsBox.getChildren().addAll(faster, slower);
-		
+
 		faster.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
 				displayPlaySpeed += 0.1;
@@ -153,11 +224,11 @@ public class QuestionBox {
 					slower.setText("Slower");
 					speechSpeed.setText("Playback speed: " + String.valueOf(roundPlaySpeed) + "x");
 				}
-				
-				
+
+
 			}
 		});	
-		
+
 		slower.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
 				displayPlaySpeed -= 0.1;
@@ -182,38 +253,39 @@ public class QuestionBox {
 		helpButton.setMaxSize(2*r, 2*r);
 		helpButton.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
 		helpButton.setStyle("-fx-background-color: #FF8C00; -fx-text-fill: #F0F8FF");
-		
-		Text helpText = new Text("Replay button: replay the given question\n\nSubmit button: submit your answer to the question\n\nDon't know button (For Games module): Once clicked"
-	    		+ " answer is displayed and attempt is considered incorrect\n\nFaster/Slower buttons: Increase or decrease playspeed of speech synthesis by 0.1");
-	    helpText.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
-	    
+
+		Text helpText = new Text("ā ē ī ō ū buttons: Insert Māori macrons to your answer\n\nReplay button: replay the given question\n\n"
+				+ "Submit button: submit your answer to the question\n\nDon't know button (For Games module): Once clicked"
+				+ " answer is displayed and attempt is considered incorrect\n\nFaster/Slower buttons: Increase or decrease playspeed of speech synthesis by 0.1");
+		helpText.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+
 		Stage helpButtonStage = new Stage();
 		helpButtonStage.initOwner(window);
 		helpButtonStage.initStyle(StageStyle.TRANSPARENT);
-	    StackPane helpButtonPane = new StackPane();
-	    helpButtonPane.setPadding(new Insets(20));
-	    helpButtonPane.getChildren().add(helpText);
-	    helpButtonPane.setStyle("-fx-background-color: orange; -fx-background-radius: 40; -fx-border-color: grey; -fx-border-width: 10px; -fx-border-radius: 30;");
-	    Scene helpButtonScene = new Scene(helpButtonPane);
-	    helpButtonScene.setFill(Color.TRANSPARENT);
-	    helpButtonStage.setScene(helpButtonScene);
-	    
-	    helpButton.hoverProperty().addListener((ChangeListener<Boolean>) (observable, oldValue, newValue) -> {
-            if (newValue) {
-            	helpButtonStage.show();
-            } else {
-            	helpButtonStage.hide();
-            }
-        });
-		
+		StackPane helpButtonPane = new StackPane();
+		helpButtonPane.setPadding(new Insets(20));
+		helpButtonPane.getChildren().add(helpText);
+		helpButtonPane.setStyle("-fx-background-color: orange; -fx-background-radius: 40; -fx-border-color: grey; -fx-border-width: 10px; -fx-border-radius: 30;");
+		Scene helpButtonScene = new Scene(helpButtonPane);
+		helpButtonScene.setFill(Color.TRANSPARENT);
+		helpButtonStage.setScene(helpButtonScene);
+
+		helpButton.hoverProperty().addListener((ChangeListener<Boolean>) (observable, oldValue, newValue) -> {
+			if (newValue) {
+				helpButtonStage.show();
+			} else {
+				helpButtonStage.hide();
+			}
+		});
+
 		HBox speedAdjustmentBox = new HBox();
 		speedAdjustmentBox.setSpacing(10);
 		speedAdjustmentBox.getChildren().addAll(speechSpeed, speedButtonsBox, helpButton);
 		speedAdjustmentBox.setAlignment(Pos.CENTER);
-		
+
 		HBox bottomMenuBox = new HBox();
 		bottomMenuBox.setSpacing(30);
-		
+
 		//If in PracticeModule, do not add the dontKnow Button
 		if (isPracticeQuestion) {
 			bottomMenuBox.getChildren().addAll(replay, submit, speedAdjustmentBox);
@@ -223,51 +295,25 @@ public class QuestionBox {
 			groupBox.getChildren().addAll(submit, dontKnow);
 			bottomMenuBox.getChildren().addAll(replay, groupBox, speedAdjustmentBox);
 		}
-		
+
 		bottomMenuBox.setAlignment(Pos.CENTER);
-		
+
 		StackPane bottomMenu = new StackPane();
 		bottomMenu.getChildren().add(bottomMenuBox);  
 		bottomMenu.setPadding(new Insets(0, 0, 20, 0));
-        StackPane.setAlignment(submit, Pos.CENTER);
-        	
-        if (timeline != null) {
-            timeline.stop();
-        }
-        timeSeconds = STARTTIME;
- 
-        // update timerLabel
-        _timerLabel.setText(timeSeconds.toString());
-        timeline = new Timeline();
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.getKeyFrames().add(
-                new KeyFrame(Duration.seconds(1),
-                	new EventHandler<ActionEvent>() {
+		StackPane.setAlignment(submit, Pos.CENTER);
 
-					@Override
-					public void handle(ActionEvent arg0) {
-						timeSeconds--;
-	                    // update timerLabel
-	                    _timerLabel.setText(timeSeconds.toString());
-	                    if (timeSeconds <= 0) {
-	                    	answer = answerPrompt.getText();
-	    					window.close();
-	                    }
-					}
-                }));
-        timeline.playFromStart();
-		
 		VBox layout = new VBox();
 		layout.setPadding(new Insets(10, 10,10, 10));
 		layout.setSpacing(15);
 		layout.getChildren().addAll(timerAndTitleBox, answerPrompt, bottomMenu);
 
-		Scene scene = new Scene(layout, 700, 275);
+		Scene scene = new Scene(layout);
 		window.setScene(scene);
 		window.showAndWait();
 
-		
+
 		return answer;
 	}
-	
+
 }
