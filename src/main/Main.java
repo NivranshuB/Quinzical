@@ -25,7 +25,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import practice.PracticeModule;
-import questions.QuestionRetriever;
+import questions.QuestionBank;
 import quinzical.AlertBox;
 import quinzical.ConfirmBox;
 
@@ -39,7 +39,7 @@ import quinzical.ConfirmBox;
  */
 public class Main extends Application {
 	
-	private QuestionRetriever _questions;//all access to category and questions is through this
+	private QuestionBank _questions;//all access to category and questions is through this
 	private Winnings _currentWinnings;
 	private int _winnings;
 	private Stage _gameWindow;
@@ -50,7 +50,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		
-		_questions = new QuestionRetriever();//initialise categories and questions
+		_questions = new QuestionBank();//initialise categories and questions
 		_currentWinnings = new Winnings();//initialise winnings
 		_winnings = _currentWinnings.getValue();
 		_gameMenu = new GamesModule();
@@ -76,7 +76,6 @@ public class Main extends Application {
 		Button gamesModuleButton = new Button("Games Module");
 		gamesModuleButton.setPrefSize(460,60);
 		gamesModuleButton.setStyle("-fx-border-color: #200459;-fx-border-width: 1;-fx-font-size: 16;");
-		GamesModule gameMenu = new GamesModule();
 		gamesModuleButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
 				_gameMenu.start(_gameWindow);
@@ -92,7 +91,7 @@ public class Main extends Application {
 		checkPrize.setStyle("-fx-border-color: #070459;-fx-border-width: 1;-fx-font-size: 16;");
 		checkPrize.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
-				_currentWinnings = new Winnings();//initialise winnings
+				_currentWinnings = new Winnings();//reinitialise winnings
 				_winnings = _currentWinnings.getValue();
 				
 				if (_winnings >= 4500) {
@@ -105,18 +104,15 @@ public class Main extends Application {
 					    ImageView imageView = new ImageView();
 					    //Setting image to the image view
 					    imageView.setImage(image);
-					    //Setting the image view parameters
-
 					    //Setting the Scene object
-					    Stage stage = new Stage();
-					    Group root = new Group(imageView);
-					    Scene scene = new Scene(root);
-					    stage.setResizable(false);
-					    stage.setTitle("Grand Prize");
-					    stage.setScene(scene);
-					    stage.show();
+					    Stage prizeStage = new Stage();
+					    Group prizeGroup = new Group(imageView);
+					    Scene prizeScene = new Scene(prizeGroup);
+					    prizeStage.setResizable(false);
+					    prizeStage.setTitle("Grand Prize");
+					    prizeStage.setScene(prizeScene);
+					    prizeStage.show();
 					} catch (FileNotFoundException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}
@@ -192,6 +188,7 @@ public class Main extends Application {
 		
 		Text title = new Text("Settings");
 		title.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
+		
 		Button resetGameButton = new Button("Click to reset current Games Modules game");
 		resetGameButton.setPrefSize(400,60);
 		resetGameButton.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 16;");

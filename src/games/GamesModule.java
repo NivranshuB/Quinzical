@@ -112,44 +112,6 @@ public class GamesModule {
 	}
 
 	/**
-	 * Since at the start of the Games Module, if there is no saved question data the game must
-	 * randomly select 5 categories and 5 clues/questions, this method helps remove the extra
-	 * categories in excess of 5, and then the extra questions of these categories in excess of 5
-	 * randomly from the _questonBank.
-	 */
-	private void initialiseNewQuestions() {
-
-		int numberOfCategories = _questionBank.getCategoryList().size();
-
-		//until the number of categories in the question bank is not equal to 5, randomly remove a category
-		while (numberOfCategories > 5) {
-			int randomCategory = generateRandomNumber(0, numberOfCategories);
-			_questionBank.getCategoryList().remove(randomCategory);
-			numberOfCategories = _questionBank.getCategoryList().size();
-		}
-
-		//until the number of questions in a particular category is not equal to 5, randomly remove a question
-		for (Category c : _questionBank.getCategoryList()) {
-			int numberOfQuestions = c.getQuestions().size();
-			while (numberOfQuestions > 5) {
-				int randomQuestion = generateRandomNumber(0, numberOfQuestions);
-				c.getQuestions().remove(randomQuestion);
-				numberOfQuestions = c.getQuestions().size();
-			}
-		}
-
-		//Assign the value of the questions for each category randomly from 100, 200, 300, 400, 500.
-		int value;
-		for (Category c : _questionBank.getCategoryList()) {
-			value = 100;
-			for (Question q : c.getQuestions()) {
-				q.setValue(value);
-				value += 100;
-			}
-		}
-	}
-
-	/**
 	 * Static method that given the lower limit and the upper limit, randomly returns an int
 	 * value n such that, low <= n < high.
 	 * @param low: lower limit
@@ -194,9 +156,9 @@ public class GamesModule {
 				e.consume();
 			}
 		});
-
-		double r = 20;
+		
 		Button helpButton = new Button("?");
+		double r = 20;
 		helpButton.setShape(new Circle(r));
 		helpButton.setMinSize(2*r, 2*r);
 		helpButton.setMaxSize(2*r, 2*r);
@@ -204,20 +166,24 @@ public class GamesModule {
 		helpButton.setStyle("-fx-background-color: #FF8C00; -fx-text-fill: #F0F8FF");
 
 		Text helpText = new Text("Help #1: You can only attempt the lowest value question of each category"
-				+ "\n\nHelp #2: International category will be unlocked after you have attempted at least two categories");
+				+ "\n\nHelp #2: International category will be unlocked after you have attempted at least two categories\n\n"
+				+ "Help #3: Your grand prize will be unlocked and available to be viewed from the main menu once you earn at least $4500");
 		helpText.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
 
 		Stage helpButtonStage = new Stage();
 		helpButtonStage.initOwner(_gameWindow);
-		helpButtonStage.initStyle(StageStyle.TRANSPARENT);
+		helpButtonStage.initStyle(StageStyle.TRANSPARENT); //Makes stage transparent to make scene look round
+		
 		StackPane helpButtonPane = new StackPane();
 		helpButtonPane.setPadding(new Insets(20));
 		helpButtonPane.getChildren().add(helpText);
 		helpButtonPane.setStyle("-fx-background-color: orange; -fx-background-radius: 40; -fx-border-color: grey; -fx-border-width: 10px; -fx-border-radius: 30;");
+		
 		Scene helpButtonScene = new Scene(helpButtonPane);
 		helpButtonScene.setFill(Color.TRANSPARENT);
 		helpButtonStage.setScene(helpButtonScene);
 
+		//Display help text when hovering over button
 		helpButton.hoverProperty().addListener((ChangeListener<Boolean>) (observable, oldValue, newValue) -> {
 			if (newValue) {
 				helpButtonStage.show();
@@ -244,7 +210,6 @@ public class GamesModule {
 		winnings.setText("Winnings: $" + _winnings);
 
 		winnings.setPrefHeight(50);
-		//winnings.setMaxSize(240, 50);
 		winnings.setPadding(new Insets(2, 10, 2, 24));
 		winnings.setAlignment(Pos.CENTER);
 
@@ -273,7 +238,6 @@ public class GamesModule {
 		layout.setBottom(bottomMenu);
 
 		_quesScene = new Scene(layout, 800, 600);
-
 		_gameWindow.setScene(_quesScene);
 		_gameWindow.show();
 	}

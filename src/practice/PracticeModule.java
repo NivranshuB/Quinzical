@@ -17,8 +17,8 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import questions.Category;
 import questions.Question;
+import questions.QuestionBank;
 import questions.QuestionBox;
-import questions.QuestionRetriever;
 import quinzical.AlertBox;
 import quinzical.ConfirmBox;
 import main.Main;
@@ -33,9 +33,9 @@ public class PracticeModule {
 	
 	private Stage _stage;
 	private Scene _menuScene;
-	private QuestionRetriever _questions;
+	private QuestionBank _questions;
 	
-	public PracticeModule(Stage primaryStage, QuestionRetriever questions, Scene menuScene) {
+	public PracticeModule(Stage primaryStage, QuestionBank questions, Scene menuScene) {
 		_stage = primaryStage;
 		_questions = questions;
 		_menuScene = menuScene;

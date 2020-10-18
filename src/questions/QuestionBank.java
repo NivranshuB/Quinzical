@@ -14,9 +14,16 @@ import java.util.List;
 public class QuestionBank {
 
 	List<Category> _categoryList = new ArrayList<Category>();
-
+	
 	/**
 	 * Initialises the Category instance from the default categories directory.
+	 */
+	public QuestionBank() {
+		String categoryDir = System.getProperty("user.dir") + System.getProperty("file.separator") + "categories";
+		initialiseCategory(categoryDir);
+	}
+	/**
+	 * Initialises the Category instance from the input categories directory.
 	 */
 	public QuestionBank(String dir) {
 		initialiseCategory(dir);

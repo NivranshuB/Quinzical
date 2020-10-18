@@ -40,10 +40,9 @@ public class QuestionBox {
 	static String answer = "";
 	private static double displayPlaySpeed = 1.0;
 	private static double realPlaySpeed = 1.0;
-	// private class constant and some variables
 	private static final Integer STARTTIME = 30;
 	private static Timeline _timeline;
-	private static Label _timerLabel = new Label();
+	private static Label _timerLabel = new Label(); //Label for countdown timer of games module
 	private static Integer _timeSeconds = STARTTIME;
 
 	/**
@@ -144,10 +143,11 @@ public class QuestionBox {
 			}
 			_timeSeconds = STARTTIME;
 
-			// update timerLabel
+			//update timerLabel
 			_timerLabel.setText(_timeSeconds.toString());
 			_timeline = new Timeline();
 			_timeline.setCycleCount(Timeline.INDEFINITE);
+			//update countdown timer every frame
 			_timeline.getKeyFrames().add(
 					new KeyFrame(Duration.seconds(1),
 							new EventHandler<ActionEvent>() {
@@ -155,7 +155,7 @@ public class QuestionBox {
 						@Override
 						public void handle(ActionEvent arg0) {
 							_timeSeconds--;
-							// update timerLabel
+							//update timerLabel
 							_timerLabel.setText(_timeSeconds.toString());
 							if (_timeSeconds <= 0) {
 								answer = answerPrompt.getText();
@@ -169,13 +169,13 @@ public class QuestionBox {
 
 		Button submit = new Button("Submit");
 		submit.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
+		submit.setTextAlignment(TextAlignment.CENTER);
 		submit.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
 				answer = answerPrompt.getText();
 				window.close();
 			}
 		});
-		submit.setTextAlignment(TextAlignment.CENTER);
 
 		Button replay = new Button("Replay");
 		replay.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
@@ -188,21 +188,18 @@ public class QuestionBox {
 		});
 
 		Button dontKnow = new Button("Don't know");
+		dontKnow.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
+		dontKnow.setTextAlignment(TextAlignment.CENTER);
+		dontKnow.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle (ActionEvent e) {
+				answer = answerPrompt.getText();
+				window.close();
+			}
+		});
 
-		//If in GamesModule then add dontKnow button
-		if (!isPracticeQuestion) {
-			dontKnow.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
-			dontKnow.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle (ActionEvent e) {
-					answer = answerPrompt.getText();
-					window.close();
-				}
-			});
-		}
 
 		Text speechSpeed = new Text("Playback speed: " + String.valueOf(Math.round(displayPlaySpeed * 100) / 100.0) + "x");
 		speechSpeed.setTextAlignment(TextAlignment.CENTER);
-
 
 		Button faster = new Button("Faster");
 		Button slower = new Button("slower");
@@ -246,8 +243,9 @@ public class QuestionBox {
 				}
 			}
 		});	
-		double r = 20;
+		
 		Button helpButton = new Button("?");
+		double r = 20;
 		helpButton.setShape(new Circle(r));
 		helpButton.setMinSize(2*r, 2*r);
 		helpButton.setMaxSize(2*r, 2*r);
@@ -261,7 +259,7 @@ public class QuestionBox {
 
 		Stage helpButtonStage = new Stage();
 		helpButtonStage.initOwner(window);
-		helpButtonStage.initStyle(StageStyle.TRANSPARENT);
+		helpButtonStage.initStyle(StageStyle.TRANSPARENT); //Makes stage transparent to make scene look round
 		StackPane helpButtonPane = new StackPane();
 		helpButtonPane.setPadding(new Insets(20));
 		helpButtonPane.getChildren().add(helpText);
@@ -269,7 +267,8 @@ public class QuestionBox {
 		Scene helpButtonScene = new Scene(helpButtonPane);
 		helpButtonScene.setFill(Color.TRANSPARENT);
 		helpButtonStage.setScene(helpButtonScene);
-
+		
+		//Display help text when hovering over button
 		helpButton.hoverProperty().addListener((ChangeListener<Boolean>) (observable, oldValue, newValue) -> {
 			if (newValue) {
 				helpButtonStage.show();
@@ -285,6 +284,7 @@ public class QuestionBox {
 
 		HBox bottomMenuBox = new HBox();
 		bottomMenuBox.setSpacing(30);
+		bottomMenuBox.setAlignment(Pos.CENTER);
 
 		//If in PracticeModule, do not add the dontKnow Button
 		if (isPracticeQuestion) {
@@ -295,8 +295,6 @@ public class QuestionBox {
 			groupBox.getChildren().addAll(submit, dontKnow);
 			bottomMenuBox.getChildren().addAll(replay, groupBox, speedAdjustmentBox);
 		}
-
-		bottomMenuBox.setAlignment(Pos.CENTER);
 
 		StackPane bottomMenu = new StackPane();
 		bottomMenu.getChildren().add(bottomMenuBox);  
