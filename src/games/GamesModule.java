@@ -273,17 +273,16 @@ public class GamesModule {
 					//if the question was answered correctly the color of text 'Done' is 
 					//green, else the color of text 'Done' is red
 					if (q.getValue() == 1) {
-						doneColor = "#c2ffc2";
+						doneColor = "#0E9109";
 					} else if (q.getValue() == -1) {
-						doneColor = "#ffc2c2";
+						doneColor = "#BC0808";
 					}
 
 					//'Done' label is for a question that has already been attempted
 					Label attemptedQues = new Label();
 					attemptedQues.setText(Integer.toString(Math.abs((questionsDone + 1) * 100)));
 					attemptedQues.setPrefSize(90, 50);
-					attemptedQues.setStyle("-fx-font-size: 18;-fx-border-width: 1;-fx-background-color: " + doneColor +
-							";-fx-text-fill: #000000;-fx-border-color: #000000");
+					attemptedQues.setStyle("-fx-font-size: 18;-fx-border-width: 1; -fx-text-fill: " + doneColor + ";-fx-border-color: " + doneColor);
 					attemptedQues.setAlignment(Pos.CENTER);
 					
 					GridPane.setConstraints(attemptedQues, i, j);
@@ -369,7 +368,6 @@ public class GamesModule {
 					@Override
 					public void run() {
 						gameFinished();
-						System.out.println(_questionBank);
 					}
 				});
 			}
@@ -485,7 +483,6 @@ public class GamesModule {
 		File save_data = new File(save_loc);
 
 		deleteDirectory(save_data);
-		System.out.println("Save directory was deleted");
 	}
 
 	/**
@@ -495,7 +492,6 @@ public class GamesModule {
 	 */
 	private void gameFinished() {
 
-		System.out.println("Reward screen was displayed");
 		AlertBox.displayAlert("Game finished", "Congratulations!!! You earned $" + _winnings + ". Well done.", "#067CA0");
 
 		_gameWindow.setScene(_menuScene);
@@ -579,8 +575,6 @@ public class GamesModule {
 						selectedCategoryDisplay.getChildren().addAll(selectedCategoryLabel);
 
 						if (selectedCategories.size() == 5) {
-							System.out.println("5 categories selected");
-							System.out.print("The selected categories were: ");
 							for (String d : selectedCategories) {
 								System.out.print(d + ", ");
 							}
