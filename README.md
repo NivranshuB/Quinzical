@@ -1,14 +1,10 @@
-# project
-
-Use this repo for both Assignment 3 and also your final Project (as you will be in the same team). 
-
-Be sure to update this README file to provide an easy-to-follow set of instructions on how to run your program. 
+# Assignment 4
 
 Instructions are below:
 
-1) Move the provided 'akl_nz_jdt_diphone' folder into 'Computer/usr/share/festival/voices'
+1) Unzip provided 'assignment4_team41.zip' folder into 'HOME' directory
 
-2) Unzip provided 'assignment4_team41.zip' folder into 'HOME' directory
+2) Move the provided 'akl_nz_jdt_diphone' folder into 'Computer/usr/share/festival/voices'
 
 3) Launch terminal window
 
