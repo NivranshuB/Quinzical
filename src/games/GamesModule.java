@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Random;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.stage.WindowEvent;
 import main.Main;
@@ -31,11 +32,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import quinzical.AlertBox;
 import quinzical.ConfirmBox;
 
@@ -191,6 +194,37 @@ public class GamesModule {
 				e.consume();
 			}
 		});
+		
+		double r = 20;
+		Button helpButton = new Button("?");
+		helpButton.setShape(new Circle(r));
+		helpButton.setMinSize(2*r, 2*r);
+		helpButton.setMaxSize(2*r, 2*r);
+		helpButton.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
+		helpButton.setStyle("-fx-background-color: #FF8C00; -fx-text-fill: #F0F8FF");
+		
+		Text helpText = new Text("Help #1: You can only attempt the lowest value question of each category"
+				+ "\n\nHelp #2: International category will be unlocked after you have attempted at least two categories");
+	    helpText.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+	    
+		Stage helpButtonStage = new Stage();
+		helpButtonStage.initOwner(_gameWindow);
+		helpButtonStage.initStyle(StageStyle.TRANSPARENT);
+	    StackPane helpButtonPane = new StackPane();
+	    helpButtonPane.setPadding(new Insets(20));
+	    helpButtonPane.getChildren().add(helpText);
+	    helpButtonPane.setStyle("-fx-background-color: orange; -fx-background-radius: 40; -fx-border-color: grey; -fx-border-width: 10px; -fx-border-radius: 30;");
+	    Scene helpButtonScene = new Scene(helpButtonPane);
+	    helpButtonScene.setFill(Color.TRANSPARENT);
+	    helpButtonStage.setScene(helpButtonScene);
+	    
+	    helpButton.hoverProperty().addListener((ChangeListener<Boolean>) (observable, oldValue, newValue) -> {
+            if (newValue) {
+            	helpButtonStage.show();
+            } else {
+            	helpButtonStage.hide();
+            }
+        });
 
 		//backButton will cause the control of the application to go back to the main menu
 		Button backButton = new Button();
@@ -226,8 +260,10 @@ public class GamesModule {
 		StackPane.setAlignment(backButton, Pos.BOTTOM_CENTER);
 
 		//Bottom menu consists of the winnings amount and tbe back button
-		VBox bottomMenu = new VBox();
-		bottomMenu.getChildren().addAll(winnings, backAllignment);  
+		HBox bottomMenu = new HBox();
+		bottomMenu.setSpacing(150);
+		bottomMenu.setAlignment(Pos.CENTER_LEFT);
+		bottomMenu.getChildren().addAll(winnings, backAllignment, helpButton);  
 		bottomMenu.setPadding(new Insets(0, 0, 20, 0));
 
 		//Overall layout for the Games Module scene/window
@@ -236,9 +272,9 @@ public class GamesModule {
 		layout.setCenter(quesLayout);
 		layout.setBottom(bottomMenu);
 
-		Scene quesScene = new Scene(layout, 800, 600);
+		_quesScene = new Scene(layout, 800, 600);
 
-		_gameWindow.setScene(quesScene);
+		_gameWindow.setScene(_quesScene);
 		_gameWindow.show();
 	}
 
