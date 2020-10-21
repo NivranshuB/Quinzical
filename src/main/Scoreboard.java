@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Scanner;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -30,23 +29,39 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+
+
+/**
+ * This class stores final winnings of the user and contains a function to view the scoreboard from the main menu
+ * @author Whan Jung
+ *
+ */
 public class Scoreboard {
 	
+	//Initialise array for scores
 	private static ArrayList<String[]> _scoreList = new ArrayList<String[]>();
 	private int _gameFinished;
 	
+	/**
+	 * Constructor that searches for a scoreboard file and transfers scores into _scoreList
+	 *
+	 */
 	public Scoreboard() {
 		String[] splitLine;
 		String save_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "scoreboard";
 
 		File scoreFile = new File(save_loc);
+		//If file exists then read it
 		if (scoreFile.exists()) {
 			try {
 				Scanner scanner = new Scanner(new FileReader(scoreFile));
+				
+				//Gets the game finished boolean
 				_gameFinished = Integer.parseInt(scanner.nextLine());
+				
+				//Add each score to array
 				while (scanner.hasNextLine()) {
 					splitLine = scanner.nextLine().split(",");
-						
 					_scoreList.add(splitLine);
 						
 				}
@@ -56,6 +71,11 @@ public class Scoreboard {
 			}
 		}
 	}
+	/**
+	 * Changes scene from main menu to the viewing of the scoreboard
+	 *@param mainStage | main menu stage
+	 *@param mainMenuScene | main menu scene
+	 */
 	public void ViewScoreboard(Stage mainStage, Scene mainMenuScene) {
 		
 		Font headingStyle = Font.font("Verdana", FontWeight.BOLD, 25);
@@ -63,11 +83,13 @@ public class Scoreboard {
 		
 		BorderPane screenPane = new BorderPane();
 		screenPane.setPadding(new Insets(20));
-
+		
+		//Create scoreboard title
 		Text title = new Text("Scoreboard");
 		title.setFont(Font.font("Times New Roman", FontWeight.BOLD, 40));
 		title.setUnderline(true);
 		
+		//Create GridPane and Text for scores and headings
 		GridPane scoreBoardPane = new GridPane();
 		GridPane headingPane = new GridPane();
 		headingPane.setHgap(200);
@@ -86,8 +108,10 @@ public class Scoreboard {
 		headingPane.add(scoreText, 2, 0);
 		
 		int rank = 1;
-			
+		
+		//Sort scores before listing them on scoreboard
 		sortScorelist();
+		//Add scores in descending order to scoreboard
 		for (String[] score: _scoreList) {
 			rankText = new Text(String.valueOf(rank));
 			nameText = new Text(score[0]);
@@ -101,7 +125,7 @@ public class Scoreboard {
 			rank++;
 		}
 
-		
+		//Create title and headings
 		VBox titleAndHeading = new VBox();
 		titleAndHeading.setSpacing(10);
 		titleAndHeading.setAlignment(Pos.CENTER);
@@ -109,6 +133,7 @@ public class Scoreboard {
 		ScrollPane scrollPane = new ScrollPane(scoreBoardPane);
 		scrollPane.setPadding(new Insets(5, 20, 5, 20));
 		
+		//Back button to main menu
 		Button back = new Button("back");
 		back.setFont(scoreStyle);
 		BorderPane.setAlignment(back, Pos.CENTER);
@@ -127,6 +152,13 @@ public class Scoreboard {
 		mainStage.show();
 		
 	}
+	/**
+	 * Once a game finishes, if user saves their name then add name and score into scoreboard
+	 *@param title | title of popup
+	 *@param message | message of popup
+	 *@param colour | colour of message
+	 *@param winning | final winnings of user
+	 */
 	public void addToScoreboard(String title, String message, String color, int winning) {
 		Stage window = new Stage();
 		
@@ -144,6 +176,8 @@ public class Scoreboard {
 		Text askName = new Text("Save your name to scoreboards");
 		askName.setFont(Font.font("Verdana", 14));
 		TextField namePrompt = new TextField();
+		
+		//Saves the users score and exits
 		namePrompt.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
 			@Override
@@ -158,6 +192,8 @@ public class Scoreboard {
 				}
 			}
 		});
+		
+		//Saves the users score and exits
 		Button save = new Button("Save");
 		save.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent e) {
@@ -170,6 +206,7 @@ public class Scoreboard {
 			}
 		});
 		
+		//Doesn't save the user score and exits
 		Button dontSave = new Button("Don't Save");
 		dontSave.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent e) {
@@ -179,23 +216,28 @@ public class Scoreboard {
 		});
 		
 		
-		
-		
 		HBox buttons = new HBox();
 		buttons.setAlignment(Pos.CENTER);
 		buttons.getChildren().addAll(save,dontSave);
 		
+		//VBox to add all components for adding scores scene
 		VBox layout = new VBox();
 		layout.setSpacing(10);
 		layout.setPadding(new Insets(0, 40, 20, 40));
 		layout.setAlignment(Pos.CENTER);
 		layout.getChildren().addAll(label, askName, namePrompt, buttons);
+		
 		Scene scene = new Scene(layout, 500, 250);
 		window.setScene(scene);
 		window.showAndWait();
 		
 	}
+	/**
+	 *Sorts the scores in descending order
+	 *
+	 */
 	private void sortScorelist() {
+		//Uses Comparator to sort list in ascending order
 		Collections.sort(_scoreList, new Comparator<String[]>() {
 
 			@Override
@@ -210,15 +252,25 @@ public class Scoreboard {
 			}
 			
 		});
+		//Reverses the array so it is in descending order
 		Collections.reverse(_scoreList);
 	}
+	/**
+	 * Save all scores to scoreboard file
+	 *
+	 */
 	public void saveScoresToFile() {
 		String save_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "scoreboard";
 		String scoreString = "";
+		
+		//If score list is not empty
 		if (!_scoreList.isEmpty()) {
 			try {
 				FileWriter writer = new FileWriter(save_loc);
+				//write the game finished boolean to the file
 				writer.write(_gameFinished + "\n");
+				
+				//Write the scores to the file
 				for (String[] score: _scoreList) {
 					scoreString = score[0] + "," + score[1] + "\n";
 					writer.write(scoreString);
@@ -230,6 +282,10 @@ public class Scoreboard {
 			}
 		}
 	}
+	/**
+	 *boolean to determine if game finished but not reset to remove popup of saving scores multiple times
+	 *
+	 */
 	public boolean gameFinished() {
 		if (_gameFinished == 1) {
 			return true;
@@ -237,6 +293,11 @@ public class Scoreboard {
 			return false;
 		}
 	}
+	/**
+	 *Sets the value of _gameFinished
+	 *@param finished | finished boolean
+	 *
+	 */
 	public void setGameFinished(boolean finished) {
 		if (finished) {
 			_gameFinished = 1;
