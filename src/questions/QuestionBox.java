@@ -41,7 +41,7 @@ import quinzical.HelperThread;
  */
 public class QuestionBox {
 
-	static String answer = "";
+	static String answer;
 	private static double displayPlaySpeed = 1.0;
 	private static double realPlaySpeed = 1.0;
 	private static final Integer STARTTIME = 30;
@@ -176,8 +176,13 @@ public class QuestionBox {
 							//update timerLabel
 							_timerLabel.setText(_timeSeconds.toString());
 							if (_timeSeconds <= 0) {
-								answer = answerPrompt.getText();
+								if (answerPrompt.getText().isEmpty()) {
+									answer = "Ran out of time!";
+								} else {
+									answer = answerPrompt.getText();
+								}
 								window.close();
+
 							}
 						}
 					}));
@@ -193,6 +198,7 @@ public class QuestionBox {
 			public void handle (ActionEvent e) {
 				answer = answerPrompt.getText();
 				window.close();
+
 			}
 		});
 
@@ -216,7 +222,7 @@ public class QuestionBox {
 		dontKnow.setTextAlignment(TextAlignment.CENTER);
 		dontKnow.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
-				answer = answerPrompt.getText();
+				answer = "Its fine you don't know!";
 				window.close();
 			}
 		});

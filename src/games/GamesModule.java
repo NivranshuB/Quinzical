@@ -417,15 +417,20 @@ public class GamesModule {
 		//ask the user the question in a new QuestionBox window
 		String answerInput = QuestionBox.displayConfirm("You picked category " + c.getCategoryName() +
 				" for " + Integer.toString(q.getValue()), q.getQuestion(), q.getQuestion(), q.getClue(), false);
-
-		//if the answer is correct, send an alert box to the user and update winnings
-		if (q.answerValid(answerInput)) {
-			_winnings += q.getValue();
-			questionFeedback(true, q);
-
-			//if the answer is wrong, send an alert box to the user and the total winnings stay the same
+		if (answerInput.equals("Ran out of time!")) {
+			questionFeedback(false, q, "Ran out of time!");
+		} else if (answerInput.contentEquals("Its fine you don't know!")) {
+			questionFeedback(false, q, "Its fine you don't know!");
 		} else {
-			questionFeedback(false, q);
+			//if the answer is correct, send an alert box to the user and update winnings
+			if (q.answerValid(answerInput)) {
+				_winnings += q.getValue();
+				questionFeedback(true, q, "Congratulations!!! You just won $" + q.getValue());
+
+				//if the answer is wrong, send an alert box to the user and the total winnings stay the same
+			} else {
+				questionFeedback(false, q, "Oops that was the wrong answer.");
+			}
 		}
 	}
 
@@ -435,19 +440,31 @@ public class GamesModule {
 	 * @param outcome: true if answer was correct, false if answer was incorrect
 	 * @param ques: the question that the user answered
 	 */
-	private void questionFeedback(boolean outcome, Question ques) {
+	private void questionFeedback(boolean outcome, Question ques, String feedback) {
 		if (outcome) {
 			if (Main.colourBlindMode()) {
-				AlertBox.displayAlert("Correct answer", "Congratulations!!! You just won $" + ques.getValue(), "#008837");
+				AlertBox.displayAlert("Correct answer", feedback, "#008837");
 			} else {
-				AlertBox.displayAlert("Correct answer", "Congratulations!!! You just won $" + ques.getValue(), "#0E9109");
+				AlertBox.displayAlert("Correct answer", feedback, "#0E9109");
 			}
 		} else {
 
 			if (Main.colourBlindMode()) {
-				AlertBox.displayAlert("Incorrect answer", "Oops that was the wrong answer.", "#7B3294");
+				if (feedback.equals("Ran out of time!")) {
+					AlertBox.displayAlert("Incorrect answer", feedback, "#7B3294");
+				} else if (feedback.equals("Its fine you don't know!")) {
+					AlertBox.displayAlert("Incorrect answer", feedback, "#7B3294");
+				} else {
+					AlertBox.displayAlert("Incorrect answer", feedback, "#7B3294");
+				}
 			} else {
-				AlertBox.displayAlert("Incorrect answer", "Oops that was the wrong answer.", "#BC0808");
+				if (feedback.equals("Ran out of time!")) {
+					AlertBox.displayAlert("Incorrect answer", feedback, "#BC0808");
+				} else if (feedback.equals("Its fine you don't know!")) {
+					AlertBox.displayAlert("Incorrect answer", feedback, "#BC0808");
+				} else {
+					AlertBox.displayAlert("Incorrect answer", feedback, "#BC0808");
+				}
 			}
 		}
 		ques.questionAttempted(outcome);
