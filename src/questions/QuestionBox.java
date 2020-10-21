@@ -28,7 +28,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import main.Main;
-import quinzical.CompletedTaskPaper;
 import quinzical.HelperThread;
 
 /**

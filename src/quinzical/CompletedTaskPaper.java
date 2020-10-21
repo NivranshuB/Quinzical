@@ -42,9 +42,8 @@ public class CompletedTaskPaper implements Runnable {
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-			Process process = builder.start();
-		}
-		catch (IOException e) {
+			Process process = builder.start();	
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		

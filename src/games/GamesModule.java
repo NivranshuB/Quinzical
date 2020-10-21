@@ -16,6 +16,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.stage.WindowEvent;
 import main.Main;
+import main.Scoreboard;
 import questions.Category;
 import questions.Question;
 import questions.QuestionBank;
@@ -61,11 +62,8 @@ public class GamesModule {
 	int _winnings;//the total winnings for the player
 
 	Stage _gameWindow;
-
 	Scene _quesScene;//the games module scene for the application
 	Scene _menuScene;//the main menu scene for the application
-
-	boolean _questionsLeft = false; 
 
 	boolean _returnToMenu;
 
@@ -77,7 +75,6 @@ public class GamesModule {
 	public void start(Stage primaryStage) {
 
 		_menuScene = primaryStage.getScene();
-
 		_currentWinnings = new Winnings();//initialise winnings
 		_winnings = _currentWinnings.getValue();
 
@@ -259,7 +256,7 @@ public class GamesModule {
 		//if the question has been attempted or not
 		for (Category c : _questionBank.getCategoryList()) {
 
-			int questionsDone = 0;//this variable enables the check to see if all questions
+			int questionsDone = 0;//this categoryLabel.setPrefSize(130,variable enables the check to see if all questions
 			//of a category have been attempted or not
 
 			Question lowestValueQuestion = null;
@@ -384,9 +381,23 @@ public class GamesModule {
 			topMenu.getChildren().add(categoryLabel);
 
 			if (categoriesDone > 5) {
+				
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
+						
+						if (!Main._scoreboard.gameFinished()) {
+							if (_winnings >= 4500) {
+								Main._scoreboard.addToScoreboard("Game finished", "Congratulations!!! You earned $" + _winnings 
+										+ ". Check your grand prize from the main menu.", "#067CA0", _winnings);
+							}
+							else {
+								int prize = 4500 - _winnings;
+								Main._scoreboard.addToScoreboard("Game finished", "Congratulations!!! You earned $" + _winnings + ". Unfortunately, you were $" + String.valueOf(prize) +
+										" off the grand prize.", "#067CA0", _winnings);
+							}
+							Main._scoreboard.setGameFinished(true);
+						}
 						gameFinished();
 					}
 				});
@@ -451,7 +462,7 @@ public class GamesModule {
 
 		String save_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "save_data";
 		Path pathCategoryData = Paths.get(save_loc + System.getProperty("file.separator") + "categories");
-
+		
 		try {
 			Files.createDirectories(pathCategoryData);
 
@@ -510,7 +521,7 @@ public class GamesModule {
 		//if saved data exists then also need to delete this
 		String save_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "save_data";
 		File save_data = new File(save_loc);
-
+		Main._scoreboard.setGameFinished(false);
 		deleteDirectory(save_data);
 	}
 
@@ -520,16 +531,7 @@ public class GamesModule {
 	 * have been attempted.
 	 */
 	private void gameFinished() {
-
-		if (_winnings >= 4500) {
-			AlertBox.displayAlert("Game finished", "Congratulations!!! You earned $" + _winnings + ". Check your grand prize from the main menu.", "#067CA0");
-		}
-		else {
-			int prize = 4500 - _winnings;
-			AlertBox.displayAlert("Game finished", "Congratulations!!! You earned $" + _winnings + ". Unfortunately, you were $" + String.valueOf(prize) +
-					" off the grand prize.", "#067CA0");
-		}
-
+		
 		_gameWindow.setScene(_menuScene);
 		_gameWindow.show();
 

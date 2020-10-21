@@ -46,14 +46,17 @@ public class Main extends Application {
 	private Scene _menuScene;//the default scene for the game (also the main menu)
 	private GamesModule _gameMenu;
 	public static Button _colourBlindButton;
+	public static Scoreboard _scoreboard;
 	
 	@Override
 	public void start(Stage primaryStage) {
+		
 		
 		_questions = new QuestionBank();//initialise categories and questions
 		_currentWinnings = new Winnings();//initialise winnings
 		_winnings = _currentWinnings.getValue();
 		_gameMenu = new GamesModule();
+		_scoreboard = new Scoreboard();
 		_colourBlindButton = new Button("Click to enable colour blind mode");
 		_gameWindow = primaryStage;
 		primaryStage.setTitle("Quinzical!");
@@ -85,6 +88,15 @@ public class Main extends Application {
 		Button practiceModuleButton = new Button("Practice Module");
 		practiceModuleButton.setPrefSize(460,60);
 		practiceModuleButton.setStyle("-fx-border-color: #070459;-fx-border-width: 1;-fx-font-size: 16;");
+		
+		Button viewScoreboard = new Button("View scoreboard");
+		viewScoreboard.setPrefSize(460,60);
+		viewScoreboard.setStyle("-fx-border-color: #070459;-fx-border-width: 1;-fx-font-size: 16;");
+		viewScoreboard.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle (ActionEvent e) {
+				_scoreboard.ViewScoreboard(primaryStage, _menuScene);
+			}
+		});
 		
 		Button checkPrize = new Button("Check your prize");
 		checkPrize.setPrefSize(460,60);
@@ -140,6 +152,7 @@ public class Main extends Application {
 				boolean confirmation = ConfirmBox.displayConfirm("Exit confirmation", "Are you sure "
 						+ "you want to exit? (Don't worry your progress will be saved)");
 				if (confirmation) {
+					_scoreboard.saveScoresToFile();
 					_gameWindow.close();
 				}
 			}
@@ -149,9 +162,9 @@ public class Main extends Application {
 		menuLayout.setSpacing(10);
 		menuLayout.setAlignment(Pos.CENTER);
 		menuLayout.setPadding(new Insets(20, 20, 30, 20)); 
-		menuLayout.getChildren().addAll(menuTitleText, menuInfo, gamesModuleButton, practiceModuleButton, checkPrize, settingsButton, exitButton);
+		menuLayout.getChildren().addAll(menuTitleText, menuInfo, gamesModuleButton, practiceModuleButton, viewScoreboard, checkPrize, settingsButton, exitButton);
 
-		_menuScene = new Scene(menuLayout, 700, 450);
+		_menuScene = new Scene(menuLayout, 800, 600);
 		practiceModuleButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
 				PracticeModule module = new PracticeModule(_gameWindow, _questions, _menuScene);
@@ -224,6 +237,7 @@ public class Main extends Application {
 		
 		VBox coreButtonBox = new VBox();
 		coreButtonBox.setSpacing(10);
+		coreButtonBox.setAlignment(Pos.CENTER);
 		coreButtonBox.getChildren().addAll(resetGameButton, _colourBlindButton);
 		
 		VBox settingBox = new VBox();
@@ -231,7 +245,7 @@ public class Main extends Application {
 		settingBox.setPadding(new Insets(20));
 		settingBox.setAlignment(Pos.CENTER);
 		settingBox.getChildren().addAll(title,coreButtonBox, back);
-		Scene settingScene = new Scene(settingBox);
+		Scene settingScene = new Scene(settingBox, 800, 600);
 		primaryStage.setScene(settingScene);
 		primaryStage.show();
 	}

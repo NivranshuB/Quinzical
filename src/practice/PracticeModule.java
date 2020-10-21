@@ -143,7 +143,7 @@ public class PracticeModule {
 		layout.setBottom(bottomMenu);
 		layout.setPadding(new Insets(20, 100, 30, 100));
 
-		Scene quesScene = new Scene(layout);
+		Scene quesScene = new Scene(layout, 800, 600);
 
 		_stage.setScene(quesScene);
 	}
