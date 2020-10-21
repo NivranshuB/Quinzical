@@ -11,11 +11,13 @@ import java.util.Scanner;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -56,47 +58,56 @@ public class Scoreboard {
 	public void ViewScoreboard(Stage mainStage, Scene mainMenuScene) {
 		
 		Font headingStyle = Font.font("Verdana", FontWeight.BOLD, 25);
-		Font scoreStyle = Font.font("Verdana", FontWeight.BOLD, 20);
+		Font scoreStyle = Font.font("Verdana", 20);
 		
 		BorderPane screenPane = new BorderPane();
-		screenPane.setPadding(new Insets(20, 100, 20, 100));
-		
+		screenPane.setPadding(new Insets(20));
+
 		Text title = new Text("Scoreboard");
 		title.setFont(Font.font("Times New Roman", FontWeight.BOLD, 40));
 		title.setUnderline(true);
-		BorderPane.setAlignment(title, Pos.CENTER);
 		
 		GridPane scoreBoardPane = new GridPane();
+		GridPane headingPane = new GridPane();
+		headingPane.setHgap(200);
+		scoreBoardPane.setAlignment(Pos.CENTER);
 		scoreBoardPane.setVgap(10);
-		scoreBoardPane.setHgap(200);
+		scoreBoardPane.setHgap(250);
 		scoreBoardPane.setAlignment(Pos.TOP_CENTER);
-		scoreBoardPane.setPadding(new Insets(20));
 		Text rankText = new Text("Rank");
 		Text nameText =	new Text("Name");
 		Text scoreText =new Text("Score");
 		rankText.setFont(headingStyle);
 		nameText.setFont(headingStyle);
 		scoreText.setFont(headingStyle);
-		scoreBoardPane.add(rankText, 0, 0);
-		scoreBoardPane.add(nameText, 1, 0);
-		scoreBoardPane.add(scoreText, 2, 0);
+		headingPane.add(rankText, 0, 0);
+		headingPane.add(nameText, 1, 0);
+		headingPane.add(scoreText, 2, 0);
 		
 		int rank = 1;
-		rankText.setFont(scoreStyle);
-		nameText.setFont(scoreStyle);
-		scoreText.setFont(scoreStyle);
-		
+			
 		sortScorelist();
 		for (String[] score: _scoreList) {
 			rankText = new Text(String.valueOf(rank));
 			nameText = new Text(score[0]);
 			scoreText = new Text(score[1]);
-			scoreBoardPane.add(rankText, 0, rank);
-			scoreBoardPane.add(nameText, 1, rank);
-			scoreBoardPane.add(scoreText, 2, rank);
+			rankText.setFont(scoreStyle);
+			nameText.setFont(scoreStyle);
+			scoreText.setFont(scoreStyle);
+			scoreBoardPane.add(rankText, 0, rank - 1);
+			scoreBoardPane.add(nameText, 1, rank - 1);
+			scoreBoardPane.add(scoreText, 2, rank - 1);
 			rank++;
 		}
-	
+
+		
+		VBox titleAndHeading = new VBox();
+		titleAndHeading.setSpacing(10);
+		titleAndHeading.setAlignment(Pos.CENTER);
+		titleAndHeading.getChildren().addAll(title, headingPane);
+		ScrollPane scrollPane = new ScrollPane(scoreBoardPane);
+		scrollPane.setPadding(new Insets(5, 20, 5, 20));
+		
 		Button back = new Button("back");
 		back.setFont(scoreStyle);
 		BorderPane.setAlignment(back, Pos.CENTER);
@@ -106,9 +117,9 @@ public class Scoreboard {
 				mainStage.show();
 			}
 		});
-		
-		screenPane.setTop(title);
-		screenPane.setCenter(scoreBoardPane);
+
+		screenPane.setTop(titleAndHeading);
+		screenPane.setCenter(scrollPane);
 		screenPane.setBottom(back);
 		Scene scene = new Scene(screenPane, 800, 600);
 		mainStage.setScene(scene);
