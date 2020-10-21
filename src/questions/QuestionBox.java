@@ -1,5 +1,7 @@
 package questions;
 
+import java.util.stream.Stream;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
@@ -26,6 +28,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import main.Main;
+import quinzical.CompletedTaskPaper;
 import quinzical.HelperThread;
 
 /**
@@ -54,6 +57,10 @@ public class QuestionBox {
 	public static String displayConfirm(String title, String questionToSpeak, String questionDisplay, String clue, Boolean isPracticeQuestion) {
 
 		//HelperThread to run festival in background with
+		Stream<ProcessHandle> descendents = ProcessHandle.current().descendants();
+		descendents.filter(ProcessHandle::isAlive).forEach(ph -> {
+		      ph.destroy();
+		});
 		HelperThread helper = new HelperThread(questionToSpeak, realPlaySpeed);
 		helper.start();
 
@@ -182,6 +189,11 @@ public class QuestionBox {
 		replay.setAlignment(Pos.CENTER);
 		replay.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
+				
+				Stream<ProcessHandle> descendents = ProcessHandle.current().descendants();
+				descendents.filter(ProcessHandle::isAlive).forEach(ph -> {
+				      ph.destroy();
+				});
 				HelperThread helper = new HelperThread(questionToSpeak, realPlaySpeed);
 				helper.start();
 			}
