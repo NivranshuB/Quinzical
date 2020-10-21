@@ -13,6 +13,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -87,6 +89,16 @@ public class QuestionBox {
 		answerPrompt.setPrefSize(80, 50);
 		answerPrompt.setFocusTraversable(false);
 		answerPrompt.setStyle("-fx-font-size: 18;");
+		answerPrompt.setOnKeyPressed(new EventHandler<KeyEvent>() {
+
+			@Override
+			public void handle(KeyEvent key) {
+				if (key.getCode().equals(KeyCode.ENTER)) {
+					answer = answerPrompt.getText();
+					window.close();
+				}
+			}
+		});
 		GridPane.setConstraints(answerPrompt, 0, 0);
 
 		Button aButton = new Button("ā");
@@ -171,7 +183,8 @@ public class QuestionBox {
 					}));
 			_timeline.playFromStart();
 			timerAndTitleBox.getChildren().addAll(_timerLabel, questionLabel, macronsBox);  
-		}   
+		}
+		
 
 		Button submit = new Button("Submit");
 		submit.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");

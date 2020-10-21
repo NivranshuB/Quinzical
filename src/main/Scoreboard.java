@@ -11,7 +11,6 @@ import java.util.Scanner;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -19,6 +18,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -141,7 +142,22 @@ public class Scoreboard {
 		label.setStyle("-fx-font-size: 18;-fx-text-fill: " + color);
 		
 		Text askName = new Text("Save your name to scoreboards");
+		askName.setFont(Font.font("Verdana", 14));
 		TextField namePrompt = new TextField();
+		namePrompt.setOnKeyPressed(new EventHandler<KeyEvent>() {
+
+			@Override
+			public void handle(KeyEvent key) {
+				if (key.getCode().equals(KeyCode.ENTER)) {
+					String[] score = new String[2];
+					score[0] = namePrompt.getText();
+					score[1] = Integer.toString(winning);
+					_scoreList.add(score);
+					_gameFinished = 1;
+					window.close();
+				}
+			}
+		});
 		Button save = new Button("Save");
 		save.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent e) {
@@ -166,11 +182,15 @@ public class Scoreboard {
 		
 		
 		HBox buttons = new HBox();
+		buttons.setAlignment(Pos.CENTER);
 		buttons.getChildren().addAll(save,dontSave);
 		
 		VBox layout = new VBox();
+		layout.setSpacing(10);
+		layout.setPadding(new Insets(0, 40, 20, 40));
+		layout.setAlignment(Pos.CENTER);
 		layout.getChildren().addAll(label, askName, namePrompt, buttons);
-		Scene scene = new Scene(layout);
+		Scene scene = new Scene(layout, 500, 250);
 		window.setScene(scene);
 		window.showAndWait();
 		
