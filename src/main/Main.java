@@ -212,6 +212,16 @@ public class Main extends Application {
 			}
 		});
 		
+		Button resetScoreboardButton = new Button("Click to reset the scoreboard");
+		resetScoreboardButton.setPrefSize(400,60);
+		resetScoreboardButton.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 16;");
+		resetScoreboardButton.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle (ActionEvent e) {
+				_scoreboard.resetScoreboard();
+				AlertBox.displayAlert("Scoreboard reset", "The scoreboard has been reset", "#000000");
+			}
+		});
+		
 		_colourBlindButton.setPrefSize(400, 60);
 		_colourBlindButton.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 16;");
 		_colourBlindButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -238,7 +248,7 @@ public class Main extends Application {
 		VBox coreButtonBox = new VBox();
 		coreButtonBox.setSpacing(10);
 		coreButtonBox.setAlignment(Pos.CENTER);
-		coreButtonBox.getChildren().addAll(resetGameButton, _colourBlindButton);
+		coreButtonBox.getChildren().addAll(resetGameButton, resetScoreboardButton, _colourBlindButton);
 		
 		VBox settingBox = new VBox();
 		settingBox.setSpacing(20);

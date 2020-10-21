@@ -40,6 +40,7 @@ public class Scoreboard {
 	
 	//Initialise array for scores
 	private static ArrayList<String[]> _scoreList = new ArrayList<String[]>();
+	private String _save_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "scoreboard";
 	private int _gameFinished;
 	
 	/**
@@ -48,9 +49,8 @@ public class Scoreboard {
 	 */
 	public Scoreboard() {
 		String[] splitLine;
-		String save_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "scoreboard";
 
-		File scoreFile = new File(save_loc);
+		File scoreFile = new File(_save_loc);
 		//If file exists then read it
 		if (scoreFile.exists()) {
 			try {
@@ -260,13 +260,12 @@ public class Scoreboard {
 	 *
 	 */
 	public void saveScoresToFile() {
-		String save_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "scoreboard";
 		String scoreString = "";
 		
 		//If score list is not empty
 		if (!_scoreList.isEmpty()) {
 			try {
-				FileWriter writer = new FileWriter(save_loc);
+				FileWriter writer = new FileWriter(_save_loc);
 				//write the game finished boolean to the file
 				writer.write(_gameFinished + "\n");
 				
@@ -283,7 +282,18 @@ public class Scoreboard {
 		}
 	}
 	/**
-	 *boolean to determine if game finished but not reset to remove popup of saving scores multiple times
+	 * Resets scoreboard and deletes are stored data
+	 *
+	 */
+	public void resetScoreboard() {
+		_gameFinished = -1;
+		File file = new File(_save_loc);
+		_scoreList.clear();
+		file.delete();
+		
+	}
+	/**
+	 *boolean to determine if game finished but not reset to remove popup of saving scores from same user multiple times
 	 *
 	 */
 	public boolean gameFinished() {
