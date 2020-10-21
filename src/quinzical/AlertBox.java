@@ -1,5 +1,7 @@
 package quinzical;
 
+import java.util.stream.Stream;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -31,6 +33,11 @@ public class AlertBox {
 	 */
 	public static void displayAlert(String title, String message, String color) {
 		
+		//Destroys all current festival processes
+		Stream<ProcessHandle> descendents = ProcessHandle.current().descendants();
+		descendents.filter(ProcessHandle::isAlive).forEach(ph -> {
+		      ph.destroy();
+		});
 		//HelperThread to run festival in background
 		HelperThread helper = new HelperThread(message);
 		helper.start();
