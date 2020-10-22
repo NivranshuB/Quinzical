@@ -1,4 +1,4 @@
-package main;
+package application.scoreboard;
 
 import java.io.File;
 import java.io.FileReader;
@@ -71,6 +71,7 @@ public class Scoreboard {
 			}
 		}
 	}
+	
 	/**
 	 * Changes scene from main menu to the viewing of the scoreboard
 	 *@param mainStage | main menu stage
@@ -84,28 +85,16 @@ public class Scoreboard {
 		BorderPane screenPane = new BorderPane();
 		screenPane.setPadding(new Insets(20));
 		
-		//Create scoreboard title
-		Text title = new Text("Scoreboard");
-		title.setFont(Font.font("Times New Roman", FontWeight.BOLD, 40));
-		title.setUnderline(true);
 		
 		//Create GridPane and Text for scores and headings
-		GridPane scoreBoardPane = new GridPane();
-		GridPane headingPane = new GridPane();
-		headingPane.setHgap(200);
-		scoreBoardPane.setAlignment(Pos.CENTER);
-		scoreBoardPane.setVgap(10);
-		scoreBoardPane.setHgap(250);
-		scoreBoardPane.setAlignment(Pos.TOP_CENTER);
+		GridPane scoreBoardPane = ScoreboardComponents.getScoreboardPane();
+		GridPane headingPane = ScoreboardComponents.getHeadingPane(headingStyle);
+
+		Text title = ScoreboardComponents.getScoreboardTitle();
+		
 		Text rankText = new Text("Rank");
 		Text nameText =	new Text("Name");
 		Text scoreText =new Text("Score");
-		rankText.setFont(headingStyle);
-		nameText.setFont(headingStyle);
-		scoreText.setFont(headingStyle);
-		headingPane.add(rankText, 0, 0);
-		headingPane.add(nameText, 1, 0);
-		headingPane.add(scoreText, 2, 0);
 		
 		int rank = 1;
 		
@@ -150,8 +139,8 @@ public class Scoreboard {
 		Scene scene = new Scene(screenPane, 800, 600);
 		mainStage.setScene(scene);
 		mainStage.show();
-		
 	}
+	
 	/**
 	 * Once a game finishes, if user saves their name then add name and score into scoreboard
 	 *@param title | title of popup
@@ -232,9 +221,9 @@ public class Scoreboard {
 		window.showAndWait();
 		
 	}
+	
 	/**
 	 *Sorts the scores in descending order
-	 *
 	 */
 	private void sortScorelist() {
 		//Uses Comparator to sort list in ascending order
@@ -252,12 +241,13 @@ public class Scoreboard {
 			}
 			
 		});
+		
 		//Reverses the array so it is in descending order
 		Collections.reverse(_scoreList);
 	}
+	
 	/**
 	 * Save all scores to scoreboard file
-	 *
 	 */
 	public void saveScoresToFile() {
 		String scoreString = "";
@@ -281,9 +271,9 @@ public class Scoreboard {
 			}
 		}
 	}
+	
 	/**
 	 * Resets scoreboard and deletes are stored data
-	 *
 	 */
 	public void resetScoreboard() {
 		_gameFinished = -1;
@@ -292,9 +282,9 @@ public class Scoreboard {
 		file.delete();
 		
 	}
+	
 	/**
 	 *boolean to determine if game finished but not reset to remove popup of saving scores from same user multiple times
-	 *
 	 */
 	public boolean gameFinished() {
 		if (_gameFinished == 1) {
@@ -303,10 +293,10 @@ public class Scoreboard {
 			return false;
 		}
 	}
+	
 	/**
 	 *Sets the value of _gameFinished
 	 *@param finished | finished boolean
-	 *
 	 */
 	public void setGameFinished(boolean finished) {
 		if (finished) {

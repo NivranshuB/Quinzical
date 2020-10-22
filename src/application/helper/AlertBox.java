@@ -1,4 +1,4 @@
-package quinzical;
+package application.helper;
 
 import java.util.stream.Stream;
 

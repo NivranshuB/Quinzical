@@ -1,6 +1,6 @@
-package quinzical;
+package application.helper;
 
-import quinzical.CompletedTaskPaper;
+import application.helper.CompletedTaskPaper;
 import javafx.application.Platform;
 
 

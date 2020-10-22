@@ -1,4 +1,4 @@
-package questions;
+package application.questions;
 
 import java.io.BufferedReader;
 import java.io.File;

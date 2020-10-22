@@ -1,7 +1,9 @@
-package questions;
+package application.questions;
 
 import java.util.stream.Stream;
 
+import application.Main;
+import application.helper.HelperThread;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
@@ -29,8 +31,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
-import main.Main;
-import quinzical.HelperThread;
 
 /**
  * Class contains single static method which creates a new question box window and

@@ -1,4 +1,4 @@
-package quinzical;
+package application.helper;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
