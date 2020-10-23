@@ -29,12 +29,13 @@ public class CompletedTaskPaper implements Runnable {
 				
 		//Use bash to speak the question chosen by user
 		String cmd = "festival -b speech.scm";
+		String speechFile_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "game_data" + System.getProperty("file.separator") + "speech.scm";
 		ProcessBuilder builder = new ProcessBuilder("bash", "-c", cmd);
 		double roundedPlaySpeed = Math.round(_playSpeed * 100) / 100.0;
 
 		try {
 			try {
-				FileWriter writer = new FileWriter("speech.scm");
+				FileWriter writer = new FileWriter(speechFile_loc);
 				writer.write("(voice_akl_nz_jdt_diphone)\n");
 				writer.write("(Parameter.set 'Duration_Stretch " + String.valueOf(roundedPlaySpeed) + ")\n");
 				writer.write("(SayText \"" + _question + "\")");

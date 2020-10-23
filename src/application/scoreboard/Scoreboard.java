@@ -42,7 +42,7 @@ public class Scoreboard {
 	
 	//Initialise array for scores
 	private static ArrayList<String[]> _scoreList = new ArrayList<String[]>();
-	private String _save_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "scoreboard";
+	private String _save_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "game_data" + System.getProperty("file.separator") + "scoreboard";
 	private int _gameFinished;
 	
 	/**

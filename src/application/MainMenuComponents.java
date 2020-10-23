@@ -67,10 +67,11 @@ public class MainMenuComponents {
 		return menuLayout;
 	}
 	public static Background setBackground() {
+		String image_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "game_data" + System.getProperty("file.separator") + "background.png";
 		FileInputStream stream;
 		Background background = null;
 		try {
-			stream = new FileInputStream("background.png");
+			stream = new FileInputStream(image_loc);
 			Image image = new Image(stream); 
 			BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT,  
                                              BackgroundRepeat.NO_REPEAT,  

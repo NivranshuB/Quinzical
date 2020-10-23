@@ -91,6 +91,7 @@ public class Main extends Application {
 			}
 		});
 		
+		String prize_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "game_data" + System.getProperty("file.separator") + "winningsMeme.jpg";
 		Button checkPrize = MainMenuComponents.menuButton("Check your prize");
 		checkPrize.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
