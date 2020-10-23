@@ -22,9 +22,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
@@ -74,7 +71,6 @@ public class QuestionBox {
 		window.setMinHeight(250);
 
 		Label questionLabel = new Label(questionDisplay);
-
 		questionLabel.setWrapText(true);
 		questionLabel.setPadding(new Insets(20, 20, 20, 20));
 		questionLabel.setStyle("-fx-font-size: 18;");
@@ -84,11 +80,7 @@ public class QuestionBox {
 		answerLayout.setVgap(8);
 		answerLayout.setHgap(10);
 
-		TextField answerPrompt = new TextField();
-		answerPrompt.setPromptText(clue);
-		answerPrompt.setPrefSize(80, 50);
-		answerPrompt.setFocusTraversable(false);
-		answerPrompt.setStyle("-fx-font-size: 18;");
+		TextField answerPrompt = QuestionBoxComponents.getAnswerPrompt(clue);
 		answerPrompt.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
 			@Override
@@ -101,48 +93,16 @@ public class QuestionBox {
 		});
 		GridPane.setConstraints(answerPrompt, 0, 0);
 
-		Button aButton = new Button("ā");
-		Button eButton = new Button("ē");
-		Button iButton = new Button("ī");
-		Button oButton = new Button("ō");
-		Button uButton = new Button("ū");
-		aButton.setFont(Font.font("Verdana", 18));
-		eButton.setFont(Font.font("Verdana", 18));
-		iButton.setFont(Font.font("Verdana", 18));
-		oButton.setFont(Font.font("Verdana", 18));
-		uButton.setFont(Font.font("Verdana", 18));
-
-		aButton.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle (ActionEvent e) {
-				answerPrompt.setText(answerPrompt.getText() + "ā");
-			}
-		});
-		eButton.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle (ActionEvent e) {
-				answerPrompt.setText(answerPrompt.getText() + "ē");
-			}
-		});
-		iButton.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle (ActionEvent e) {
-				answerPrompt.setText(answerPrompt.getText() + "ī");
-			}
-		});
-		oButton.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle (ActionEvent e) {
-				answerPrompt.setText(answerPrompt.getText() + "ō");
-			}
-		});
-		uButton.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle (ActionEvent e) {
-				answerPrompt.setText(answerPrompt.getText() + "ū");
-			}
-		});
+		Button aButton = QuestionBoxComponents.aeiouButtons("ā", answerPrompt);
+		Button eButton = QuestionBoxComponents.aeiouButtons("ē", answerPrompt);
+		Button iButton = QuestionBoxComponents.aeiouButtons("ī", answerPrompt);
+		Button oButton = QuestionBoxComponents.aeiouButtons("ō", answerPrompt);
+		Button uButton = QuestionBoxComponents.aeiouButtons("ū", answerPrompt);
 
 		HBox macronsBox = new HBox();
 		macronsBox.setSpacing(5);
 		macronsBox.setAlignment(Pos.CENTER);
 		macronsBox.getChildren().addAll(aButton, eButton, iButton, oButton, uButton);
-
 
 		_timerLabel.setText(_timeSeconds.toString());
 		if (Main.colourBlindMode()) {
@@ -182,44 +142,25 @@ public class QuestionBox {
 									answer = answerPrompt.getText();
 								}
 								window.close();
-
 							}
 						}
 					}));
 			_timeline.playFromStart();
 			timerAndTitleBox.getChildren().addAll(_timerLabel, questionLabel, macronsBox);  
 		}
-		
 
-		Button submit = new Button("Submit");
-		submit.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
-		submit.setTextAlignment(TextAlignment.CENTER);
+		Button submit = QuestionBoxComponents.getSubmitButton();
 		submit.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
 				answer = answerPrompt.getText();
 				window.close();
-
 			}
 		});
 
-		Button replay = new Button("Replay");
-		replay.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
-		replay.setAlignment(Pos.CENTER);
-		replay.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle (ActionEvent e) {
-				
-				Stream<ProcessHandle> descendents = ProcessHandle.current().descendants();
-				descendents.filter(ProcessHandle::isAlive).forEach(ph -> {
-				      ph.destroy();
-				});
-				HelperThread helper = new HelperThread(questionToSpeak, realPlaySpeed);
-				helper.start();
-			}
-		});
+		Button replay = QuestionBoxComponents.getReplayButton();
+		addReplayButtonAction(replay, questionToSpeak);
 
-		Button dontKnow = new Button("Don't know");
-		dontKnow.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
-		dontKnow.setTextAlignment(TextAlignment.CENTER);
+		Button dontKnow = QuestionBoxComponents.getDontKnowButton();
 		dontKnow.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
 				answer = "Its fine you don't know!";
@@ -227,65 +168,17 @@ public class QuestionBox {
 			}
 		});
 
-
 		Text speechSpeed = new Text("Playback speed: " + String.valueOf(Math.round(displayPlaySpeed * 100) / 100.0) + "x");
 		speechSpeed.setTextAlignment(TextAlignment.CENTER);
 
 		Button faster = new Button("Faster");
 		Button slower = new Button("slower");
+		addFasterSlowerButtonAction(faster, slower, speechSpeed);
 		VBox speedButtonsBox = new VBox();
 		speedButtonsBox.getChildren().addAll(faster, slower);
 
-		faster.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle (ActionEvent e) {
-				displayPlaySpeed += 0.1;
-				realPlaySpeed -= 0.05;
-				double roundPlaySpeed = Math.round(displayPlaySpeed * 10) / 10.0;
-				if (roundPlaySpeed == 2.1) {
-					faster.setText("MAX");
-					displayPlaySpeed = 2.0;
-					realPlaySpeed = 0.5;
-				}
-				else {
-					faster.setText("Faster");
-					slower.setText("Slower");
-					speechSpeed.setText("Playback speed: " + String.valueOf(roundPlaySpeed) + "x");
-				}
-
-
-			}
-		});	
-
-		slower.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle (ActionEvent e) {
-				displayPlaySpeed -= 0.1;
-				realPlaySpeed += 0.05;
-				double roundPlaySpeed = Math.round(displayPlaySpeed * 10) / 10.0;
-				if (roundPlaySpeed == 0.0) {
-					slower.setText("MIN");
-					displayPlaySpeed = 0.1;
-					realPlaySpeed = 1.5;
-				}
-				else {
-					faster.setText("Faster");
-					slower.setText("Slower");
-					speechSpeed.setText("Playback speed: " + String.valueOf(roundPlaySpeed) + "x");
-				}
-			}
-		});	
-		
-		Button helpButton = new Button("?");
-		double r = 20;
-		helpButton.setShape(new Circle(r));
-		helpButton.setMinSize(2*r, 2*r);
-		helpButton.setMaxSize(2*r, 2*r);
-		helpButton.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
-		helpButton.setStyle("-fx-background-color: #FF8C00; -fx-text-fill: #F0F8FF");
-
-		Text helpText = new Text("ā ē ī ō ū buttons: Insert Māori macrons to your answer\n\nReplay button: replay the given question\n\n"
-				+ "Submit button: submit your answer to the question\n\nDon't know button (For Games module): Once clicked"
-				+ " answer is displayed and attempt is considered incorrect\n\nFaster/Slower buttons: Increase or decrease playspeed of speech synthesis by 0.1");
-		helpText.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+		Button helpButton = QuestionBoxComponents.getHelpButton();
+		Text helpText = QuestionBoxComponents.getHelpText(true);
 
 		Stage helpButtonStage = new Stage();
 		helpButtonStage.initOwner(window);
@@ -345,14 +238,158 @@ public class QuestionBox {
 		layout.setSpacing(15);
 		layout.getChildren().addAll(timerAndTitleBox, answerPrompt, bottomMenu);
 		
-	
-
 		Scene scene = new Scene(layout);
 		window.setScene(scene);
 		window.showAndWait();
 
-
 		return answer;
+	}
+	public static void testPlaybackSpeed(String title, String message) {
+		//HelperThread to run festival in background with
+		Stream<ProcessHandle> descendents = ProcessHandle.current().descendants();
+		descendents.filter(ProcessHandle::isAlive).forEach(ph -> {
+		      ph.destroy();
+		});
+		HelperThread helper = new HelperThread(message, realPlaySpeed);
+		helper.start();
+		
+		Stage window = new Stage();
+		window.initOwner(Main._gameWindow);
+		window.initModality(Modality.APPLICATION_MODAL);
+
+		window.setTitle(title);
+		window.setMinWidth(250);
+		window.setMinHeight(250);
+		
+		Label questionLabel = new Label(message);
+		questionLabel.setWrapText(true);
+		questionLabel.setPadding(new Insets(20, 20, 20, 20));
+		questionLabel.setStyle("-fx-font-size: 18;");
+
+		GridPane answerLayout = new GridPane();
+		answerLayout.setPadding(new Insets(10, 10,10, 10));
+		answerLayout.setVgap(8);
+		answerLayout.setHgap(10);
+		
+		Button replay = QuestionBoxComponents.getReplayButton();
+		addReplayButtonAction(replay, message);
+		Button submit = QuestionBoxComponents.getSubmitButton();
+		Button dontKnow = QuestionBoxComponents.getDontKnowButton();
+		Button helpButton = QuestionBoxComponents.getHelpButton();
+		Text helpText = QuestionBoxComponents.getHelpText(false);
+		TextField answerPrompt = QuestionBoxComponents.getAnswerPrompt("This is a test!");
+		submit.setDisable(true);
+		dontKnow.setDisable(true);
+		answerPrompt.setDisable(true);
+		
+		Text speechSpeed = new Text("Playback speed: " + String.valueOf(Math.round(displayPlaySpeed * 100) / 100.0) + "x");
+		speechSpeed.setTextAlignment(TextAlignment.CENTER);
+
+		Button faster = new Button("Faster");
+		Button slower = new Button("slower");
+		addFasterSlowerButtonAction(faster, slower, speechSpeed);
+		VBox speedButtonsBox = new VBox();
+		speedButtonsBox.getChildren().addAll(faster, slower);
+		
+		Stage helpButtonStage = new Stage();
+		helpButtonStage.initOwner(window);
+		helpButtonStage.initStyle(StageStyle.TRANSPARENT); //Makes stage transparent to make scene look round
+		StackPane helpButtonPane = new StackPane();
+		helpButtonPane.setPadding(new Insets(20));
+		helpButtonPane.getChildren().add(helpText);
+		helpButtonPane.setStyle("-fx-background-color: orange; -fx-background-radius: 40; -fx-border-color: grey; -fx-border-width: 10px; -fx-border-radius: 30;");
+		Scene helpButtonScene = new Scene(helpButtonPane);
+		helpButtonScene.setFill(Color.TRANSPARENT);
+		helpButtonStage.setScene(helpButtonScene);
+		
+		//Display help text when hovering over button
+		helpButton.hoverProperty().addListener((ChangeListener<Boolean>) (observable, oldValue, newValue) -> {
+			if (newValue) {
+				helpButtonStage.show();
+			} else {
+				helpButtonStage.hide();
+			}
+		});
+		HBox speedAdjustmentBox = new HBox();
+		speedAdjustmentBox.setSpacing(10);
+		speedAdjustmentBox.getChildren().addAll(speechSpeed, speedButtonsBox, helpButton);
+		speedAdjustmentBox.setAlignment(Pos.CENTER);
+
+		HBox bottomMenuBox = new HBox();
+		bottomMenuBox.setSpacing(30);
+		bottomMenuBox.setAlignment(Pos.CENTER);
+		
+		HBox groupBox = new HBox();
+		groupBox.setAlignment(Pos.CENTER);
+		groupBox.getChildren().addAll(submit, dontKnow);
+		bottomMenuBox.getChildren().addAll(replay, groupBox, speedAdjustmentBox);
+		window.setOnCloseRequest((e) -> {
+		    window.close();
+		});
+		StackPane bottomMenu = new StackPane();
+		bottomMenu.getChildren().add(bottomMenuBox);  
+		bottomMenu.setPadding(new Insets(0, 0, 20, 0));
+		StackPane.setAlignment(submit, Pos.CENTER);
+
+		VBox layout = new VBox();
+		layout.setStyle("-fx-background-color: #d5e5f2");
+		layout.setPadding(new Insets(10, 10,10, 10));
+		layout.setSpacing(15);
+		layout.getChildren().addAll(questionLabel, answerPrompt, bottomMenu);
+		
+		Scene scene = new Scene(layout);
+		window.setScene(scene);
+		window.showAndWait();
+		
+	}
+	private static void addReplayButtonAction(Button replay, String message) {
+		replay.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle (ActionEvent e) {
+				
+				Stream<ProcessHandle> descendents = ProcessHandle.current().descendants();
+				descendents.filter(ProcessHandle::isAlive).forEach(ph -> {
+				      ph.destroy();
+				});
+				HelperThread helper = new HelperThread(message, realPlaySpeed);
+				helper.start();
+			}
+		});
+	}
+	private static void addFasterSlowerButtonAction(Button faster, Button slower, Text speechSpeed) {
+		faster.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle (ActionEvent e) {
+				displayPlaySpeed += 0.1;
+				realPlaySpeed -= 0.05;
+				double roundPlaySpeed = Math.round(displayPlaySpeed * 10) / 10.0;
+				if (roundPlaySpeed == 2.1) {
+					faster.setText("MAX");
+					displayPlaySpeed = 2.0;
+					realPlaySpeed = 0.5;
+				}
+				else {
+					faster.setText("Faster");
+					slower.setText("Slower");
+					speechSpeed.setText("Playback speed: " + String.valueOf(roundPlaySpeed) + "x");
+				}
+			}
+		});
+		slower.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle (ActionEvent e) {
+				displayPlaySpeed -= 0.1;
+				realPlaySpeed += 0.05;
+				double roundPlaySpeed = Math.round(displayPlaySpeed * 10) / 10.0;
+				if (roundPlaySpeed == 0.0) {
+					slower.setText("MIN");
+					displayPlaySpeed = 0.1;
+					realPlaySpeed = 1.5;
+				}
+				else {
+					faster.setText("Faster");
+					slower.setText("Slower");
+					speechSpeed.setText("Playback speed: " + String.valueOf(roundPlaySpeed) + "x");
+				}
+			}
+		});	
 	}
 
 }

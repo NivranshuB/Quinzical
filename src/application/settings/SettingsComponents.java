@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import application.game.GamesModule;
 import application.helper.AlertBox;
+import application.questions.QuestionBox;
 import application.scoreboard.Scoreboard;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -96,7 +97,22 @@ public class SettingsComponents {
 		});
 		return backgroundBox;
 	}
-	
+	static Button getChangePlaybackSpeedButton() {
+		Button changePlaybackSpeedButton = new Button("Change speech playback speed");
+		changePlaybackSpeedButton.setPrefSize(400, 60);
+		changePlaybackSpeedButton.setAlignment(Pos.CENTER_LEFT);
+		changePlaybackSpeedButton.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 16;");
+		changePlaybackSpeedButton.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {	
+				QuestionBox.testPlaybackSpeed("Test", "This is a test to change the speech playback speed");
+			}
+			
+		});
+		
+		return changePlaybackSpeedButton;
+	}
 	static Button getBackButton(Stage window, Scene menuScene) {
 		Button back = new Button("Back");
 		back.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 16;");

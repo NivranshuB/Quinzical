@@ -37,12 +37,14 @@ public class Settings {
 		
 		ComboBox<String> themeSelectBox = SettingsComponents.setBackgroundBox();
 		
+		Button changePlaybackSpeed = SettingsComponents.getChangePlaybackSpeedButton();
+		
 		Button back = SettingsComponents.getBackButton(window, menuScene);
 		
 		VBox coreButtonBox = new VBox();
 		coreButtonBox.setSpacing(10);
 		coreButtonBox.setAlignment(Pos.CENTER);
-		coreButtonBox.getChildren().addAll(resetGameButton, resetScoreboardButton, colourBlindButton, themeSelectBox);
+		coreButtonBox.getChildren().addAll(changePlaybackSpeed, colourBlindButton, themeSelectBox, resetGameButton, resetScoreboardButton);
 		
 		VBox settingBox = new VBox();
 		settingBox.setSpacing(20);
