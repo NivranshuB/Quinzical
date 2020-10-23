@@ -1,3 +1,3 @@
 (voice_akl_nz_jdt_diphone)
 (Parameter.set 'Duration_Stretch 1.0)
-(SayText "Its fine you don't know!")
+(SayText "Your current Games Module game has been reset")
