@@ -28,8 +28,8 @@ public class CompletedTaskPaper implements Runnable {
 	public void run() {
 				
 		//Use bash to speak the question chosen by user
-		String cmd = "festival -b speech.scm";
 		String speechFile_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "game_data" + System.getProperty("file.separator") + "speech.scm";
+		String cmd = "festival -b " + speechFile_loc;
 		ProcessBuilder builder = new ProcessBuilder("bash", "-c", cmd);
 		double roundedPlaySpeed = Math.round(_playSpeed * 100) / 100.0;
 
