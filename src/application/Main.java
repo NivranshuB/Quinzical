@@ -37,7 +37,7 @@ public class Main extends Application {
 	private QuestionBank _questions;//all access to category and questions is through this
 	private Winnings _currentWinnings;
 	private int _winnings;
-	private Stage _gameWindow;
+	public static Stage _gameWindow;
 	private Scene _menuScene;//the default scene for the game (also the main menu)
 	private GamesModule _gameMenu;
 	public static Button _colourBlindButton;

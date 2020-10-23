@@ -41,7 +41,7 @@ import javafx.util.Duration;
  */
 public class QuestionBox {
 
-	static String answer;
+	static String answer = "";
 	private static double displayPlaySpeed = 1.0;
 	private static double realPlaySpeed = 1.0;
 	private static final Integer STARTTIME = 60;
@@ -66,7 +66,7 @@ public class QuestionBox {
 		helper.start();
 
 		Stage window = new Stage();
-
+		window.initOwner(Main._gameWindow);
 		window.initModality(Modality.APPLICATION_MODAL);
 
 		window.setTitle(title);
@@ -319,11 +319,19 @@ public class QuestionBox {
 		//If in PracticeModule, do not add the dontKnow Button
 		if (isPracticeQuestion) {
 			bottomMenuBox.getChildren().addAll(replay, submit, speedAdjustmentBox);
+			window.setOnCloseRequest((e) -> {
+				answer = "";
+			    window.close();
+			});
 		} else {
 			HBox groupBox = new HBox();
 			groupBox.setAlignment(Pos.CENTER);
 			groupBox.getChildren().addAll(submit, dontKnow);
 			bottomMenuBox.getChildren().addAll(replay, groupBox, speedAdjustmentBox);
+			window.setOnCloseRequest((e) -> {
+				answer = "The question you selected is now considered as attempted";
+			    window.close();
+			});
 		}
 
 		StackPane bottomMenu = new StackPane();
@@ -336,6 +344,8 @@ public class QuestionBox {
 		layout.setPadding(new Insets(10, 10,10, 10));
 		layout.setSpacing(15);
 		layout.getChildren().addAll(timerAndTitleBox, answerPrompt, bottomMenu);
+		
+	
 
 		Scene scene = new Scene(layout);
 		window.setScene(scene);

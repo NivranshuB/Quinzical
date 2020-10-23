@@ -2,6 +2,7 @@ package application.helper;
 
 import java.util.stream.Stream;
 
+import application.Main;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -43,6 +44,7 @@ public class AlertBox {
 		helper.start();
 		
 		Stage window = new Stage();
+		window.initOwner(Main._gameWindow);
 		
 		window.initModality(Modality.APPLICATION_MODAL);
 		
