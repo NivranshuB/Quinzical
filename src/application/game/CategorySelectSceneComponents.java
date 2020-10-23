@@ -114,22 +114,6 @@ public class CategorySelectSceneComponents {
 
 						selectedCategoryDisplay.getChildren().addAll(selectedCategory);
 
-						if (selectedCategories.size() == 5) {
-							Button okButton = getOkButton();
-							
-							okButton.setOnAction(new EventHandler<ActionEvent>() {
-								public void handle (ActionEvent e) {
-									CategorySelectScene.removeUnselectedCategories(selectedCategories, questionBank);
-									CategorySelectScene.removeExtraQuestions(questionBank);
-									CategorySelectScene.assignQuestionValues(questionBank);
-									gameScene.displayQuestionBoard();
-								}
-							});
-							
-							selectedCategoryDisplay.getChildren().addAll(okButton);
-							return;
-							
-						}
 					}
 				});
 				categorySelectLayout.getChildren().addAll(categoryButton);
@@ -148,16 +132,6 @@ public class CategorySelectSceneComponents {
 			}
 		});
 		selectedCategoryDisplay.getChildren().addAll(okButton);
-	}
-
-	static Button getOkButton() {
-
-		Button okButton = new Button();
-		okButton.setText("ok");
-		okButton.setPrefSize(200, 40);
-		okButton.setStyle("-fx-border-color: #067CA0;-fx-background-color: #74a5f2;-fx-border-width: 1;-fx-font-size: 18;");
-
-		return okButton;
 	}
 
 	static List<String> removeSelectedCategory(File removedCategory, List<String> selectedCategories) {
