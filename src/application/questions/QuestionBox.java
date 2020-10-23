@@ -44,7 +44,7 @@ public class QuestionBox {
 	static String answer;
 	private static double displayPlaySpeed = 1.0;
 	private static double realPlaySpeed = 1.0;
-	private static final Integer STARTTIME = 30;
+	private static final Integer STARTTIME = 60;
 	private static Timeline _timeline;
 	private static Label _timerLabel = new Label(); //Label for countdown timer of games module
 	private static Integer _timeSeconds = STARTTIME;
@@ -332,6 +332,7 @@ public class QuestionBox {
 		StackPane.setAlignment(submit, Pos.CENTER);
 
 		VBox layout = new VBox();
+		layout.setStyle("-fx-background-color: #d5e5f2");
 		layout.setPadding(new Insets(10, 10,10, 10));
 		layout.setSpacing(15);
 		layout.getChildren().addAll(timerAndTitleBox, answerPrompt, bottomMenu);

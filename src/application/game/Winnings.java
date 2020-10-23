@@ -21,7 +21,7 @@ public class Winnings {
 	 * winnings to the default 0.
 	 */
 	public Winnings() {
-		String save_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "save_data";
+		String save_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "game_data" + System.getProperty("file.separator")+ "save_data";
 
 		File save_data = new File(save_loc);
 		

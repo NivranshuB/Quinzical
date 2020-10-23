@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import application.Main;
+import application.MainMenuComponents;
 import application.helper.AlertBox;
 import application.helper.ConfirmBox;
 import application.questions.Category;
@@ -66,6 +67,7 @@ public class PracticeModule {
 		layout.setCenter(topMenu);
 		layout.setBottom(bottomMenu);
 		layout.setPadding(new Insets(20, 100, 30, 100));
+		layout.setBackground(MainMenuComponents.setBackground());
 
 		Scene quesScene = new Scene(layout, 800, 600);
 

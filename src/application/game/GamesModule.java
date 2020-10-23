@@ -7,21 +7,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 import application.Main;
+import application.MainMenuComponents;
 import application.helper.AlertBox;
 import application.helper.ConfirmBox;
-import application.helper.RandomNumber;
 import application.questions.Category;
 import application.questions.Question;
 import application.questions.QuestionBank;
-import application.questions.QuestionBox;
-import application.scoreboard.Scoreboard;
-import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.stage.WindowEvent;
 import javafx.event.EventHandler;
@@ -34,15 +27,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 /**
  * This class helps provide the functionality of the 'Games Module' for the Quinzical application.
@@ -78,7 +63,7 @@ public class GamesModule {
 		_menuScene = primaryStage.getScene();
 		_currentWinnings = new Winnings();//initialise winnings
 		_winnings = _currentWinnings.getValue();
-
+		
 		_gameWindow = primaryStage;
 		_gameWindow.show();
 
@@ -93,7 +78,7 @@ public class GamesModule {
 	 */
 	private void checkSaveData() {
 
-		String save_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "save_data";
+		String save_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "game_data" + System.getProperty("file.separator") + "save_data";
 		File save_data = new File(save_loc);
 
 		//check if there exists a save_data containing winnings and questions data
@@ -168,6 +153,7 @@ public class GamesModule {
 		layout.setTop(topMenu);
 		layout.setCenter(quesLayout);
 		layout.setBottom(bottomMenu);
+		layout.setBackground(MainMenuComponents.setBackground());
 
 		_quesScene = new Scene(layout, 800, 600);
 		_gameWindow.setScene(_quesScene);
@@ -180,7 +166,7 @@ public class GamesModule {
 	 */
 	private void saveAndExitGame() {
 
-		String save_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "save_data";
+		String save_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "game_data" + System.getProperty("file.separator") + "save_data";
 		Path pathCategoryData = Paths.get(save_loc + System.getProperty("file.separator") + "categories");
 		
 		try {
@@ -190,7 +176,7 @@ public class GamesModule {
 		}
 
 		try {
-			FileWriter winningsWriter = new FileWriter(save_loc + "/winnings");
+			FileWriter winningsWriter = new FileWriter(save_loc + System.getProperty("file.separator") + "winnings");
 			winningsWriter.write(String.valueOf((_winnings)));
 			winningsWriter.close();
 		} catch (IOException e) {
@@ -236,7 +222,7 @@ public class GamesModule {
 	public void resetGame() {
 
 		//if saved data exists then also need to delete this
-		String save_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "save_data";
+		String save_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "game_data" + System.getProperty("file.separator") + "save_data";
 		File save_data = new File(save_loc);
 		Main._scoreboard.setGameFinished(false);
 		deleteDirectory(save_data);

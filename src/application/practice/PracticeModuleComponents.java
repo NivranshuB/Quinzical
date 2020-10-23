@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
@@ -22,7 +23,8 @@ public class PracticeModuleComponents {
 	static StackPane getMenuInfo() {
 		StackPane menuInfo = new StackPane();
 		Text infoText = new Text("Please select one of the following options: ");
-		infoText.setStyle("-fx-font-size: 15;");
+		infoText.setFill(Color.WHITE);
+		infoText.setStyle("-fx-font-size: 18");
 		infoText.setTextAlignment(TextAlignment.CENTER);
 		menuInfo.setPadding(new Insets(20, 0, 0, 0));
 		menuInfo.getChildren().add(infoText);
