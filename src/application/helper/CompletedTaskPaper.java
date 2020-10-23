@@ -12,6 +12,7 @@ import java.io.IOException;
  */
 public class CompletedTaskPaper implements Runnable {
 	
+	
 	private String _question;
 	private double _playSpeed;
 
