@@ -8,6 +8,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -20,7 +21,7 @@ public class Settings {
 	/**
 	 * 
 	 */
-	public static void viewSettings(Stage window, GamesModule gameMenu, Scoreboard score, Button colourBlindButton) {
+	public static void viewSettings(Stage window, GamesModule gameMenu, Scoreboard score, Button colourBlindButton, ComboBox<String> backgroundBox) {
 		
 		Scene menuScene = window.getScene();
 		
@@ -34,12 +35,14 @@ public class Settings {
 		
 		SettingsComponents.setupColourBlindButton(colourBlindButton);
 		
+		ComboBox<String> themeSelectBox = SettingsComponents.setBackgroundBox(backgroundBox);
+		
 		Button back = SettingsComponents.getBackButton(window, menuScene);
 		
 		VBox coreButtonBox = new VBox();
 		coreButtonBox.setSpacing(10);
 		coreButtonBox.setAlignment(Pos.CENTER);
-		coreButtonBox.getChildren().addAll(resetGameButton, resetScoreboardButton, colourBlindButton);
+		coreButtonBox.getChildren().addAll(resetGameButton, resetScoreboardButton, colourBlindButton, themeSelectBox);
 		
 		VBox settingBox = new VBox();
 		settingBox.setSpacing(20);

@@ -31,7 +31,7 @@ public class CategorySelectSceneComponents {
 		Label selection = new Label("Selected Categories:");
 		selection.setPrefSize(200, 40);
 		selection.setTextFill(Color.ORANGE);
-		selection.setFont(Font.font("Helvetica", FontWeight.BOLD, 16));
+		selection.setFont(Font.font("Helvetica", FontWeight.BOLD, 17));
 		selection.setTextAlignment(TextAlignment.CENTER);
 		selectedCategoryDisplay.getChildren().add(selection);
 		
@@ -107,7 +107,8 @@ public class CategorySelectSceneComponents {
 							});
 							
 							selectedCategoryDisplay.getChildren().addAll(okButton);
-
+							return;
+							
 						}
 					}
 				});

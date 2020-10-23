@@ -3,7 +3,7 @@ package application;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-
+import javafx.scene.control.ComboBox;
 import application.game.GamesModule;
 import application.game.Winnings;
 import application.helper.AlertBox;
@@ -42,6 +42,7 @@ public class Main extends Application {
 	private GamesModule _gameMenu;
 	public static Button _colourBlindButton;
 	public static Scoreboard _scoreboard;
+	public static ComboBox<String> _backgroundBox;
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -60,6 +61,7 @@ public class Main extends Application {
 		_gameMenu = new GamesModule();
 		_scoreboard = new Scoreboard();
 		_colourBlindButton = new Button("Click to enable colour blind mode");
+		_backgroundBox = new ComboBox<String>();
 	}
 	
 	/**
@@ -130,7 +132,7 @@ public class Main extends Application {
 		Button settingsButton = MainMenuComponents.menuButton("Settings");
 		settingsButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
-				Settings.viewSettings(_gameWindow, _gameMenu, _scoreboard, _colourBlindButton);
+				Settings.viewSettings(_gameWindow, _gameMenu, _scoreboard, _colourBlindButton, _backgroundBox);
 			}
 		});
 		

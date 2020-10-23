@@ -27,7 +27,7 @@ public class MainMenuComponents {
 		StackPane menuTitleText = new StackPane();
 		Text welcomeText = new Text("Welcome to Quinzical");
 		welcomeText.setFill(Color.ORANGE);
-		welcomeText.setFont(Font.font("Helvetica", FontWeight.BOLD, 50));
+		welcomeText.setFont(Font.font("Times New Roman", FontWeight.BOLD, 50));
 		welcomeText.setTextAlignment(TextAlignment.CENTER);
 		menuTitleText.getChildren().add(welcomeText);
 		StackPane.setAlignment(welcomeText, Pos.CENTER);
