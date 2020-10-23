@@ -12,6 +12,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -134,11 +135,22 @@ public class GamesModuleComponents {
 				doneColor = "#BC0808";
 			}
 		}
+		
 		Label attemptedQues = new Label();
 		attemptedQues.setText(Integer.toString(value));
 		attemptedQues.setPrefSize(90, 50);
-		attemptedQues.setStyle("-fx-font-size: 18;-fx-border-width: 1; -fx-text-fill: " + doneColor + ";-fx-border-color: " + doneColor);
+		attemptedQues.setStyle("-fx-font-size: 18;-fx-border-width: 1; -fx-text-fill: #ffffff;-fx-background-color: " + doneColor);
+		attemptedQues.setOpacity(0);
 		attemptedQues.setAlignment(Pos.CENTER);
+		
+		//Display help text when hovering over button
+		attemptedQues.hoverProperty().addListener((ChangeListener<Boolean>) (observable, oldValue, newValue) -> {
+			if (newValue) {
+				attemptedQues.setOpacity(1.0);
+			} else {
+				attemptedQues.setOpacity(0);
+			}
+		});
 		
 		return attemptedQues;
 	}
