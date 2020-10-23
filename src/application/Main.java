@@ -91,7 +91,6 @@ public class Main extends Application {
 			}
 		});
 		
-		String prize_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "game_data" + System.getProperty("file.separator") + "winningsMeme.jpg";
 		Button checkPrize = MainMenuComponents.menuButton("Check your prize");
 		checkPrize.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
@@ -102,7 +101,8 @@ public class Main extends Application {
 					//creating the image object
 				    InputStream stream;
 					try {
-						stream = new FileInputStream("winningsMeme.jpg");
+						String prize_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "game_data" + System.getProperty("file.separator") + "winningsMeme.jpg";
+						stream = new FileInputStream(prize_loc);
 						Image image = new Image(stream);
 					    //Creating the image view
 					    ImageView imageView = new ImageView();
