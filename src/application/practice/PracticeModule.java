@@ -97,13 +97,14 @@ public class PracticeModule {
 				answerInput = QuestionBox.displayConfirm("You picked the " + selectedCategory.getCategoryName() + " category",
 						question.getQuestion(), question.getQuestion(), question.getClue(), true);
 			}
-		
+			if (answerInput == "") {
+				break;
+			}
 			//if the answer is correct, send an alert box to the user
 			if (question.answerValid(answerInput)) {
 				questionFeedback(true, question, false);
 				break;
 			} else {
-			
 				attempts += 1;
 				//if the answer is wrong, send an alert box to the user
 				if (attempts == 3) {
@@ -150,6 +151,5 @@ public class PracticeModule {
 				}
 			}
 		}
-		_stage.setScene(_menuScene);
 	}
 }

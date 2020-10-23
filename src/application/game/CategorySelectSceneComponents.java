@@ -32,7 +32,8 @@ public class CategorySelectSceneComponents {
 		selectedCategoryDisplay.setPadding(new Insets(20, 20, 30, 20)); 
 
 		Label selection = new Label("Selected Categories:");
-		selection.setPrefSize(240, 40);
+
+		selection.setPrefSize(200, 40);
 		selection.setTextFill(Color.ORANGE);
 		selection.setFont(Font.font("Helvetica", FontWeight.BOLD, 16));
 		selection.setTextAlignment(TextAlignment.CENTER);
@@ -113,6 +114,21 @@ public class CategorySelectSceneComponents {
 
 						selectedCategoryDisplay.getChildren().addAll(selectedCategory);
 
+						if (selectedCategories.size() == 5) {
+							Button okButton = getOkButton();
+							
+							okButton.setOnAction(new EventHandler<ActionEvent>() {
+								public void handle (ActionEvent e) {
+									CategorySelectScene.removeUnselectedCategories(selectedCategories, questionBank);
+									CategorySelectScene.removeExtraQuestions(questionBank);
+									CategorySelectScene.assignQuestionValues(questionBank);
+									gameScene.displayQuestionBoard();
+								}
+							});
+							
+							selectedCategoryDisplay.getChildren().addAll(okButton);
+
+						}
 					}
 				});
 				categorySelectLayout.getChildren().addAll(categoryButton);
@@ -150,6 +166,15 @@ public class CategorySelectSceneComponents {
 			}
 		}
 		return selectedCategories;
+	}
+	
+	static Button getOkButton() {
+		Button okButton = new Button();
+		okButton.setText("ok");
+		okButton.setPrefSize(200, 40);
+		okButton.setStyle("-fx-border-color: #33b3de;-fx-border-width: 1;-fx-background-color: #33b3de;-fx-font-size: 18;");
+
+		return okButton;
 	}
 
 }

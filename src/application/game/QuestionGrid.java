@@ -137,8 +137,10 @@ public class QuestionGrid {
 				" for " + Integer.toString(q.getValue()), q.getQuestion(), q.getQuestion(), q.getClue(), false);
 		if (answerInput.equals("Ran out of time!")) {
 			questionFeedback(false, q, "Ran out of time!", game);
-		} else if (answerInput.contentEquals("Its fine you don't know!")) {
+		} else if (answerInput.equals("Its fine you don't know!")) {
 			questionFeedback(false, q, "Its fine you don't know!", game);
+		} else if (answerInput.equals("The question you selected is now considered as attempted")) {
+			questionFeedback(false, q, "The question you selected is now considered as attempted", game);
 		} else {
 			//if the answer is correct, send an alert box to the user and update winnings
 			if (q.answerValid(answerInput)) {
@@ -169,17 +171,21 @@ public class QuestionGrid {
 
 			if (Main.colourBlindMode()) {
 				if (feedback.equals("Ran out of time!")) {
-					AlertBox.displayAlert("Incorrect answer", feedback, "#7B3294");
+					AlertBox.displayAlert("Time ran out", feedback, "#7B3294");
 				} else if (feedback.equals("Its fine you don't know!")) {
-					AlertBox.displayAlert("Incorrect answer", feedback, "#7B3294");
+					AlertBox.displayAlert("Don't know", feedback, "#7B3294");
+				} else if (feedback.equals("The question you selected is now considered as attempted")) {
+					AlertBox.displayAlert("Attempted", feedback, "#7B3294");
 				} else {
 					AlertBox.displayAlert("Incorrect answer", feedback, "#7B3294");
 				}
 			} else {
 				if (feedback.equals("Ran out of time!")) {
-					AlertBox.displayAlert("Incorrect answer", feedback, "#BC0808");
+					AlertBox.displayAlert("Time ran out", feedback, "#BC0808");
 				} else if (feedback.equals("Its fine you don't know!")) {
-					AlertBox.displayAlert("Incorrect answer", feedback, "#BC0808");
+					AlertBox.displayAlert("Don't know", feedback, "#BC0808");
+				} else if (feedback.equals("The question you selected is now considered as attempted")) {
+					AlertBox.displayAlert("Attempted", feedback, "#BC0808");
 				} else {
 					AlertBox.displayAlert("Incorrect answer", feedback, "#BC0808");
 				}

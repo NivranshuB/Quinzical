@@ -68,7 +68,7 @@ public class GamesModuleComponents {
 	private static Stage getHelpButtonStage(Stage gameWindow) {
 		
 		Text helpText = new Text("Help #1: You can only attempt the lowest value question of each category"
-				+ "\n\nHelp #2: International category will be unlocked after you have attempted at least two categories\n\n"
+				+ "\n\nHelp #2: International category will be unlocked after you have attempted at least two full categories\n\n"
 				+ "Help #3: Your grand prize will be unlocked and available to be viewed from the main menu once you earn at least $4500");
 		helpText.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
 
