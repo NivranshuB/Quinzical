@@ -104,15 +104,13 @@ public class QuestionGrid {
 						
 						if (!Main._scoreboard.gameFinished()) {
 							int winnings = game.getWinnings();
-							if (winnings >= 4500) {
-								Main._scoreboard.addToScoreboard("Game finished", "Congratulations!!! You earned $" + winnings 
-										+ ". Check your grand prize from the main menu.", "#067CA0", winnings);
+							if (winnings != 0) {
+								Main._scoreboard.addToScoreboard("Game finished", "Congratulations!!! You earned $" + winnings + ". Save your score to view your reward", "#067CA0", winnings);
+							} else if (winnings == 0){
+								Main._scoreboard.addToScoreboard("Game finished", "Even though you earned $0, you still won a reward! Save your score to view your reward"
+									, "#067CA0", winnings);
 							}
-							else {
-								int prize = 4500 - winnings;
-								Main._scoreboard.addToScoreboard("Game finished", "Congratulations!!! You earned $" + winnings + ". Unfortunately, you were $" + String.valueOf(prize) +
-										" off the grand prize.", "#067CA0", winnings);
-							}
+							
 							Main._scoreboard.setGameFinished(true);
 						}
 						RewardScreen.displayRewardScreen(game.getWinnings());
