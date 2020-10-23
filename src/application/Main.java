@@ -1,7 +1,6 @@
 package application;
 
 import application.game.GamesModule;
-import application.game.Winnings;
 import application.helper.ConfirmBox;
 import application.practice.PracticeModule;
 import application.questions.QuestionBank;

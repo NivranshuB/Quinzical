@@ -2,7 +2,6 @@ package application.game;
 
 import java.util.stream.Stream;
 
-import application.MainMenuComponents;
 import application.helper.HelperThread;
 import application.helper.ImageHelper;
 import javafx.event.ActionEvent;

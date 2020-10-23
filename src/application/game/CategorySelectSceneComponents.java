@@ -20,6 +20,8 @@ import javafx.scene.text.TextAlignment;
 
 public class CategorySelectSceneComponents {
 
+	private static Button okButton = getOkButton();
+	
 	static VBox getSelectedCategoryDisplay() {
 
 		//Set up the layout for the list displaying all the selected categories
@@ -85,7 +87,7 @@ public class CategorySelectSceneComponents {
 						if (selectedCategories.size() > 4) {
 							return;
 						}
-
+						
 						selectedCategories.add(x.getName());
 
 						//Create a new label for the category selected by the user
@@ -105,10 +107,27 @@ public class CategorySelectSceneComponents {
 									}
 								}
 								selectedCategories.remove(categoryToRemove);
+								if (selectedCategoryDisplay.getChildren().contains(okButton) && selectedCategories.size() < 5) {
+									selectedCategoryDisplay.getChildren().remove(okButton);
+								}
 							}
 						});
 
 						selectedCategoryDisplay.getChildren().addAll(selectedCategory);
+					
+						if (selectedCategories.size() == 5) {
+							selectedCategoryDisplay.getChildren().addAll(okButton);
+							okButton.setOnAction(new EventHandler<ActionEvent>() {
+								public void handle (ActionEvent e) {
+									if (selectedCategories.size() == 5) {
+										CategorySelectScene.removeUnselectedCategories(selectedCategories, questionBank);
+										CategorySelectScene.removeExtraQuestions(questionBank);
+										CategorySelectScene.assignQuestionValues(questionBank);
+										gameScene.displayQuestionBoard();	
+									}
+								}
+							});
+						}
 
 					}
 				});
@@ -116,18 +135,6 @@ public class CategorySelectSceneComponents {
 			}
 		}
 
-		Button okButton = getOkButton();
-		okButton.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle (ActionEvent e) {
-				if (selectedCategories.size() == 5) {
-					CategorySelectScene.removeUnselectedCategories(selectedCategories, questionBank);
-					CategorySelectScene.removeExtraQuestions(questionBank);
-					CategorySelectScene.assignQuestionValues(questionBank);
-					gameScene.displayQuestionBoard();	
-				}
-			}
-		});
-		selectedCategoryDisplay.getChildren().addAll(okButton);
 	}
 
 	static List<String> removeSelectedCategory(File removedCategory, List<String> selectedCategories) {
