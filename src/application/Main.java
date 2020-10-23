@@ -93,42 +93,6 @@ public class Main extends Application {
 			}
 		});
 		
-		Button checkPrize = MainMenuComponents.menuButton("Check your prize");
-		checkPrize.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle (ActionEvent e) {
-				_currentWinnings = new Winnings();//reinitialise winnings
-				_winnings = _currentWinnings.getValue();
-				
-				if (_winnings >= 4500) {
-					//creating the image object
-				    InputStream stream;
-					try {
-						String prize_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "game_data" + System.getProperty("file.separator") + "winningsMeme.jpg";
-						stream = new FileInputStream(prize_loc);
-						Image image = new Image(stream);
-					    //Creating the image view
-					    ImageView imageView = new ImageView();
-					    //Setting image to the image view
-					    imageView.setImage(image);
-					    //Setting the Scene object
-					    Stage prizeStage = new Stage();
-					    Group prizeGroup = new Group(imageView);
-					    Scene prizeScene = new Scene(prizeGroup);
-					    prizeStage.setResizable(false);
-					    prizeStage.setTitle("Grand Prize");
-					    prizeStage.setScene(prizeScene);
-					    prizeStage.show();
-					} catch (FileNotFoundException e1) {
-						e1.printStackTrace();
-					}
-				}
-				else {
-					AlertBox.displayAlert("Prize error", "Please obtain the grand prize from Games Module to view your prize", 	"#000000");
-				}
-				
-			}
-		});
-		
 		Button settingsButton = MainMenuComponents.menuButton("Settings");
 		settingsButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
@@ -163,7 +127,7 @@ public class Main extends Application {
 		VBox menuLayout = MainMenuComponents.getMenuLayout();
 		menuLayout.setBackground(MainMenuComponents.setBackground());
 		menuLayout.getChildren().addAll(MainMenuComponents.getMenuTitleText(), MainMenuComponents.getMenuInfo(),
-				gamesModuleButton, practiceModuleButton, viewScoreboard, checkPrize, settingsButton, exitButton);
+				gamesModuleButton, practiceModuleButton, viewScoreboard, settingsButton, exitButton);
 
 		_menuScene = new Scene(menuLayout, 800, 600);
 

@@ -21,7 +21,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class CategorySelectScene {
-
+	
 	/**
 	 * This method starts the category select scene which allows the user to pick 5 categories
 	 * they would like questions from. This scene is only provided at the start of a new game.
@@ -53,7 +53,7 @@ public class CategorySelectScene {
 				window.show();
 			}
 		});
-
+		
 		//Bottom menu consists of the winnings amount and tbe back button
 		StackPane bottomMenu = new StackPane();
 		bottomMenu.getChildren().add(backButton);  
@@ -66,6 +66,8 @@ public class CategorySelectScene {
 		layout.setBottom(bottomMenu);
 		layout.setBackground(MainMenuComponents.setBackground());
 
+		layout.setBackground(MainMenuComponents.setBackground());
+		
 		Scene _categorySelectScene = new Scene(layout, 800, 600);
 		window.setScene(_categorySelectScene);
 		window.show();

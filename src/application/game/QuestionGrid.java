@@ -115,6 +115,7 @@ public class QuestionGrid {
 							}
 							Main._scoreboard.setGameFinished(true);
 						}
+						RewardScreen.displayRewardScreen(game.getWinnings());
 						game.gameFinished();
 					}
 				});

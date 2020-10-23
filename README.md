@@ -13,3 +13,17 @@ Instructions are below:
 5) Enter "chmod +x run.sh"
 
 6) Enter "./run.sh"
+
+References for reward images:
+
+Sky tower: Photo by Doug Brown from Pexels
+Kiwi bird: Photo Gabbie Winchester form pngitem.com
+Silver fern: Art by Emily Schick from aeires.deviantart.com
+Golden fern: Personal use art from pngitem.com
+Buzzy bee: Art by Olivia Garnier from clipartkey.com
+Pounamu: Photo by Johnathan Percy from johnathanpercystone.com
+Taniwha: Photo from teara.govt.nz/en/postage-stamp/10864/araiteuru
+All blacks: Photo from stuff.co.nz credited to Phil Walter/Getty images
+Mount Cook: Photo from allhdwallpapers.com
+Paua shell: Photo from shopnz.com
+
