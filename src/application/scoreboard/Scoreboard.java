@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Scanner;
+
+import application.MainMenuComponents;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -136,6 +138,7 @@ public class Scoreboard {
 		screenPane.setTop(titleAndHeading);
 		screenPane.setCenter(scrollPane);
 		screenPane.setBottom(back);
+		screenPane.setBackground(MainMenuComponents.setBackground());
 		Scene scene = new Scene(screenPane, 800, 600);
 		mainStage.setScene(scene);
 		mainStage.show();

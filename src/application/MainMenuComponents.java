@@ -1,8 +1,17 @@
 package application;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -30,7 +39,8 @@ public class MainMenuComponents {
 		
 		StackPane menuInfo = new StackPane();
 		Text infoText = new Text("Please select one of the following options: ");
-		infoText.setStyle("-fx-font-size: 15;");
+		infoText.setFill(Color.WHITE);
+		infoText.setStyle("-fx-font-size: 18");
 		infoText.setTextAlignment(TextAlignment.CENTER);
 		menuInfo.getChildren().add(infoText);
 		StackPane.setAlignment(infoText, Pos.CENTER);
@@ -55,5 +65,21 @@ public class MainMenuComponents {
 		menuLayout.setPadding(new Insets(20, 20, 30, 20));
 		
 		return menuLayout;
+	}
+	public static Background setBackground() {
+		FileInputStream stream;
+		Background background = null;
+		try {
+			stream = new FileInputStream("background.png");
+			Image image = new Image(stream); 
+			BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT,  
+                                             BackgroundRepeat.NO_REPEAT,  
+                                             BackgroundPosition.DEFAULT,  
+                                             new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, true, true));
+			background = new Background(backgroundImage);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return background;
 	}
 }

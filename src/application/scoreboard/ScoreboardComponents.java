@@ -2,6 +2,7 @@ package application.scoreboard;
 
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -11,6 +12,7 @@ public class ScoreboardComponents {
 	public static Text getScoreboardTitle() {
 		//Create scoreboard title
 		Text title = new Text("Scoreboard");
+		title.setFill(Color.WHITE);
 		title.setFont(Font.font("Times New Roman", FontWeight.BOLD, 40));
 		title.setUnderline(true);
 		
@@ -37,6 +39,9 @@ public class ScoreboardComponents {
 		rankText.setFont(headingStyle);
 		nameText.setFont(headingStyle);
 		scoreText.setFont(headingStyle);
+		rankText.setFill(Color.WHITE);
+		nameText.setFill(Color.WHITE);
+		scoreText.setFill(Color.WHITE);
 		headingPane.add(rankText, 0, 0);
 		headingPane.add(nameText, 1, 0);
 		headingPane.add(scoreText, 2, 0);

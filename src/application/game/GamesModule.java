@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Random;
 
 import application.Main;
+import application.MainMenuComponents;
 import application.helper.AlertBox;
 import application.helper.ConfirmBox;
 import application.helper.RandomNumber;
@@ -78,7 +79,7 @@ public class GamesModule {
 		_menuScene = primaryStage.getScene();
 		_currentWinnings = new Winnings();//initialise winnings
 		_winnings = _currentWinnings.getValue();
-
+		
 		_gameWindow = primaryStage;
 		_gameWindow.show();
 
@@ -168,6 +169,7 @@ public class GamesModule {
 		layout.setTop(topMenu);
 		layout.setCenter(quesLayout);
 		layout.setBottom(bottomMenu);
+		layout.setBackground(MainMenuComponents.setBackground());
 
 		_quesScene = new Scene(layout, 800, 600);
 		_gameWindow.setScene(_quesScene);
