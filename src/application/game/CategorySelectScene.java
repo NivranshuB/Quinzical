@@ -8,6 +8,7 @@ import application.helper.RandomNumber;
 import application.questions.Category;
 import application.questions.Question;
 import application.questions.QuestionBank;
+import application.settings.SettingsComponents;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -64,7 +65,7 @@ public class CategorySelectScene {
 		BorderPane layout = new BorderPane();
 		layout.setCenter(selectMenuLayout);
 		layout.setBottom(bottomMenu);
-		layout.setBackground(MainMenuComponents.setBackground("rangitoto_sunset.png"));
+		layout.setBackground(MainMenuComponents.setBackground(SettingsComponents.getBackgroundName()));
 
 		
 		Scene _categorySelectScene = new Scene(layout, 800, 600);

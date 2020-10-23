@@ -19,8 +19,7 @@ import javafx.stage.Stage;
 
 public class SettingsComponents {
 	
-	private static String _save_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "game_data" + System.getProperty("file.separator") + "save_data"
-			+ System.getProperty("file.separator") + "settings";
+	private static String _save_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "game_data" + System.getProperty("file.separator") + "settings";
 	private static String _saveColourBlind = "Click to enable colour blind mode";
 	public static String _backgroundName = "rangitoto_sunset.png";
 
