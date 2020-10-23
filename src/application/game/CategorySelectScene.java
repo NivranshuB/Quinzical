@@ -35,6 +35,7 @@ public class CategorySelectScene {
 	public static void categorySelector(Stage window, QuestionBank questionBank, Scene menuScene, GamesModule gameScene) {
 		
 		HBox selectMenuLayout = new HBox();
+		selectMenuLayout.setAlignment(Pos.CENTER);
 
 		//Set up the layout for the list displaying all the selected categories
 		VBox selectedCategoryDisplay = CategorySelectSceneComponents.getSelectedCategoryDisplay();
@@ -70,7 +71,7 @@ public class CategorySelectScene {
 		layout.setCenter(selectMenuLayout);
 		layout.setBottom(bottomMenu);
 
-		Scene _categorySelectScene = new Scene(layout, 500, 600);
+		Scene _categorySelectScene = new Scene(layout, 800, 600);
 		window.setScene(_categorySelectScene);
 		window.show();
 
