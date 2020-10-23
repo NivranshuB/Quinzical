@@ -38,6 +38,7 @@ public class AlertBox {
 		descendents.filter(ProcessHandle::isAlive).forEach(ph -> {
 		      ph.destroy();
 		});
+		
 		//HelperThread to run festival in background
 		HelperThread helper = new HelperThread(message);
 		helper.start();
