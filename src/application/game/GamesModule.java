@@ -15,6 +15,7 @@ import application.helper.ConfirmBox;
 import application.questions.Category;
 import application.questions.Question;
 import application.questions.QuestionBank;
+import application.settings.SettingsComponents;
 import javafx.event.ActionEvent;
 import javafx.stage.WindowEvent;
 import javafx.event.EventHandler;
@@ -153,7 +154,7 @@ public class GamesModule {
 		layout.setTop(topMenu);
 		layout.setCenter(quesLayout);
 		layout.setBottom(bottomMenu);
-		layout.setBackground(MainMenuComponents.setBackground());
+		layout.setBackground(MainMenuComponents.setBackground(SettingsComponents.getBackgroundName()));
 
 		_quesScene = new Scene(layout, 800, 600);
 		_gameWindow.setScene(_quesScene);

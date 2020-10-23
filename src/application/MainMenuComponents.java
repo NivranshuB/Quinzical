@@ -67,8 +67,8 @@ public class MainMenuComponents {
 		return menuLayout;
 	}
 	
-	public static Background setBackground() {
-		String image_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "game_data" + System.getProperty("file.separator") + "background.png";
+	public static Background setBackground(String backgroundName) {
+		String image_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "game_data" + System.getProperty("file.separator") + backgroundName;
 		FileInputStream stream;
 		Background background = null;
 

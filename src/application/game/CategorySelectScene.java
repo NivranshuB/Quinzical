@@ -64,9 +64,8 @@ public class CategorySelectScene {
 		BorderPane layout = new BorderPane();
 		layout.setCenter(selectMenuLayout);
 		layout.setBottom(bottomMenu);
-		layout.setBackground(MainMenuComponents.setBackground());
+		layout.setBackground(MainMenuComponents.setBackground("rangitoto_sunset.png"));
 
-		layout.setBackground(MainMenuComponents.setBackground());
 		
 		Scene _categorySelectScene = new Scene(layout, 800, 600);
 		window.setScene(_categorySelectScene);

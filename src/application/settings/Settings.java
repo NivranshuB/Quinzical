@@ -21,7 +21,7 @@ public class Settings {
 	/**
 	 * 
 	 */
-	public static void viewSettings(Stage window, GamesModule gameMenu, Scoreboard score, Button colourBlindButton, ComboBox<String> backgroundBox) {
+	public static void viewSettings(Stage window, GamesModule gameMenu, Scoreboard score, Button colourBlindButton) {
 		
 		Scene menuScene = window.getScene();
 		
@@ -35,7 +35,7 @@ public class Settings {
 		
 		SettingsComponents.setupColourBlindButton(colourBlindButton);
 		
-		ComboBox<String> themeSelectBox = SettingsComponents.setBackgroundBox(backgroundBox);
+		ComboBox<String> themeSelectBox = SettingsComponents.setBackgroundBox();
 		
 		Button back = SettingsComponents.getBackButton(window, menuScene);
 		
@@ -49,7 +49,7 @@ public class Settings {
 		settingBox.setPadding(new Insets(20));
 		settingBox.setAlignment(Pos.CENTER);
 		settingBox.getChildren().addAll(title,coreButtonBox, back);
-		settingBox.setBackground(MainMenuComponents.setBackground());
+		settingBox.setBackground(MainMenuComponents.setBackground("rangitoto_sunset.png"));
 		
 		Scene settingScene = new Scene(settingBox, 800, 600);
 		window.setScene(settingScene);

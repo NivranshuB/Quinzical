@@ -3,14 +3,11 @@ package application.game;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import application.questions.Category;
 import application.questions.QuestionBank;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
@@ -20,7 +17,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
 
 public class CategorySelectSceneComponents {
 

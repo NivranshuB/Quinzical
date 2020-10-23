@@ -138,7 +138,7 @@ public class Scoreboard {
 		screenPane.setTop(titleAndHeading);
 		screenPane.setCenter(scrollPane);
 		screenPane.setBottom(back);
-		screenPane.setBackground(MainMenuComponents.setBackground());
+		screenPane.setBackground(MainMenuComponents.setBackground("rangitoto_sunset.png"));
 		Scene scene = new Scene(screenPane, 800, 600);
 		mainStage.setScene(scene);
 		mainStage.show();

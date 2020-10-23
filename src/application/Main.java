@@ -1,25 +1,18 @@
 package application;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import javafx.scene.control.ComboBox;
 import application.game.GamesModule;
 import application.game.Winnings;
-import application.helper.AlertBox;
 import application.helper.ConfirmBox;
 import application.practice.PracticeModule;
 import application.questions.QuestionBank;
 import application.scoreboard.Scoreboard;
 import application.settings.Settings;
+import application.settings.SettingsComponents;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -35,19 +28,18 @@ import javafx.stage.WindowEvent;
 public class Main extends Application {
 	
 	private QuestionBank _questions;//all access to category and questions is through this
-	private Winnings _currentWinnings;
-	private int _winnings;
 	public static Stage _gameWindow;
 	private Scene _menuScene;//the default scene for the game (also the main menu)
 	private GamesModule _gameMenu;
 	public static Button _colourBlindButton;
 	public static Scoreboard _scoreboard;
-	public static ComboBox<String> _backgroundBox;
 	
 	@Override
 	public void start(Stage primaryStage) {
 		_gameWindow = primaryStage;
 		initialiseGameData();
+		SettingsComponents.setSettingsFromFile();
+		_colourBlindButton.setText(SettingsComponents.getSavedColourBlindMode());
 		mainMenuInterface();
 	}
 	
@@ -56,12 +48,9 @@ public class Main extends Application {
 	 */
 	private void initialiseGameData() {
 		_questions = new QuestionBank();//initialise categories and questions
-		_currentWinnings = new Winnings();//initialise winnings
-		_winnings = _currentWinnings.getValue();
 		_gameMenu = new GamesModule();
 		_scoreboard = new Scoreboard();
 		_colourBlindButton = new Button("Click to enable colour blind mode");
-		_backgroundBox = new ComboBox<String>();
 	}
 	
 	/**
@@ -96,7 +85,7 @@ public class Main extends Application {
 		Button settingsButton = MainMenuComponents.menuButton("Settings");
 		settingsButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
-				Settings.viewSettings(_gameWindow, _gameMenu, _scoreboard, _colourBlindButton, _backgroundBox);
+				Settings.viewSettings(_gameWindow, _gameMenu, _scoreboard, _colourBlindButton);
 			}
 		});
 		
@@ -106,6 +95,7 @@ public class Main extends Application {
 				boolean confirmation = ConfirmBox.displayConfirm("Exit confirmation", "Are you sure "
 						+ "you want to exit? (Don't worry your progress will be saved)");
 				if (confirmation) {
+					SettingsComponents.saveSettingData();
 					_scoreboard.saveScoresToFile();
 					_gameWindow.close();
 				}
@@ -118,14 +108,16 @@ public class Main extends Application {
 				boolean confirmation = ConfirmBox.displayConfirm("Exit confirmation", "Are you sure "
 						+ "you want to exit? (Don't worry your progress will be saved)");
 				if (confirmation) {
+					SettingsComponents.saveSettingData();
+					_scoreboard.saveScoresToFile();
 					_gameWindow.close();
 				}
 				e.consume();
 			}
 		});
-		
+
 		VBox menuLayout = MainMenuComponents.getMenuLayout();
-		menuLayout.setBackground(MainMenuComponents.setBackground());
+		menuLayout.setBackground(MainMenuComponents.setBackground("rangitoto_sunset.png"));
 		menuLayout.getChildren().addAll(MainMenuComponents.getMenuTitleText(), MainMenuComponents.getMenuInfo(),
 				gamesModuleButton, practiceModuleButton, viewScoreboard, settingsButton, exitButton);
 

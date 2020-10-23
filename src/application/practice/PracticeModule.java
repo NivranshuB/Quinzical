@@ -6,22 +6,16 @@ import java.util.Random;
 import application.Main;
 import application.MainMenuComponents;
 import application.helper.AlertBox;
-import application.helper.ConfirmBox;
 import application.questions.Category;
 import application.questions.Question;
 import application.questions.QuestionBank;
 import application.questions.QuestionBox;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 
@@ -67,7 +61,7 @@ public class PracticeModule {
 		layout.setCenter(topMenu);
 		layout.setBottom(bottomMenu);
 		layout.setPadding(new Insets(20, 100, 30, 100));
-		layout.setBackground(MainMenuComponents.setBackground());
+		layout.setBackground(MainMenuComponents.setBackground("rangitoto_sunset.png"));
 
 		Scene quesScene = new Scene(layout, 800, 600);
 
