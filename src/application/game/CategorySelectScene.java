@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import application.MainMenuComponents;
 import application.helper.RandomNumber;
 import application.questions.Category;
 import application.questions.Question;
@@ -70,6 +71,7 @@ public class CategorySelectScene {
 		BorderPane layout = new BorderPane();
 		layout.setCenter(selectMenuLayout);
 		layout.setBottom(bottomMenu);
+		layout.setBackground(MainMenuComponents.setBackground());
 
 		Scene _categorySelectScene = new Scene(layout, 800, 600);
 		window.setScene(_categorySelectScene);
