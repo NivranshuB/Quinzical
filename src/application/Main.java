@@ -2,6 +2,7 @@ package application;
 
 import application.game.GamesModule;
 import application.helper.ConfirmBox;
+import application.helper.GlossButton;
 import application.practice.PracticeModule;
 import application.questions.QuestionBank;
 import application.scoreboard.Scoreboard;
@@ -36,6 +37,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		_gameWindow = primaryStage;
+		_gameWindow.setResizable(false);
 		initialiseGameData();
 		SettingsComponents.setSettingsFromFile();
 		_colourBlindButton.setText(SettingsComponents.getSavedColourBlindMode());
@@ -116,6 +118,7 @@ public class Main extends Application {
 		});
 
 		VBox menuLayout = MainMenuComponents.getMenuLayout();
+		menuLayout.setSpacing(20);
 		menuLayout.setBackground(MainMenuComponents.setBackground("rangitoto_sunset.png"));
 		menuLayout.getChildren().addAll(MainMenuComponents.getMenuTitleText(), MainMenuComponents.getMenuInfo(),
 				gamesModuleButton, practiceModuleButton, viewScoreboard, settingsButton, exitButton);

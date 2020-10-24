@@ -8,10 +8,13 @@ import java.util.Scanner;
 
 import application.game.GamesModule;
 import application.helper.AlertBox;
+import application.helper.ConfirmBox;
+import application.helper.GlossButton;
 import application.questions.QuestionBox;
 import application.scoreboard.Scoreboard;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -27,13 +30,15 @@ public class SettingsComponents {
 	static Button getResetGameButton(GamesModule gameMenu) {
 		
 		Button resetGameButton = new Button("Click to reset current Games Module game");
-		resetGameButton.setPrefSize(400,60);
-		resetGameButton.setAlignment(Pos.CENTER_LEFT);
-		resetGameButton.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 16;");
+		resetGameButton.setPrefSize(440,60);
+		resetGameButton.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
 		resetGameButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
-				gameMenu.resetGame();
-				AlertBox.displayAlert("Game reset", "Your current Games Module game has been reset", "#000000");
+				boolean resetGame = ConfirmBox.displayConfirm("Game reset", "Are you sure you want to reset the game?"
+						+ " (This will remove all the current questions in the Games Module)");
+				if (resetGame) {
+					gameMenu.resetGame();
+				}
 			}
 		});
 		
@@ -42,13 +47,15 @@ public class SettingsComponents {
 	
 	static Button getResetScoreboardButton(Scoreboard score) {
 		Button resetScoreboardButton = new Button("Click to reset the scoreboard");
-		resetScoreboardButton.setPrefSize(400,60);
-		resetScoreboardButton.setAlignment(Pos.CENTER_LEFT);
-		resetScoreboardButton.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 16;");
+		resetScoreboardButton.setPrefSize(440,60);
+		resetScoreboardButton.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
 		resetScoreboardButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
-				score.resetScoreboard();
-				AlertBox.displayAlert("Scoreboard reset", "The scoreboard has been reset", "#000000");
+				boolean resetScoreboard = ConfirmBox.displayConfirm("Game reset", "Are you sure you want to reset"
+						+ " the Scoreboard? (This will remove all scores in the Scoreboard)");
+				if (resetScoreboard) {
+					score.resetScoreboard();
+				}
 			}
 		});
 		
@@ -57,9 +64,8 @@ public class SettingsComponents {
 	
 	static void setupColourBlindButton(Button colourBlindButton) {
 		colourBlindButton.setText(_saveColourBlind);
-		colourBlindButton.setPrefSize(400, 60);
-		colourBlindButton.setAlignment(Pos.CENTER_LEFT);
-		colourBlindButton.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 16;");
+		colourBlindButton.setPrefSize(440, 60);
+		colourBlindButton.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
 		colourBlindButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
 				if (colourBlindButton.getText().equals("Click to enable colour blind mode")) {
@@ -77,11 +83,12 @@ public class SettingsComponents {
 	static ComboBox<String> setBackgroundBox() {
 		
 		ComboBox<String> backgroundBox = new ComboBox<String>();
-		backgroundBox.setPrefSize(400, 60);
+		backgroundBox.setPrefSize(440, 60);
 		backgroundBox.getItems().clear();
 		backgroundBox.getItems().addAll("Rangitoto sunset", "Skytower night view");
 		backgroundBox.setPromptText("Change Games Module background");
-		backgroundBox.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 16;");
+		backgroundBox.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
+		backgroundBox.setPadding(new Insets(0, 0, 0, 45));
 		backgroundBox.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -99,9 +106,8 @@ public class SettingsComponents {
 	}
 	static Button getChangePlaybackSpeedButton() {
 		Button changePlaybackSpeedButton = new Button("Change speech playback speed");
-		changePlaybackSpeedButton.setPrefSize(400, 60);
-		changePlaybackSpeedButton.setAlignment(Pos.CENTER_LEFT);
-		changePlaybackSpeedButton.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 16;");
+		changePlaybackSpeedButton.setPrefSize(440, 60);
+		changePlaybackSpeedButton.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
 		changePlaybackSpeedButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -122,7 +128,7 @@ public class SettingsComponents {
 				window.show();
 			}
 		});
-		
+		back = GlossButton.addGlossEffect(back, 18);
 		return back;
 	}
 	public static void saveSettingData() {

@@ -9,11 +9,13 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 public class Settings {
@@ -26,8 +28,11 @@ public class Settings {
 		Scene menuScene = window.getScene();
 		
 		Text title = new Text("Settings");
-		title.setFill(Color.WHITE);
-		title.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
+		title.setFill(Color.ORANGE);
+		title.setFont(Font.font("Times New Roman\"", FontWeight.BOLD, 36));
+		title.setTextAlignment(TextAlignment.CENTER);
+		title.setStyle("-fx-stroke: #2b1600;-fx-stroke-width: 1px;");
+		title.setUnderline(true);
 		
 		Button resetGameButton = SettingsComponents.getResetGameButton(gameMenu);
 		
@@ -46,11 +51,13 @@ public class Settings {
 		coreButtonBox.setAlignment(Pos.CENTER);
 		coreButtonBox.getChildren().addAll(changePlaybackSpeed, colourBlindButton, themeSelectBox, resetGameButton, resetScoreboardButton);
 		
-		VBox settingBox = new VBox();
-		settingBox.setSpacing(20);
-		settingBox.setPadding(new Insets(20));
-		settingBox.setAlignment(Pos.CENTER);
-		settingBox.getChildren().addAll(title,coreButtonBox, back);
+		BorderPane settingBox = new BorderPane();
+		settingBox.setPadding(new Insets(30));
+		settingBox.setTop(title);
+		settingBox.setCenter(coreButtonBox);
+		settingBox.setBottom(back);
+		BorderPane.setAlignment(title, Pos.CENTER);
+		BorderPane.setAlignment(back, Pos.CENTER);
 		settingBox.setBackground(MainMenuComponents.setBackground("rangitoto_sunset.png"));
 		
 		Scene settingScene = new Scene(settingBox, 800, 600);

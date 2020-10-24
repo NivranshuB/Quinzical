@@ -144,7 +144,7 @@ public class GamesModule {
 
 		//Bottom menu consists of the winnings amount and tbe back button
 		HBox bottomMenu = new HBox();
-		bottomMenu.setSpacing(150);
+		bottomMenu.setSpacing(180);
 		bottomMenu.setAlignment(Pos.CENTER_LEFT);
 		bottomMenu.getChildren().addAll(winnings, backAllignment, helpButton);  
 		bottomMenu.setPadding(new Insets(0, 0, 20, 0));

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import application.MainMenuComponents;
+import application.helper.GlossButton;
 import application.helper.RandomNumber;
 import application.questions.Category;
 import application.questions.Question;
@@ -48,6 +49,7 @@ public class CategorySelectScene {
 		backButton.setText("Back");
 		backButton.setPrefSize(80, 40);
 		backButton.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
+		backButton =  GlossButton.addGlossEffect(backButton, 18);
 		backButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
 				window.setScene(menuScene);

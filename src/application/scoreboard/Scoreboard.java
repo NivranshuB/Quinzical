@@ -10,6 +10,7 @@ import java.util.Comparator;
 import java.util.Scanner;
 
 import application.MainMenuComponents;
+import application.helper.GlossButton;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -81,7 +82,7 @@ public class Scoreboard {
 	 */
 	public void ViewScoreboard(Stage mainStage, Scene mainMenuScene) {
 		
-		Font headingStyle = Font.font("Verdana", FontWeight.BOLD, 25);
+		Font headingStyle = Font.font("Verdana", FontWeight.BOLD, 20);
 		Font scoreStyle = Font.font("Verdana", 20);
 		
 		BorderPane screenPane = new BorderPane();
@@ -125,7 +126,7 @@ public class Scoreboard {
 		scrollPane.setPadding(new Insets(5, 20, 5, 20));
 		
 		//Back button to main menu
-		Button back = new Button("back");
+		Button back = new Button("Back");
 		back.setFont(scoreStyle);
 		BorderPane.setAlignment(back, Pos.CENTER);
 		back.setOnAction(new EventHandler<ActionEvent>() {
@@ -134,6 +135,7 @@ public class Scoreboard {
 				mainStage.show();
 			}
 		});
+		back = GlossButton.addGlossEffect(back, 18);
 
 		screenPane.setTop(titleAndHeading);
 		screenPane.setCenter(scrollPane);

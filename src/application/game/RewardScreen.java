@@ -45,7 +45,7 @@ public class RewardScreen {
 
 		window.initModality(Modality.APPLICATION_MODAL);
 
-		window.setTitle("Reward");
+		window.setTitle("Your Reward");
 		window.setMinWidth(500);
 		window.setMinHeight(250);
 
@@ -57,7 +57,7 @@ public class RewardScreen {
 		label.setStyle("-fx-font-size: 18;-fx-text-fill: #20914d");
 
 		Button awesome = new Button();
-		awesome.setText("Awesome");
+		awesome.setText("Awesome!");
 		awesome.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
 		awesome.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
@@ -101,13 +101,13 @@ public class RewardScreen {
 		} else if (winnings >= 6000 && winnings < 7000){
 			return "Silver Fern \n\nAruhe Hiriwa\n\nNew Zealand's symbol and identity";
 		} else if (winnings >= 5000 && winnings < 6000){
-			return "Mount Cook\n\nAoraki\n\nHighest mountain and a representation of New Zealand's vast natural beauty";
+			return "Mount Cook\n\nAoraki\n\nNew Zealand's highest mountain and a representation of the country's vast natural beauty";
 		} else if (winnings >= 4000 && winnings < 5000){
 			return "Paua Shell\n\nAnga Paua\n\nNew Zealand symbol representing peace, love and compassion";
 		} else if (winnings >= 3000 && winnings < 4000){
 			return "Taniwha\n\nNew Zealand symbol representing power and protection of the land";
 		} else if (winnings >= 2000 && winnings < 3000){
-			return "Buzzy bee\n\nPi Piu\n\nIconic New Zealand toy that shows the creativity of our country";
+			return "Buzzy bee\n\nPi Piu\n\nIconic New Zealand toy that shows the creativity of the country";
 		} else if (winnings >= 1000 && winnings < 2000){
 			return "Sky Tower\n\nPourewa Rangi\n\nNew Zealand's tallest infrastructure which shows the height's we hope to reach";
 		} else if (winnings > 0 && winnings < 1000){

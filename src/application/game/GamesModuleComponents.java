@@ -2,6 +2,7 @@ package application.game;
 
 import application.Main;
 import application.helper.ConfirmBox;
+import application.helper.GlossButton;
 import application.questions.Category;
 import application.questions.Question;
 import javafx.beans.value.ChangeListener;
@@ -12,6 +13,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -70,7 +72,8 @@ public class GamesModuleComponents {
 		
 		Text helpText = new Text("Help #1: You can only attempt the lowest value question of each category"
 				+ "\n\nHelp #2: International category will be unlocked after you have attempted at least two full categories\n\n"
-				+ "Help #3: Your grand prize will be unlocked and available to be viewed from the main menu once you earn at least $4500");
+				+ "Help #3: Hover over an attempted question to see what its value was and if you got it right or wrong\n\n"
+				+ "Help #4: Get as many questions right as possible to win different kiwi style rewards!");
 		helpText.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
 
 		Stage helpButtonStage = new Stage();
@@ -95,6 +98,7 @@ public class GamesModuleComponents {
 		backButton.setText("Back");
 		backButton.setPrefSize(80, 40);
 		backButton.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
+		backButton = GlossButton.addGlossEffect(backButton, 18);
 		
 		return backButton;
 	}
@@ -109,9 +113,11 @@ public class GamesModuleComponents {
 		winnings.setAlignment(Pos.CENTER);
 		
 		if (Main.colourBlindMode()) {
-			winnings.setStyle("-fx-font-size: 20;-fx-border-width: 1;-fx-background-color: #008837;-fx-text-fill: #ffffff");
+			winnings.setStyle("-fx-font-size: 20;-fx-border-width: 0;-fx-background-color: #008837;"
+					+ "-fx-text-fill: #ffffff;-fx-border-color: #ffffff");
 		} else {
-			winnings.setStyle("-fx-font-size: 20;-fx-border-width: 1;-fx-background-color: #2A9600;-fx-text-fill: #ffffff");
+			winnings.setStyle("-fx-font-size: 20;-fx-border-width: 0;-fx-background-color: #2A9600;"
+					+ "-fx-text-fill: #ffffff;-fx-border-color: #ffffff");
 		}
 		
 		return winnings;
@@ -162,6 +168,8 @@ public class GamesModuleComponents {
 		unlockedQuesButton.setPrefSize(90, 50);
 		unlockedQuesButton.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;"
 				+ "-fx-font-size: 18;");
+		
+		unlockedQuesButton = GlossButton.addGlossEffect(unlockedQuesButton, 18);
 
 		unlockedQuesButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
@@ -191,6 +199,8 @@ public class GamesModuleComponents {
 			lockedButton.setStyle("-fx-border-width: 2; -fx-font-size: 18; -fx-background-color: #f7e1b2");
 		}
 		
+		lockedButton.setOpacity(0.7);
+		
 		return lockedButton;
 	}
 	
@@ -201,22 +211,23 @@ public class GamesModuleComponents {
 		categoryLabel.setPrefSize(130, 50);
 		categoryLabel.setMaxSize(130, 50);
 		if (Main.colourBlindMode()) {
-			categoryLabel.setStyle("-fx-font-size: 18;-fx-border-width: 1;"
+			categoryLabel.setStyle("-fx-font-size: 18;-fx-border-width: 2;-fx-border-color: #ffffff;"
 					+ "-fx-background-color: #008837;-fx-text-fill: #ffffff");
 		} else {
-			categoryLabel.setStyle("-fx-font-size: 18;-fx-border-width: 1;"
+			categoryLabel.setStyle("-fx-font-size: 18;-fx-border-width: 2;-fx-border-color: #ffffff;"
 					+ "-fx-background-color: #2A9600;-fx-text-fill: #ffffff");
 		}
 		
 		return categoryLabel;
 	}
 	
-	public static Label getIncompletCategoryLabel(Category c) {
+	public static Label getIncompleteCategoryLabel(Category c) {
 		Label categoryLabel = new Label();
 		
 		categoryLabel.setText(c.getCategoryName());
 		categoryLabel.setPrefSize(130, 50);
-		categoryLabel.setStyle("-fx-font-size: 15;-fx-border-width: 1; -fx-background-color: #040662;-fx-text-fill: #ffffff");
+		categoryLabel.setStyle("-fx-font-size: 18;-fx-border-width: 2;-fx-border-color: #ffffff;"
+				+ " -fx-background-color: #040662;-fx-text-fill: #ffffff");
 		
 		return categoryLabel;
 	}

@@ -3,6 +3,8 @@ package application.game;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import application.helper.GlossButton;
 import application.questions.QuestionBank;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -32,9 +34,10 @@ public class CategorySelectSceneComponents {
 		Label selection = new Label("Selected Categories:");
 
 		selection.setPrefSize(200, 40);
-		selection.setTextFill(Color.ORANGE);
-		selection.setFont(Font.font("Helvetica", FontWeight.BOLD, 17));
+		selection.setTextFill(Color.BROWN);
+		selection.setFont(Font.font("Times New Roman", FontWeight.BOLD, 16));
 		selection.setTextAlignment(TextAlignment.CENTER);
+		selection.setStyle("-fx-stroke: #2b1600;-fx-stroke-width: 1px;");
 		selectedCategoryDisplay.getChildren().add(selection);
 
 		return selectedCategoryDisplay;
@@ -47,8 +50,9 @@ public class CategorySelectSceneComponents {
 		categorySelectLayout.setPadding(new Insets(20, 20, 30, 20)); 
 
 		Text infoText = new Text("Please select five\n categories: ");
-		infoText.setStyle("-fx-font-size: 18;");
-		infoText.setTextAlignment(TextAlignment.CENTER);
+		infoText.setFill(Color.BROWN);
+		infoText.setFont(Font.font("Times New Roman", FontWeight.BOLD, 16));
+		infoText.setStyle("-fx-stroke: #2b1600;-fx-stroke-width: 0px;");
 		categorySelectLayout.getChildren().add(infoText);
 		StackPane.setAlignment(infoText, Pos.CENTER);
 
@@ -94,8 +98,9 @@ public class CategorySelectSceneComponents {
 						Button selectedCategory = new Button();
 						selectedCategory.setText(x.getName());
 						selectedCategory.setPrefSize(200, 40);
-						selectedCategory.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;"
+						selectedCategory.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-background-color: #f7a725;"
 								+ "-fx-font-size: 18;");
+						selectedCategory.setOpacity(0.7);
 						selectedCategory.setAlignment(Pos.CENTER);
 						selectedCategory.setOnAction(new EventHandler<ActionEvent>() {
 							public void handle (ActionEvent e) {
@@ -112,7 +117,6 @@ public class CategorySelectSceneComponents {
 								}
 							}
 						});
-
 						selectedCategoryDisplay.getChildren().addAll(selectedCategory);
 					
 						if (selectedCategories.size() == 5) {
@@ -127,6 +131,7 @@ public class CategorySelectSceneComponents {
 									}
 								}
 							});
+							okButton =  GlossButton.addGlossEffect(okButton, 18);
 						}
 
 					}
@@ -149,7 +154,7 @@ public class CategorySelectSceneComponents {
 	static Button getOkButton() {
 		Button okButton = new Button();
 		okButton.setText("ok");
-		okButton.setPrefSize(200, 40);
+		okButton.setPrefSize(180, 40);
 		okButton.setStyle("-fx-border-color: #33b3de;-fx-border-width: 1;-fx-background-color: #33b3de;-fx-font-size: 18;");
 
 		return okButton;

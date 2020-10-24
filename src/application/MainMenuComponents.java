@@ -30,6 +30,7 @@ public class MainMenuComponents {
 		welcomeText.setFont(Font.font("Times New Roman", FontWeight.BOLD, 50));
 		welcomeText.setTextAlignment(TextAlignment.CENTER);
 		menuTitleText.getChildren().add(welcomeText);
+		welcomeText.setStyle("-fx-stroke: #2b1600;-fx-stroke-width: 2px;");
 		StackPane.setAlignment(welcomeText, Pos.CENTER);
 		
 		return menuTitleText;
@@ -52,7 +53,7 @@ public class MainMenuComponents {
 		
 		Button menuButton = new Button(buttonText);
 		menuButton.setPrefSize(460,60);
-		menuButton.setStyle("-fx-border-color: #200459;-fx-border-width: 1;-fx-font-size: 16;");
+		menuButton.setStyle("-fx-border-color: #200459;-fx-border-width: 1;-fx-font-size: 20;");
 		
 		return menuButton;
 	}

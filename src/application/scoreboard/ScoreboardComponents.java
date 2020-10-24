@@ -1,20 +1,25 @@
 package application.scoreboard;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 public class ScoreboardComponents {
 
 	public static Text getScoreboardTitle() {
 		//Create scoreboard title
 		Text title = new Text("Scoreboard");
-		title.setFill(Color.WHITE);
-		title.setFont(Font.font("Times New Roman", FontWeight.BOLD, 40));
+		title.setFill(Color.ORANGE);
+		title.setFont(Font.font("Times New Roman", FontWeight.BOLD, 36));
 		title.setUnderline(true);
+		title.setTextAlignment(TextAlignment.CENTER);
+		title.setStyle("-fx-stroke: #2b1600;-fx-stroke-width: 1px;");
 		
 		return title;
 	}

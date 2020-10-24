@@ -3,6 +3,7 @@ package application.practice;
 import java.util.List;
 
 import application.helper.ConfirmBox;
+import application.helper.GlossButton;
 import application.questions.Category;
 import application.questions.Question;
 import javafx.event.ActionEvent;
@@ -14,6 +15,8 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
@@ -21,12 +24,15 @@ import javafx.stage.Stage;
 public class PracticeModuleComponents {
 
 	static StackPane getMenuInfo() {
+		
 		StackPane menuInfo = new StackPane();
-		Text infoText = new Text("Please select one of the following options: ");
-		infoText.setFill(Color.WHITE);
-		infoText.setStyle("-fx-font-size: 18");
+		Text infoText = new Text("Practice Module");
+		infoText.setFill(Color.ORANGE);
+		infoText.setFont(Font.font("Times New Roman", FontWeight.BOLD, 36));
 		infoText.setTextAlignment(TextAlignment.CENTER);
-		menuInfo.setPadding(new Insets(20, 0, 0, 0));
+		infoText.setStyle("-fx-stroke: #2b1600;-fx-stroke-width: 1px;");
+		infoText.setUnderline(true);
+		menuInfo.setPadding(new Insets(10, 0, 15, 0));
 		menuInfo.getChildren().add(infoText);
 		StackPane.setAlignment(infoText, Pos.CENTER);
 		
@@ -72,6 +78,7 @@ public class PracticeModuleComponents {
 		backButton.setPrefSize(80, 40);
 		backButton.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
 		backButton.setTextAlignment(TextAlignment.CENTER);
+		backButton = GlossButton.addGlossEffect(backButton, 18);
 		backButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
 				stage.setScene(menuScene);

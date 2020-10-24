@@ -84,12 +84,20 @@ public class QuestionGrid {
 				categoryLabel = GamesModuleComponents.getCompletedCategoryLabel(c);
 				categoriesDone++;
 			} else {
-				categoryLabel = GamesModuleComponents.getIncompletCategoryLabel(c);
+				categoryLabel = GamesModuleComponents.getIncompleteCategoryLabel(c);
 			}
+			
+			//categoryLabel = GamesModuleComponents.getIncompleteCategoryLabel(c);
 
 			if (c.getCategoryName().equalsIgnoreCase("international")) {
-				categoryLabel.setStyle("-fx-font-size: 18;-fx-border-width: 1;"
-						+ "-fx-background-color: #cf5a00;-fx-text-fill: #ffffff");
+				if (categoriesDone < 2) {
+					categoryLabel.setStyle("-fx-font-size: 18;-fx-border-width: 2;"
+							+ "-fx-background-color: #db9d67;-fx-text-fill: #ffffff;-fx-border-color: #ffffff;");
+				} else {
+					categoryLabel.setStyle("-fx-font-size: 18;-fx-border-width: 2;"
+							+ "-fx-background-color: #cf5a00;-fx-text-fill: #ffffff;-fx-border-color: #ffffff;");
+				}
+
 			}
 
 			categoryLabel.setAlignment(Pos.CENTER);
@@ -136,7 +144,7 @@ public class QuestionGrid {
 		if (answerInput.equals("Ran out of time!")) {
 			questionFeedback(false, q, "Ran out of time!", game);
 		} else if (answerInput.equals("Its fine you don't know!")) {
-			questionFeedback(false, q, "Its fine you don't know!", game);
+			questionFeedback(false, q, "Its fine if you don't know!", game);
 		} else if (answerInput.equals("The question you selected is now considered as attempted")) {
 			questionFeedback(false, q, "The question you selected is now considered as attempted", game);
 		} else {
