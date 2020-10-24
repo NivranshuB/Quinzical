@@ -242,7 +242,6 @@ public class GamesModule {
 		boolean playAgain = ConfirmBox.displayConfirm("Play Again", "Would you like to play again?");
 
 		if (playAgain) {
-			AlertBox.displayAlert("New Game", "A new game has been created, come back to the Games Module to play again", "#000000");
 			resetGame();
 			Main.restartGame(_gameWindow);
 		} else {
