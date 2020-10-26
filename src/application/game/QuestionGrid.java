@@ -187,13 +187,13 @@ public class QuestionGrid {
 				}
 			} else {
 				if (feedback.equals("Ran out of time!")) {
-					AlertBox.displayAlert("Time ran out", feedback, "#BC0808");
+					AlertBox.displayAlert("Time ran out", feedback, "#ff6969");
 				} else if (feedback.equals("Its fine you don't know!")) {
-					AlertBox.displayAlert("Don't know", feedback, "#BC0808");
+					AlertBox.displayAlert("Don't know", feedback, "#ff6969");
 				} else if (feedback.equals("The question you selected is now considered as attempted")) {
-					AlertBox.displayAlert("Attempted", feedback, "#BC0808");
+					AlertBox.displayAlert("Attempted", feedback, "#ff6969");
 				} else {
-					AlertBox.displayAlert("Incorrect answer", feedback, "#BC0808");
+					AlertBox.displayAlert("Incorrect answer", feedback, "#ff6969");
 				}
 			}
 		}
