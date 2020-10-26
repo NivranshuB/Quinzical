@@ -22,7 +22,7 @@ import javafx.scene.text.TextAlignment;
 
 public class CategorySelectSceneComponents {
 
-	private static Button okButton = getOkButton();
+	private static Button playGameButton = getPlayGameButton();
 	
 	static VBox getSelectedCategoryDisplay() {
 
@@ -112,16 +112,16 @@ public class CategorySelectSceneComponents {
 									}
 								}
 								selectedCategories.remove(categoryToRemove);
-								if (selectedCategoryDisplay.getChildren().contains(okButton) && selectedCategories.size() < 5) {
-									selectedCategoryDisplay.getChildren().remove(okButton);
+								if (selectedCategoryDisplay.getChildren().contains(playGameButton) && selectedCategories.size() < 5) {
+									selectedCategoryDisplay.getChildren().remove(playGameButton);
 								}
 							}
 						});
 						selectedCategoryDisplay.getChildren().addAll(selectedCategory);
 					
 						if (selectedCategories.size() == 5) {
-							selectedCategoryDisplay.getChildren().addAll(okButton);
-							okButton.setOnAction(new EventHandler<ActionEvent>() {
+							selectedCategoryDisplay.getChildren().addAll(playGameButton);
+							playGameButton.setOnAction(new EventHandler<ActionEvent>() {
 								public void handle (ActionEvent e) {
 									if (selectedCategories.size() == 5) {
 										CategorySelectScene.removeUnselectedCategories(selectedCategories, questionBank);
@@ -131,7 +131,7 @@ public class CategorySelectSceneComponents {
 									}
 								}
 							});
-							okButton =  GlossButton.addGlossEffect(okButton, 18);
+							playGameButton =  GlossButton.addGlossEffect(playGameButton, 18);
 						}
 
 					}
@@ -151,13 +151,14 @@ public class CategorySelectSceneComponents {
 		return selectedCategories;
 	}
 	
-	static Button getOkButton() {
-		Button okButton = new Button();
-		okButton.setText("ok");
-		okButton.setPrefSize(180, 40);
-		okButton.setStyle("-fx-border-color: #33b3de;-fx-border-width: 1;-fx-background-color: #33b3de;-fx-font-size: 18;");
+	static Button getPlayGameButton() {
+		Button playGameButton = new Button();
+		playGameButton.setText("Play Game");
+		playGameButton.setPrefSize(180, 40);
+		playGameButton.setAlignment(Pos.CENTER);
+		playGameButton.setStyle("-fx-border-color: #33b3de;-fx-border-width: 1;-fx-background-color: #33b3de;-fx-font-size: 18;");
 
-		return okButton;
+		return playGameButton;
 	}
 
 }
