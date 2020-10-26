@@ -13,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -38,6 +39,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		_gameWindow = primaryStage;
 		_gameWindow.setResizable(false);
+		_gameWindow.getIcons().add(new Image("file:game_data/logo.png"));
 		initialiseGameData();
 		SettingsComponents.setSettingsFromFile();
 		_colourBlindButton.setText(SettingsComponents.getSavedColourBlindMode());
