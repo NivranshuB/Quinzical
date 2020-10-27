@@ -42,6 +42,7 @@ public class GamesModuleComponents {
 		
 		return topMenu;
 	}
+	
 	/**
 	 * This method creates and sets the constraints for the question grid
 	 * @return grid pane for games module questions
@@ -54,6 +55,7 @@ public class GamesModuleComponents {
 		
 		return quesLayout;
 	}
+	
 	/**
 	 * This method creates the help button for games module
 	 * @return help button with hover over functionality
@@ -81,6 +83,7 @@ public class GamesModuleComponents {
 		
 		return helpButton;
 	}
+	
 	/**
 	 * This method creates the text and stage for the help button
 	 * @return stage of help text
@@ -109,6 +112,7 @@ public class GamesModuleComponents {
 		
 		return helpButtonStage;
 	}
+	
 	/**
 	 * This method creates the back button then call the static addGlossEffect method
 	 * @return back button with gloss effect
@@ -122,6 +126,7 @@ public class GamesModuleComponents {
 		
 		return backButton;
 	}
+	
 	/**
 	 * This method creates the winnings label to display in games module
 	 * @return winnings label
@@ -146,6 +151,7 @@ public class GamesModuleComponents {
 		
 		return winnings;
 	}
+	
 	/**
 	 * This method creates and sets up constraints for the label of an attempted question
 	 * @return label of attempted question
@@ -188,6 +194,7 @@ public class GamesModuleComponents {
 		
 		return attemptedQues;
 	}
+	
 	/**
 	 * This method creates and sets up constraints for button of an available question
 	 * @return available question button
@@ -216,6 +223,7 @@ public class GamesModuleComponents {
 		});
 		return unlockedQuesButton;
 	}
+	
 	/**
 	 * This method creates and sets up constraints for the label of a locked question
 	 * @return label of a locked question
@@ -237,6 +245,7 @@ public class GamesModuleComponents {
 		
 		return lockedButton;
 	}
+	
 	/**
 	 * This method creates and sets up constraints for the header label of a completed category
 	 * @return label of a completed category
@@ -260,6 +269,7 @@ public class GamesModuleComponents {
 		
 		return categoryLabel;
 	}
+	
 	/**
 	 * This method creates and sets up constraints for the header label of an incomplete category
 	 * @return label of an incomplete category

@@ -97,6 +97,7 @@ public class RewardScreen {
 		window.setScene(scene);
 		window.showAndWait();
 	}
+	
 	/**
 	 * This method returns the reward text depending on the users winnings
 	 * @return rewards text
@@ -124,6 +125,7 @@ public class RewardScreen {
 			return "All Blacks\n\nThe pride of New Zealand performing their iconic Haka, showcasing our vast culture";
 		}
 	}
+	
 	/**
 	 * This method returns the reward prompt depending on the users winnings
 	 * @return rewards prompt
@@ -151,6 +153,7 @@ public class RewardScreen {
 			return "All Blacks";
 		}
 	}
+	
 	/**
 	 *This method returns a specific image depending on the users winnings
 	 * @return users reward

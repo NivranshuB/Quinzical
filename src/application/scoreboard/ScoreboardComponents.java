@@ -30,6 +30,7 @@ public class ScoreboardComponents {
 		
 		return title;
 	}
+	
 	/**
 	 * This method creates and sets constraints for the scoreboard grid
 	 * @return scoreboard grid
@@ -43,6 +44,7 @@ public class ScoreboardComponents {
 		
 		return scoreBoardPane;
 	}
+	
 	/**
 	 * This method creates and sets constraints for the headings grid
 	 * @return headings grid

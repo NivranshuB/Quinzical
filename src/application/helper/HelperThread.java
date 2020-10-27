@@ -21,13 +21,14 @@ public class HelperThread extends Thread {
 		_question = question;
 		_playSpeed = 1.0;
 	}
+	
 	public HelperThread(String question, double playSpeed) {
 		_question = question;
 		_playSpeed = playSpeed;
 	}
+	
 	@Override
 	public void run() {
-		
 		//Create paper to run tasks in background
 		CompletedTaskPaper paper = new CompletedTaskPaper(_question, _playSpeed);
 		Platform.runLater(paper);

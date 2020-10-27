@@ -16,6 +16,7 @@ import javafx.scene.text.TextAlignment;
  * @author Whan Jung
  */
 public class QuestionBoxComponents {
+	
 	/**
 	 * This method creates and sets up the functionality of a button
 	 * @param macron | string to display on the button
@@ -32,6 +33,7 @@ public class QuestionBoxComponents {
 		});
 		return macronButton;
 	}
+	
 	/**
 	 * This method adds the given clue to the text field as prompt text 
 	 * @param clue | clue to add as prompt text
@@ -44,6 +46,7 @@ public class QuestionBoxComponents {
 		answerPrompt.setStyle("-fx-font-size: 18;");
 		return answerPrompt;
 	}
+	
 	/**
 	 * This method creates and sets constraints for a submit button
 	 * @return submit button
@@ -55,6 +58,7 @@ public class QuestionBoxComponents {
 		submit.setTextAlignment(TextAlignment.CENTER);
 		return submit;
 	}
+	
 	/**
 	 * This method creates and sets constraints for a replay button
 	 * @return replay button
@@ -66,6 +70,7 @@ public class QuestionBoxComponents {
 		replay.setAlignment(Pos.CENTER);
 		return replay;
 	}
+	
 	/**
 	 * This method creates and sets constraints for a don't know button
 	 * @return don't know button
@@ -77,6 +82,7 @@ public class QuestionBoxComponents {
 		dontKnow.setTextAlignment(TextAlignment.CENTER);
 		return dontKnow;
 	}
+	
 	/**
 	 * This method creates and sets constraints for a help button
 	 * @return help button
@@ -92,6 +98,7 @@ public class QuestionBoxComponents {
 		helpButton.setStyle("-fx-background-color: #FF8C00; -fx-text-fill: #F0F8FF");
 		return helpButton;
 	}
+	
 	/**
 	 * This method creates a text to display for the hover over property of the help button
 	 * @return don't know button

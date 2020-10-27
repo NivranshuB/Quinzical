@@ -22,6 +22,7 @@ public class QuestionBank {
 		String categoryDir = System.getProperty("user.dir") + System.getProperty("file.separator") + "categories";
 		initialiseCategory(categoryDir);
 	}
+	
 	/**
 	 * Initialises the Category instance from the input categories directory.
 	 */

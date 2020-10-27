@@ -138,8 +138,8 @@ public class Main extends Application {
 		_gameWindow.show();
 	}
 	
-	/**This method launches a new Games Module.
-	 * 
+	/**
+	 * This method launches a new Games Module.
 	 */
 	public static void restartGame(Stage gameWindow) {
 		GamesModule newGame = new GamesModule();

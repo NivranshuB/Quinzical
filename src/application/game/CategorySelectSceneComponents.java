@@ -51,6 +51,7 @@ public class CategorySelectSceneComponents {
 
 		return selectedCategoryDisplay;
 	}
+	
 	/**
 	 * This method creates the box for displaying all categories and sets up the heading
 	 * @return select categories box
@@ -70,6 +71,7 @@ public class CategorySelectSceneComponents {
 
 		return categorySelectLayout;
 	}
+	
 	/**
 	 * This method provides each button in the category select scene with functionalities
 	 * 
@@ -163,6 +165,7 @@ public class CategorySelectSceneComponents {
 		}
 
 	}
+	
 	/**
 	 * This method removes the selected category from the list
 	 * @return list with the selected category removed
@@ -175,6 +178,7 @@ public class CategorySelectSceneComponents {
 		}
 		return selectedCategories;
 	}
+	
 	/**
 	 * This method creates the play game button
 	 * @return play game button

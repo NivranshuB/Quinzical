@@ -51,7 +51,6 @@ public class QuestionBox {
 	 * a test field for the user to write their answer. It also reads out the question
 	 * using BASH espeak. This method will then return the answer as a string.
 	 */
-
 	public static String displayConfirm(String title, String questionToSpeak, String questionDisplay, String clue, Boolean isPracticeQuestion) {
 
 		//HelperThread to run festival in background with
@@ -252,6 +251,7 @@ public class QuestionBox {
 
 		return _answer;
 	}
+	
 	/**
 	 * This method is a question box template to test playback speed of festival in settings
 	 * @param title | title of box
@@ -360,6 +360,7 @@ public class QuestionBox {
 		window.showAndWait();
 		
 	}
+	
 	/**
 	 * This method adds the functionality to the replay button
 	 * @param replay | replay button to add functionality to
@@ -378,6 +379,7 @@ public class QuestionBox {
 			}
 		});
 	}
+	
 	/**
 	 * This method adds the functionality to the faster and slower buttons
 	 * @param faster | button to add faster functionality to

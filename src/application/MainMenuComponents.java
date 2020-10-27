@@ -46,6 +46,7 @@ public class MainMenuComponents {
 		
 		return menuTitleText;
 	}
+	
 	/**
 	 * This method creates an instruction text for the main menu
 	 * @return instruction text
@@ -62,6 +63,7 @@ public class MainMenuComponents {
 		
 		return menuInfo;
 	}
+	
 	/**
 	 * This method creates a main menu button
 	 * @param buttonText | name of button
@@ -76,6 +78,7 @@ public class MainMenuComponents {
 		
 		return menuButton;
 	}
+	
 	/**
 	 * This method sets up the constraints for the main menu layout
 	 * @return menu layout constraints
@@ -89,6 +92,7 @@ public class MainMenuComponents {
 		
 		return menuLayout;
 	}
+	
 	/**
 	 * This method returns the processed image to be set as a background 
 	 * @param backgroundName | name of image to be processed

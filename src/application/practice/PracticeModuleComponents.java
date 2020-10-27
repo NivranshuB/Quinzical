@@ -47,6 +47,7 @@ public class PracticeModuleComponents {
 		
 		return menuInfo;
 	}
+	
 	/**
 	 * This method creates and sets constraints for a box that will contain the title and instructions text
 	 * @return title and instruction box
@@ -59,6 +60,7 @@ public class PracticeModuleComponents {
 		
 		return topMenu;
 	}
+	
 	/**
 	 * This method creates a button for a category
 	 * @return category button
@@ -90,6 +92,7 @@ public class PracticeModuleComponents {
 		
 		return button;
 	}
+	
 	/**
 	 * This method creates the back button to return back to the main menu
 	 * @return back button with functionality
@@ -108,6 +111,7 @@ public class PracticeModuleComponents {
 		
 		return backButton;
 	}
+	
 	/**
 	 * This method creates and sets constraints for the box that will contain the back button
 	 * @return bottom box stackpane

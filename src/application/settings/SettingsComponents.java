@@ -53,6 +53,7 @@ public class SettingsComponents {
 		
 		return resetGameButton;
 	}
+	
 	/**
 	 * This method creates and sets constraints for the reset scoreboard button
 	 * @return reset scoreboard button
@@ -74,6 +75,7 @@ public class SettingsComponents {
 		
 		return resetScoreboardButton;
 	}
+	
 	/**
 	 * This method sets the constraints for the set up of colourblind button
 	 * 
@@ -98,9 +100,9 @@ public class SettingsComponents {
 			}
 		});
 	}
+	
 	/**
 	 * This method creates and sets constraints for the combobox to change background of games module
-	 *
 	 */
 	static ComboBox<String> setBackgroundBox() {
 		
@@ -129,6 +131,7 @@ public class SettingsComponents {
 		});
 		return backgroundBox;
 	}
+	
 	/**
 	 *  This method creates and sets constraints for the change playback speed button
 	 * @return change playback speed button
@@ -149,6 +152,7 @@ public class SettingsComponents {
 		
 		return changePlaybackSpeedButton;
 	}
+	
 	/**
 	 * This method creates and sets constraints for the back button
 	 * @param window | main menu stage
@@ -166,9 +170,9 @@ public class SettingsComponents {
 		back = GlossButton.addGlossEffect(back, 18);
 		return back;
 	}
+	
 	/**
 	 * This method saves the current settings data to a file in directory
-	 *
 	 */
 	public static void saveSettingData() {
 		
@@ -182,9 +186,9 @@ public class SettingsComponents {
 			e.printStackTrace();
 		}
 	}
+	
 	/**
 	 * This method reads and sets saved settings everytime Quinzical is booted up
-	 *
 	 */
 	public static void setSettingsFromFile() {
 
@@ -204,9 +208,11 @@ public class SettingsComponents {
 			}
 		}
 	}
+	
 	public static String getBackgroundName() {
 		return _backgroundName;
 	}
+	
 	/**
 	 * This method returns the current colour blind mode state
 	 * @return saved colour blind mode
