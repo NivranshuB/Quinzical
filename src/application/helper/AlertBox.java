@@ -44,9 +44,9 @@ public class AlertBox {
 		HelperThread helper = new HelperThread(message);
 		helper.start();
 		
-		//Set up constraints for alert box stage
 		Stage window = new Stage();
 		window.initOwner(Main._gameWindow);
+		
 		window.initModality(Modality.APPLICATION_MODAL);
 		
 		window.setTitle(title);
@@ -56,7 +56,7 @@ public class AlertBox {
 		Label label = new Label(message);
 		label.setWrapText(true);
 		label.setPadding(new Insets(20, 20, 20, 20));
-		label.setStyle("-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: white;");
+		label.setStyle("-fx-font-size: 18;-fx-text-fill: " + color);
 		
 		Button ok = new Button();
 		ok.setText("Ok");
@@ -71,11 +71,10 @@ public class AlertBox {
 		StackPane bottomMenu = new StackPane();
 		bottomMenu.getChildren().add(ok);  
 		bottomMenu.setPadding(new Insets(0, 0, 20, 0));
-        StackPane.setAlignment(ok, Pos.CENTER);
+        	StackPane.setAlignment(ok, Pos.CENTER);
 
-        //Set up background colour and layout according to the color parameter
+        
 		BorderPane layout = new BorderPane();
-		layout.setStyle("-fx-background-color: " + color);
 		layout.setPadding(new Insets(10, 10,10, 10));
 		layout.setCenter(label);
 		layout.setBottom(bottomMenu);

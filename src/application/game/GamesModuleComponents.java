@@ -13,6 +13,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -24,17 +26,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-/**
- * This class contains methods to set up the GUI components for the games module
- * @author team 41
- */
-
 public class GamesModuleComponents {
 	
-	/**
-	 * This method creates and sets the constraints for the headings box
-	 * @return headings box
-	 */
 	static HBox getTopMenu() {
 		HBox topMenu = new HBox();
 		topMenu.setPadding(new Insets(5, 5, 5, 5));
@@ -42,10 +35,7 @@ public class GamesModuleComponents {
 		
 		return topMenu;
 	}
-	/**
-	 * This method creates and sets the constraints for the question grid
-	 * @return grid pane for games module questions
-	 */
+	
 	static GridPane getQuesLayout() {
 		GridPane quesLayout = new GridPane();
 		quesLayout.setPadding(new Insets(20, 20, 20, 20));
@@ -54,10 +44,7 @@ public class GamesModuleComponents {
 		
 		return quesLayout;
 	}
-	/**
-	 * This method creates the help button for games module
-	 * @return help button with hover over functionality
-	 */
+
 	public static Button getHelpButton(Stage gameWindow) {
 		Button helpButton = new Button("?");
 		double r = 20;
@@ -67,7 +54,6 @@ public class GamesModuleComponents {
 		helpButton.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
 		helpButton.setStyle("-fx-background-color: #FF8C00; -fx-text-fill: #F0F8FF");
 		
-		//Get the stage for displaying the help text
 		Stage helpButtonStage = GamesModuleComponents.getHelpButtonStage(gameWindow);
 
 		//Display help text when hovering over button
@@ -81,10 +67,7 @@ public class GamesModuleComponents {
 		
 		return helpButton;
 	}
-	/**
-	 * This method creates the text and stage for the help button
-	 * @return stage of help text
-	 */
+	
 	private static Stage getHelpButtonStage(Stage gameWindow) {
 		
 		Text helpText = new Text("Help #1: You can only attempt the lowest value question of each category"
@@ -109,23 +92,17 @@ public class GamesModuleComponents {
 		
 		return helpButtonStage;
 	}
-	/**
-	 * This method creates the back button then call the static addGlossEffect method
-	 * @return back button with gloss effect
-	 */
+	
 	public static Button getBackButton() {
 		Button backButton = new Button();
 		backButton.setText("Back");
 		backButton.setPrefSize(80, 40);
 		backButton.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
-		backButton = GlossButton.addGlossEffect(backButton, 18);
+		backButton = GlossButton.addGlossEffect(backButton, 18, "#D5D5D5", "#ECECEC");
 		
 		return backButton;
 	}
-	/**
-	 * This method creates the winnings label to display in games module
-	 * @return winnings label
-	 */
+	
 	public static Label getWinningsLabel(String text) {
 		
 		Label winnings = new Label();
@@ -135,7 +112,6 @@ public class GamesModuleComponents {
 		winnings.setPadding(new Insets(2, 10, 2, 24));
 		winnings.setAlignment(Pos.CENTER);
 		
-		//If colour blind mode enabled then use different shade of green
 		if (Main.colourBlindMode()) {
 			winnings.setStyle("-fx-font-size: 20;-fx-border-width: 0;-fx-background-color: #008837;"
 					+ "-fx-text-fill: #ffffff;-fx-border-color: #ffffff");
@@ -146,10 +122,7 @@ public class GamesModuleComponents {
 		
 		return winnings;
 	}
-	/**
-	 * This method creates and sets up constraints for the label of an attempted question
-	 * @return label of attempted question
-	 */
+	
 	public static Label getAttemptedQuesLabel(int value, boolean ColourBlindMode, int qOutcome) {
 		String doneColor = "#000000";
 
@@ -168,15 +141,15 @@ public class GamesModuleComponents {
 				doneColor = "#BC0808";
 			}
 		}
-		//Set constraints of label
+		
 		Label attemptedQues = new Label();
 		attemptedQues.setText(Integer.toString(value));
 		attemptedQues.setPrefSize(90, 50);
-		attemptedQues.setStyle("-fx-font-size: 18;-fx-border-width: 1; -fx-text-fill: #ffffff;-fx-background-color: " + doneColor);
+		attemptedQues.setStyle("-fx-font-size: 18;-fx-border-width: 1; -fx-text-fill: #ffffff;-fx-background-radius: 15;-fx-background-color: " + doneColor);
 		attemptedQues.setOpacity(0);
 		attemptedQues.setAlignment(Pos.CENTER);
 		
-		//Display question when hovering over button otherwise keep it transparent
+		//Display help text when hovering over button
 		attemptedQues.hoverProperty().addListener((ChangeListener<Boolean>) (observable, oldValue, newValue) -> {
 			if (newValue) {
 				attemptedQues.setOpacity(1.0);
@@ -187,10 +160,7 @@ public class GamesModuleComponents {
 		
 		return attemptedQues;
 	}
-	/**
-	 * This method creates and sets up constraints for button of an available question
-	 * @return available question button
-	 */
+	
 	public static Button getAvailableQuesButton(Category c, Question q, GamesModule game) {
 		//Creation of button instance for a question
 		Button unlockedQuesButton = new Button();
@@ -199,7 +169,7 @@ public class GamesModuleComponents {
 		unlockedQuesButton.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;"
 				+ "-fx-font-size: 18;");
 		
-		unlockedQuesButton = GlossButton.addGlossEffect(unlockedQuesButton, 18);
+		unlockedQuesButton = GlossButton.addGlossEffect(unlockedQuesButton, 18, "#D5D5D5", "#ECECEC");
 
 		unlockedQuesButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
@@ -215,40 +185,31 @@ public class GamesModuleComponents {
 		});
 		return unlockedQuesButton;
 	}
-	/**
-	 * This method creates and sets up constraints for the label of a locked question
-	 * @return label of a locked question
-	 */
+	
 	public static Label getLockedQuesLabel(Category c, Question q) {
 		
 		//Creation of label instance for a locked question
 		Label lockedButton = new Label();
 		lockedButton.setText(Integer.toString(q.getValue()));
 		lockedButton.setPrefSize(90, 50);
-		lockedButton.setStyle("-fx-border-width: 2; -fx-font-size: 18; -fx-background-color: #d5e5f2");
+		lockedButton.setStyle("-fx-background-color: #d5e5f2;-fx-background-radius: 15;-fx-border-width: 2; -fx-font-size: 18");
 		lockedButton.setPadding(new Insets(0, 0, 0, 23));
 
 		if (c.getCategoryName().equalsIgnoreCase("international")) {
-			lockedButton.setStyle("-fx-border-width: 2; -fx-font-size: 18; -fx-background-color: #f7e1b2");
+			lockedButton.setStyle("-fx-border-width: 2; -fx-font-size: 18; -fx-background-color: #f7e1b2;-fx-background-radius: 15");
 		}
 		
 		lockedButton.setOpacity(0.7);
 		
 		return lockedButton;
 	}
-	/**
-	 * This method creates and sets up constraints for the header label of a completed category
-	 * @return label of a completed category
-	 */
+	
 	public static Label getCompletedCategoryLabel(Category c) {
-		
-		//Set constraints of label 
 		Label categoryLabel = new Label();
+		
 		categoryLabel.setText(c.getCategoryName());
 		categoryLabel.setPrefSize(130, 50);
 		categoryLabel.setMaxSize(130, 50);
-		
-		//If colour blind mode is enabled then change shade of green
 		if (Main.colourBlindMode()) {
 			categoryLabel.setStyle("-fx-font-size: 18;-fx-border-width: 2;-fx-border-color: #ffffff;"
 					+ "-fx-background-color: #008837;-fx-text-fill: #ffffff");
@@ -259,18 +220,14 @@ public class GamesModuleComponents {
 		
 		return categoryLabel;
 	}
-	/**
-	 * This method creates and sets up constraints for the header label of an incomplete category
-	 * @return label of an incomplete category
-	 */
+	
 	public static Label getIncompleteCategoryLabel(Category c) {
-		
-		//Set constraints of label
 		Label categoryLabel = new Label();
+		
 		categoryLabel.setText(c.getCategoryName());
 		categoryLabel.setPrefSize(130, 50);
 		categoryLabel.setStyle("-fx-font-size: 18;-fx-border-width: 2;-fx-border-color: #ffffff;"
-				+ " -fx-background-color: #040662;-fx-text-fill: #ffffff");
+				+ " -fx-background-color: #040662;-fx-text-fill: #ffffff;");
 		
 		return categoryLabel;
 	}

@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 
 import application.Main;
 import application.MainMenuComponents;
+import application.helper.AlertBox;
 import application.helper.ConfirmBox;
 import application.questions.Category;
 import application.questions.Question;

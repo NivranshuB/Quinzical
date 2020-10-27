@@ -21,7 +21,7 @@ import javafx.stage.WindowEvent;
  */
 public class ConfirmBox {
 
-	static boolean _answer;
+	static boolean answer;
 	
 	/**
 	 * Given a title and a message, creates a new window with the message and a yes 
@@ -48,7 +48,7 @@ public class ConfirmBox {
 		window.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			public void handle (WindowEvent e) {
 				window.close();
-				_answer = false;
+				answer = false;
 			}
 		});
 		
@@ -59,7 +59,7 @@ public class ConfirmBox {
 		yes.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
 				window.close();
-				_answer = true;
+				answer = true;
 			}
 		});
 		
@@ -69,7 +69,7 @@ public class ConfirmBox {
 		no.setPrefSize(60, 30);
 		no.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
-				_answer = false;
+				answer = false;
 				window.close();
 			}
 		});
@@ -87,6 +87,6 @@ public class ConfirmBox {
 		window.setScene(scene);
 		window.showAndWait();
 		
-		return _answer;
+		return answer;
 	}
 }

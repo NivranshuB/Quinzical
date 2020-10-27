@@ -20,11 +20,6 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-/**
- * This class contains methods to display the reward screen and helper methods to determine the reward
- * @author team 41
- */
-
 public class RewardScreen {
 
 	/**
@@ -46,9 +41,10 @@ public class RewardScreen {
 		HelperThread helper = new HelperThread(getRewardPrompt(winnings));
 		helper.start();
 
-		//Set constraints of the stage
 		Stage window = new Stage();
+
 		window.initModality(Modality.APPLICATION_MODAL);
+
 		window.setTitle("Your Reward");
 		window.setMinWidth(500);
 		window.setMinHeight(250);
@@ -74,7 +70,6 @@ public class RewardScreen {
 
 		HBox rewardScreen = new HBox();
 
-		//Get image of the specified winnings range
 		ImageView imageView = getImage(winnings);
 		imageView.setFitHeight(200);
 		imageView.setFitWidth(200);
@@ -97,10 +92,7 @@ public class RewardScreen {
 		window.setScene(scene);
 		window.showAndWait();
 	}
-	/**
-	 * This method returns the reward text depending on the users winnings
-	 * @return rewards text
-	 */
+
 	private static String getRewardText(int winnings) {
 		if (winnings >= 7500) {
 			return "Pounamu \n\nNgāi ahu Pounamu\n\nMāori symbol for peace, status and adornment";
@@ -124,10 +116,7 @@ public class RewardScreen {
 			return "All Blacks\n\nThe pride of New Zealand performing their iconic Haka, showcasing our vast culture";
 		}
 	}
-	/**
-	 * This method returns the reward prompt depending on the users winnings
-	 * @return rewards prompt
-	 */
+
 	private static String getRewardPrompt(int winnings) {
 		if (winnings >= 7500) {
 			return "Pounamu";
@@ -151,10 +140,7 @@ public class RewardScreen {
 			return "All Blacks";
 		}
 	}
-	/**
-	 *This method returns a specific image depending on the users winnings
-	 * @return users reward
-	 */
+
 	private static ImageView getImage(int winnings) {
 		String image_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + 
 				"game_data" + System.getProperty("file.separator") + "reward_images" + System.getProperty("file.separator");

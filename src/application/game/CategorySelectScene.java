@@ -22,11 +22,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-/**
- * This class sets up the functionality for the user to select categories in games module
- * @author team 41
- */
-
 public class CategorySelectScene {
 	
 	/**
@@ -54,7 +49,7 @@ public class CategorySelectScene {
 		backButton.setText("Back");
 		backButton.setPrefSize(80, 40);
 		backButton.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
-		backButton =  GlossButton.addGlossEffect(backButton, 18);
+		backButton =  GlossButton.addGlossEffect(backButton, 18, "#D5D5D5", "#ECECEC");
 		backButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
 				window.setScene(menuScene);

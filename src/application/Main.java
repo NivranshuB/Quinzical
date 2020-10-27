@@ -2,6 +2,7 @@ package application;
 
 import application.game.GamesModule;
 import application.helper.ConfirmBox;
+import application.helper.GlossButton;
 import application.practice.PracticeModule;
 import application.questions.QuestionBank;
 import application.scoreboard.Scoreboard;
@@ -38,31 +39,25 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		_gameWindow = primaryStage;
 		_gameWindow.setResizable(false);
-		
-		//Set logo for quinzical
 		_gameWindow.getIcons().add(new Image("file:game_data/logo.png"));
-		
-		//Initialise all game and settings data when booting up the game
 		initialiseGameData();
 		SettingsComponents.setSettingsFromFile();
 		_colourBlindButton.setText(SettingsComponents.getSavedColourBlindMode());
-		
-		//Create the main menu scene
 		mainMenuInterface();
 	}
 	
 	/**
-	 * This method initialises the game and settings data from files in the directory
+	 * 
 	 */
 	private void initialiseGameData() {
 		_questions = new QuestionBank();//initialise categories and questions
-		_gameMenu = new GamesModule(); 
+		_gameMenu = new GamesModule();
 		_scoreboard = new Scoreboard();
 		_colourBlindButton = new Button("Click to enable colour blind mode");
 	}
 	
 	/**
-	 * This method sets up the main menu scene
+	 * 
 	 */
 	private void mainMenuInterface() {
 		
@@ -93,12 +88,10 @@ public class Main extends Application {
 		Button settingsButton = MainMenuComponents.menuButton("Settings");
 		settingsButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
-				//Call static method viewSettings in Settings class to set up settings scene
 				Settings.viewSettings(_gameWindow, _gameMenu, _scoreboard, _colourBlindButton);
 			}
 		});
 		
-		//Saves the category and questions data for the player into a file before exiting the game
 		Button exitButton = MainMenuComponents.menuButton("Exit");
 		exitButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
@@ -147,7 +140,7 @@ public class Main extends Application {
 	}
 	
 	/**
-	 * This main method launches the quinzical application
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -156,7 +149,7 @@ public class Main extends Application {
 	
 	/**
 	 * Checks if the color blind mode is enabled or not. If enabled returns true, else returns false.
-	 * @return boolean | true if colour blind mode is enabled otherwise return false
+	 * @return
 	 */
 	public static boolean colourBlindMode() {
 		if (_colourBlindButton.getText().equals("Click to enable colour blind mode")) {

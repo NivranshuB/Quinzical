@@ -135,7 +135,7 @@ public class Scoreboard {
 				mainStage.show();
 			}
 		});
-		back = GlossButton.addGlossEffect(back, 18);
+		back = GlossButton.addGlossEffect(back, 18, "#D5D5D5", "#ECECEC");
 
 		screenPane.setTop(titleAndHeading);
 		screenPane.setCenter(scrollPane);
