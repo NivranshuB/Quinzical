@@ -6,9 +6,17 @@ import java.io.FileNotFoundException;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/**
+ * This class contains a single static method to get an image view from an image input
+ * @author Nivranshu
+ */
 
 public class ImageHelper {
 
+	/**
+	 * This method creates an image view after finding the image specified by the parameter
+	 * @param filename | filename to find the image
+	 */
 	public static ImageView getImageView(String filename) {
 		
 		FileInputStream stream;

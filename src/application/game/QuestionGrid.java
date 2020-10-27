@@ -13,6 +13,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
+/**
+ * This class contains methods to display the question board for the games module as well as including their functionalities
+ * @author team 41
+ */
 public class QuestionGrid {
 
 	/**

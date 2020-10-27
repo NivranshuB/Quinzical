@@ -20,8 +20,18 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
+/**
+ * This class sets up and creates titles and buttons for the main menu layout of Quinzical
+ * @author team 41
+ */
+
 public class MainMenuComponents {
 
+	/**
+	 * This method creates the title for the main menu
+	 * @return main menu title
+	 *
+	 */
 	public static StackPane getMenuTitleText() {
 		
 		StackPane menuTitleText = new StackPane();
@@ -35,7 +45,10 @@ public class MainMenuComponents {
 		
 		return menuTitleText;
 	}
-	
+	/**
+	 * This method creates an instruction text for the main menu
+	 * @return instruction text
+	 */
 	public static StackPane getMenuInfo() {
 		
 		StackPane menuInfo = new StackPane();
@@ -48,7 +61,11 @@ public class MainMenuComponents {
 		
 		return menuInfo;
 	}
-	
+	/**
+	 * This method creates a main menu button
+	 * @param buttonText | name of button
+	 * @return main menu button
+	 */
 	public static Button menuButton(String buttonText) {
 		
 		Button menuButton = new Button(buttonText);
@@ -57,7 +74,10 @@ public class MainMenuComponents {
 		
 		return menuButton;
 	}
-	
+	/**
+	 * This method sets up the constraints for the main menu layout
+	 * @return menu layout constraints
+	 */
 	public static VBox getMenuLayout() {
 		
 		VBox menuLayout = new VBox();
@@ -67,12 +87,18 @@ public class MainMenuComponents {
 		
 		return menuLayout;
 	}
-	
+	/**
+	 * This method returns the processed image to be set as a background 
+	 * @param backgroundName | name of image to be processed
+	 * @return background image
+	 */
 	public static Background setBackground(String backgroundName) {
+		//Get the directory location of the background
 		String image_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "game_data" + System.getProperty("file.separator") + backgroundName;
 		FileInputStream stream;
 		Background background = null;
 
+		//Process the image into a background image
 		try {
 			stream = new FileInputStream(image_loc);
 			Image image = new Image(stream); 

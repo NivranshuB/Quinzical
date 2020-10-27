@@ -21,8 +21,17 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+/**
+ * This class contains methods to create and set up GUI components for the practice module
+ * @author team 41
+ */
+
 public class PracticeModuleComponents {
 
+	/**
+	 * This method creates the title for the practice module scene
+	 * @return practice module title in stackpane
+	 */
 	static StackPane getMenuInfo() {
 		
 		StackPane menuInfo = new StackPane();
@@ -38,7 +47,10 @@ public class PracticeModuleComponents {
 		
 		return menuInfo;
 	}
-	
+	/**
+	 * This method creates and sets constraints for a box that will contain the title and instructions text
+	 * @return title and instruction box
+	 */
 	static VBox getTopMenu() {
 		VBox topMenu = new VBox();
 		topMenu.setAlignment(Pos.CENTER);
@@ -47,8 +59,13 @@ public class PracticeModuleComponents {
 		
 		return topMenu;
 	}
-	
+	/**
+	 * This method creates a button for a category
+	 * @return category button
+	 */
 	static Button getCategoryButton(Category category, PracticeModule practice) {
+		
+		//Create and set constraints of button
 		Button button = new Button();
 		button.setText(category.getCategoryName());
 		button.setPrefSize(200, 40);
@@ -72,7 +89,10 @@ public class PracticeModuleComponents {
 		
 		return button;
 	}
-	
+	/**
+	 * This method creates the back button to return back to the main menu
+	 * @return back button with functionality
+	 */
 	static Button getBackButton(Stage stage, Scene menuScene) {
 		Button backButton = new Button("Back");
 		backButton.setPrefSize(80, 40);
@@ -87,7 +107,10 @@ public class PracticeModuleComponents {
 		
 		return backButton;
 	}
-	
+	/**
+	 * This method creates and sets constraints for the box that will contain the back button
+	 * @return bottom box stackpane
+	 */
 	static StackPane getBottomMenu(Button backButton) {
 		StackPane bottomMenu = new StackPane();
 		bottomMenu.getChildren().add(backButton);

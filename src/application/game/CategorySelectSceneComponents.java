@@ -20,10 +20,19 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
+/**
+ * This class creates GUI components for the category selection scene in games module
+ * @author team 41
+ */
+
 public class CategorySelectSceneComponents {
 
-	private static Button playGameButton = getPlayGameButton();
+	private static Button _playGameButton = getPlayGameButton();
 	
+	/**
+	 * This method creates the box for displaying selected categories and sets up the heading
+	 * @return selected category display box
+	 */
 	static VBox getSelectedCategoryDisplay() {
 
 		//Set up the layout for the list displaying all the selected categories
@@ -42,7 +51,10 @@ public class CategorySelectSceneComponents {
 
 		return selectedCategoryDisplay;
 	}
-
+	/**
+	 * This method creates the box for displaying all categories and sets up the heading
+	 * @return select categories box
+	 */
 	static VBox getCategorySelectLayout() {
 
 		VBox categorySelectLayout = new VBox();
@@ -58,7 +70,10 @@ public class CategorySelectSceneComponents {
 
 		return categorySelectLayout;
 	}
-
+	/**
+	 * This method provides each button in the category select scene with functionalities
+	 * 
+	 */
 	static void addSelectedAndUnselectedCategories(QuestionBank questionBank, GamesModule gameScene,
 			VBox selectedCategoryDisplay, VBox categorySelectLayout) {
 
@@ -70,7 +85,8 @@ public class CategorySelectSceneComponents {
 		File[] fList = directory.listFiles();
 
 		for (File x : fList) {
-
+			
+			//For files that is not international
 			if (!(x.getName().equalsIgnoreCase("international"))) {
 
 				//Creation of button instance for a category
@@ -82,16 +98,17 @@ public class CategorySelectSceneComponents {
 
 				categoryButton.setOnAction(new EventHandler<ActionEvent>() {
 					public void handle (ActionEvent e) {
+						//If category has already been selected, do nothing
 						for (String selected : selectedCategories) {
 							if (x.getName().equalsIgnoreCase(selected)) {
 								return;
 							}
 						}
-
+						//If 5 categories have been selected, do nothing
 						if (selectedCategories.size() > 4) {
 							return;
 						}
-						
+						//Add file to selected categories
 						selectedCategories.add(x.getName());
 
 						//Create a new label for the category selected by the user
@@ -111,17 +128,21 @@ public class CategorySelectSceneComponents {
 										categoryToRemove = selected;
 									}
 								}
+								//Remove category if already been selected
 								selectedCategories.remove(categoryToRemove);
-								if (selectedCategoryDisplay.getChildren().contains(playGameButton) && selectedCategories.size() < 5) {
-									selectedCategoryDisplay.getChildren().remove(playGameButton);
+								//After removal of selected button, if there is now less than 5 categories then remove play game button
+								if (selectedCategoryDisplay.getChildren().contains(_playGameButton) && selectedCategories.size() < 5) {
+									selectedCategoryDisplay.getChildren().remove(_playGameButton);
 								}
 							}
 						});
 						selectedCategoryDisplay.getChildren().addAll(selectedCategory);
-					
+						
+						//If 5 categories selected, display play game button
 						if (selectedCategories.size() == 5) {
-							selectedCategoryDisplay.getChildren().addAll(playGameButton);
-							playGameButton.setOnAction(new EventHandler<ActionEvent>() {
+							selectedCategoryDisplay.getChildren().addAll(_playGameButton);
+							//Redirect to games with selected categories
+							_playGameButton.setOnAction(new EventHandler<ActionEvent>() {
 								public void handle (ActionEvent e) {
 									if (selectedCategories.size() == 5) {
 										CategorySelectScene.removeUnselectedCategories(selectedCategories, questionBank);
@@ -131,7 +152,7 @@ public class CategorySelectSceneComponents {
 									}
 								}
 							});
-							playGameButton =  GlossButton.addGlossEffect(playGameButton, 18);
+							_playGameButton =  GlossButton.addGlossEffect(_playGameButton, 18);
 						}
 
 					}
@@ -141,7 +162,10 @@ public class CategorySelectSceneComponents {
 		}
 
 	}
-
+	/**
+	 * This method removes the selected category from the list
+	 * @return list with the selected category removed
+	 */
 	static List<String> removeSelectedCategory(File removedCategory, List<String> selectedCategories) {
 		for (String selected : selectedCategories) {
 			if (removedCategory.getName().equalsIgnoreCase(selected)) {
@@ -150,7 +174,10 @@ public class CategorySelectSceneComponents {
 		}
 		return selectedCategories;
 	}
-	
+	/**
+	 * This method creates the play game button
+	 * @return play game button
+	 */
 	static Button getPlayGameButton() {
 		Button playGameButton = new Button();
 		playGameButton.setText("Play Game");

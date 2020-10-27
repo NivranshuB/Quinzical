@@ -51,20 +51,4 @@ public class QuestionBank {
 	public List<Category> getCategoryList() {
 		return _categoryList;
 	}
-	
-	/**
-	 * 
-	 */
-	public String toString() {
-		String questionBank = new String();
-		for (Category c : _categoryList) {
-			questionBank = questionBank + c + "\n";
-			
-			for (Question q : c.getQuestions()) {
-				questionBank = questionBank + q + "\n";
-			}
-		}
-		
-		return questionBank;
-	}
 }

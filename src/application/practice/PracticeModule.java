@@ -53,7 +53,6 @@ public class PracticeModule {
 		}
 		
 		Button backButton = PracticeModuleComponents.getBackButton(_stage, _menuScene);
-
 		StackPane bottomMenu = PracticeModuleComponents.getBottomMenu(backButton);
 
 		BorderPane layout = new BorderPane();
@@ -69,14 +68,16 @@ public class PracticeModule {
 	}
 	
 	/**
-	 * 
+	 * This method asks the user a random question in the practice module using the QuestionBox class
 	 */
 	void askQuestion(List<Question> questionList, Category selectedCategory) {
 		
+		//Obtain random number to choose a random question
 		Random rand = new Random();
 		int attempts = 0;
 		int randomQuestionIndex = rand.nextInt(selectedCategory.numberOfQuestions());
 
+		//Give the user 3 attempts
 		while (attempts < 3) {
 			Question question = questionList.get(randomQuestionIndex);
 			String answerInput = "";

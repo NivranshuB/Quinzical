@@ -44,9 +44,9 @@ public class AlertBox {
 		HelperThread helper = new HelperThread(message);
 		helper.start();
 		
+		//Set up constraints for alert box stage
 		Stage window = new Stage();
 		window.initOwner(Main._gameWindow);
-		
 		window.initModality(Modality.APPLICATION_MODAL);
 		
 		window.setTitle(title);
@@ -73,7 +73,7 @@ public class AlertBox {
 		bottomMenu.setPadding(new Insets(0, 0, 20, 0));
         StackPane.setAlignment(ok, Pos.CENTER);
 
-        
+        //Set up background colour and layout according to the color parameter
 		BorderPane layout = new BorderPane();
 		layout.setStyle("-fx-background-color: " + color);
 		layout.setPadding(new Insets(10, 10,10, 10));

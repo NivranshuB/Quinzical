@@ -1,19 +1,26 @@
 package application.scoreboard;
 
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
+/**
+ * This class contains methods to create and constrain GUI components for Scoreboard
+ * @author Whan Jung
+ */
+
 public class ScoreboardComponents {
 
+	/**
+	 * This method creates and sets constraints for the scoreboard title
+	 * @return scoreboard title
+	 */
 	public static Text getScoreboardTitle() {
-		//Create scoreboard title
+
 		Text title = new Text("Scoreboard");
 		title.setFill(Color.ORANGE);
 		title.setFont(Font.font("Times New Roman", FontWeight.BOLD, 36));
@@ -23,7 +30,10 @@ public class ScoreboardComponents {
 		
 		return title;
 	}
-	
+	/**
+	 * This method creates and sets constraints for the scoreboard grid
+	 * @return scoreboard grid
+	 */
 	public static GridPane getScoreboardPane() {
 		GridPane scoreBoardPane = new GridPane();
 		scoreBoardPane.setAlignment(Pos.CENTER);
@@ -33,7 +43,10 @@ public class ScoreboardComponents {
 		
 		return scoreBoardPane;
 	}
-	
+	/**
+	 * This method creates and sets constraints for the headings grid
+	 * @return headings grid
+	 */
 	public static GridPane getHeadingPane(Font headingStyle) {
 		GridPane headingPane = new GridPane();
 		headingPane.setHgap(200);

@@ -22,6 +22,11 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * This class sets up the functionality for the user to select categories in games module
+ * @author team 41
+ */
+
 public class CategorySelectScene {
 	
 	/**
