@@ -18,15 +18,25 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+/**
+ * This class contains a single static method to create the settings layout of Quinzical
+ * @author team 41
+ */
+
 public class Settings {
 
 	/**
-	 * 
+	 * This method creates the GUI layout to view settings
+	 * @param window | main menu stage
+	 * @param gameMenu | main menu scene
+	 * @param score | scoreboard instance
+	 * @param colourBlindButton | state of colour blind button 
 	 */
 	public static void viewSettings(Stage window, GamesModule gameMenu, Scoreboard score, Button colourBlindButton) {
 		
 		Scene menuScene = window.getScene();
 		
+		//Create settings title
 		Text title = new Text("Settings");
 		title.setFill(Color.ORANGE);
 		title.setFont(Font.font("Times New Roman\"", FontWeight.BOLD, 36));
@@ -34,6 +44,7 @@ public class Settings {
 		title.setStyle("-fx-stroke: #2b1600;-fx-stroke-width: 1px;");
 		title.setUnderline(true);
 		
+		//Create buttons for settings
 		Button resetGameButton = SettingsComponents.getResetGameButton(gameMenu);
 		
 		Button resetScoreboardButton = SettingsComponents.getResetScoreboardButton(score);

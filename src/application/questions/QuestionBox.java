@@ -38,9 +38,9 @@ import javafx.util.Duration;
  */
 public class QuestionBox {
 
-	static String answer = "";
-	private static double displayPlaySpeed = 1.0;
-	private static double realPlaySpeed = 1.0;
+	private static String _answer = "";
+	private static double _displayPlaySpeed = 1.0;
+	private static double _realPlaySpeed = 1.0;
 	private static final Integer STARTTIME = 60;
 	private static Timeline _timeline;
 	private static Label _timerLabel = new Label(); //Label for countdown timer of games module
@@ -59,9 +59,10 @@ public class QuestionBox {
 		descendents.filter(ProcessHandle::isAlive).forEach(ph -> {
 		      ph.destroy();
 		});
-		HelperThread helper = new HelperThread(questionToSpeak, realPlaySpeed);
+		HelperThread helper = new HelperThread(questionToSpeak, _realPlaySpeed);
 		helper.start();
 
+		//Create and set constraints for question box stage
 		Stage window = new Stage();
 		window.initOwner(Main._gameWindow);
 		window.initModality(Modality.APPLICATION_MODAL);
@@ -80,19 +81,22 @@ public class QuestionBox {
 		answerLayout.setVgap(8);
 		answerLayout.setHgap(10);
 
+		//Create text field to get user prompt
 		TextField answerPrompt = QuestionBoxComponents.getAnswerPrompt(clue);
+		//Get user input when user presses enter in prompt
 		answerPrompt.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
 			@Override
 			public void handle(KeyEvent key) {
 				if (key.getCode().equals(KeyCode.ENTER)) {
-					answer = answerPrompt.getText();
+					_answer = answerPrompt.getText();
 					window.close();
 				}
 			}
 		});
 		GridPane.setConstraints(answerPrompt, 0, 0);
 
+		//Create aeiou buttons using static method
 		Button aButton = QuestionBoxComponents.aeiouButtons("ā", answerPrompt);
 		Button eButton = QuestionBoxComponents.aeiouButtons("ē", answerPrompt);
 		Button iButton = QuestionBoxComponents.aeiouButtons("ī", answerPrompt);
@@ -104,6 +108,7 @@ public class QuestionBox {
 		macronsBox.setAlignment(Pos.CENTER);
 		macronsBox.getChildren().addAll(aButton, eButton, iButton, oButton, uButton);
 
+		//Set timer text and colour according to colour blind mode
 		_timerLabel.setText(_timeSeconds.toString());
 		if (Main.colourBlindMode()) {
 			_timerLabel.setStyle("-fx-font-size: 4em; -fx-text-fill: #7B3294");
@@ -113,6 +118,8 @@ public class QuestionBox {
 
 		VBox timerAndTitleBox = new VBox();
 		timerAndTitleBox.setAlignment(Pos.CENTER);
+		
+		//If practice module question then don't add the timer
 		if (isPracticeQuestion) {
 			timerAndTitleBox.getChildren().addAll(questionLabel, macronsBox);     
 		} else {
@@ -137,9 +144,9 @@ public class QuestionBox {
 							_timerLabel.setText(_timeSeconds.toString());
 							if (_timeSeconds <= 0) {
 								if (answerPrompt.getText().isEmpty()) {
-									answer = "Ran out of time!";
+									_answer = "Ran out of time!";
 								} else {
-									answer = answerPrompt.getText();
+									_answer = answerPrompt.getText();
 								}
 								window.close();
 							}
@@ -152,7 +159,7 @@ public class QuestionBox {
 		Button submit = QuestionBoxComponents.getSubmitButton();
 		submit.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
-				answer = answerPrompt.getText();
+				_answer = answerPrompt.getText();
 				window.close();
 			}
 		});
@@ -163,12 +170,12 @@ public class QuestionBox {
 		Button dontKnow = QuestionBoxComponents.getDontKnowButton();
 		dontKnow.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
-				answer = "Its fine you don't know!";
+				_answer = "Its fine you don't know!";
 				window.close();
 			}
 		});
 
-		Text speechSpeed = new Text("Playback speed: " + String.valueOf(Math.round(displayPlaySpeed * 100) / 100.0) + "x");
+		Text speechSpeed = new Text("Playback speed: " + String.valueOf(Math.round(_displayPlaySpeed * 100) / 100.0) + "x");
 		speechSpeed.setTextAlignment(TextAlignment.CENTER);
 
 		Button faster = new Button("Faster");
@@ -180,6 +187,7 @@ public class QuestionBox {
 		Button helpButton = QuestionBoxComponents.getHelpButton();
 		Text helpText = QuestionBoxComponents.getHelpText(true);
 
+		//Create and set constraints for help button stage
 		Stage helpButtonStage = new Stage();
 		helpButtonStage.initOwner(window);
 		helpButtonStage.initStyle(StageStyle.TRANSPARENT); //Makes stage transparent to make scene look round
@@ -213,7 +221,7 @@ public class QuestionBox {
 		if (isPracticeQuestion) {
 			bottomMenuBox.getChildren().addAll(replay, submit, speedAdjustmentBox);
 			window.setOnCloseRequest((e) -> {
-				answer = "";
+				_answer = "";
 			    window.close();
 			});
 		} else {
@@ -222,7 +230,7 @@ public class QuestionBox {
 			groupBox.getChildren().addAll(submit, dontKnow);
 			bottomMenuBox.getChildren().addAll(replay, groupBox, speedAdjustmentBox);
 			window.setOnCloseRequest((e) -> {
-				answer = "The question you selected is now considered as attempted";
+				_answer = "The question you selected is now considered as attempted";
 			    window.close();
 			});
 		}
@@ -242,17 +250,23 @@ public class QuestionBox {
 		window.setScene(scene);
 		window.showAndWait();
 
-		return answer;
+		return _answer;
 	}
+	/**
+	 * This method is a question box template to test playback speed of festival in settings
+	 * @param title | title of box
+	 * @param | test message
+	 */
 	public static void testPlaybackSpeed(String title, String message) {
 		//HelperThread to run festival in background with
 		Stream<ProcessHandle> descendents = ProcessHandle.current().descendants();
 		descendents.filter(ProcessHandle::isAlive).forEach(ph -> {
 		      ph.destroy();
 		});
-		HelperThread helper = new HelperThread(message, realPlaySpeed);
+		HelperThread helper = new HelperThread(message, _realPlaySpeed);
 		helper.start();
 		
+		//Create and set constraints for the test stage
 		Stage window = new Stage();
 		window.initOwner(Main._gameWindow);
 		window.initModality(Modality.APPLICATION_MODAL);
@@ -271,6 +285,7 @@ public class QuestionBox {
 		answerLayout.setVgap(8);
 		answerLayout.setHgap(10);
 		
+		//Create all components for the test stage
 		Button replay = QuestionBoxComponents.getReplayButton();
 		addReplayButtonAction(replay, message);
 		Button submit = QuestionBoxComponents.getSubmitButton();
@@ -278,11 +293,13 @@ public class QuestionBox {
 		Button helpButton = QuestionBoxComponents.getHelpButton();
 		Text helpText = QuestionBoxComponents.getHelpText(false);
 		TextField answerPrompt = QuestionBoxComponents.getAnswerPrompt("This is a test!");
+		
+		//Disable all unnecessary buttons for testing
 		submit.setDisable(true);
 		dontKnow.setDisable(true);
 		answerPrompt.setDisable(true);
 		
-		Text speechSpeed = new Text("Playback speed: " + String.valueOf(Math.round(displayPlaySpeed * 100) / 100.0) + "x");
+		Text speechSpeed = new Text("Playback speed: " + String.valueOf(Math.round(_displayPlaySpeed * 100) / 100.0) + "x");
 		speechSpeed.setTextAlignment(TextAlignment.CENTER);
 
 		Button faster = new Button("Faster");
@@ -291,6 +308,7 @@ public class QuestionBox {
 		VBox speedButtonsBox = new VBox();
 		speedButtonsBox.getChildren().addAll(faster, slower);
 		
+		//Create and set constraints for the help button stage
 		Stage helpButtonStage = new Stage();
 		helpButtonStage.initOwner(window);
 		helpButtonStage.initStyle(StageStyle.TRANSPARENT); //Makes stage transparent to make scene look round
@@ -342,29 +360,42 @@ public class QuestionBox {
 		window.showAndWait();
 		
 	}
+	/**
+	 * This method adds the functionality to the replay button
+	 * @param replay | replay button to add functionality to
+	 * @param message | message to speak through festival
+	 */
 	private static void addReplayButtonAction(Button replay, String message) {
 		replay.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
-				
+				//Destroy all festival processes before running festival again
 				Stream<ProcessHandle> descendents = ProcessHandle.current().descendants();
 				descendents.filter(ProcessHandle::isAlive).forEach(ph -> {
 				      ph.destroy();
 				});
-				HelperThread helper = new HelperThread(message, realPlaySpeed);
+				HelperThread helper = new HelperThread(message, _realPlaySpeed);
 				helper.start();
 			}
 		});
 	}
+	/**
+	 * This method adds the functionality to the faster and slower buttons
+	 * @param faster | button to add faster functionality to
+	 * @param slower | button to add slower functionality to
+	 * @param speechSpeed | display of current playback speed
+	 */
 	private static void addFasterSlowerButtonAction(Button faster, Button slower, Text speechSpeed) {
+		
+		//Increase playback speed and update speed display
 		faster.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
-				displayPlaySpeed += 0.1;
-				realPlaySpeed -= 0.05;
-				double roundPlaySpeed = Math.round(displayPlaySpeed * 10) / 10.0;
+				_displayPlaySpeed += 0.1;
+				_realPlaySpeed -= 0.05;
+				double roundPlaySpeed = Math.round(_displayPlaySpeed * 10) / 10.0;
 				if (roundPlaySpeed == 2.1) {
 					faster.setText("MAX");
-					displayPlaySpeed = 2.0;
-					realPlaySpeed = 0.5;
+					_displayPlaySpeed = 2.0;
+					_realPlaySpeed = 0.5;
 				}
 				else {
 					faster.setText("Faster");
@@ -373,15 +404,16 @@ public class QuestionBox {
 				}
 			}
 		});
+		//Decrease playback speed and update speed display
 		slower.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
-				displayPlaySpeed -= 0.1;
-				realPlaySpeed += 0.05;
-				double roundPlaySpeed = Math.round(displayPlaySpeed * 10) / 10.0;
+				_displayPlaySpeed -= 0.1;
+				_realPlaySpeed += 0.05;
+				double roundPlaySpeed = Math.round(_displayPlaySpeed * 10) / 10.0;
 				if (roundPlaySpeed == 0.0) {
 					slower.setText("MIN");
-					displayPlaySpeed = 0.1;
-					realPlaySpeed = 1.5;
+					_displayPlaySpeed = 0.1;
+					_realPlaySpeed = 1.5;
 				}
 				else {
 					faster.setText("Faster");

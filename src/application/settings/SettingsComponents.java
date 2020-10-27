@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import application.game.GamesModule;
-import application.helper.AlertBox;
 import application.helper.ConfirmBox;
 import application.helper.GlossButton;
 import application.questions.QuestionBox;
@@ -15,24 +14,33 @@ import application.scoreboard.Scoreboard;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 
+
+/**
+ * This class contains methods to create and constrain GUI components for settings
+ * @author Whan Jung
+ */
 public class SettingsComponents {
 	
-	private static String _save_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "game_data" + System.getProperty("file.separator") + "settings";
+	private static String _save_loc = System.getProperty("user.dir") + System.getProperty("file.separator") +
+			"game_data" + System.getProperty("file.separator") + "settings";
 	private static String _saveColourBlind = "Click to enable colour blind mode";
 	public static String _backgroundName = "rangitoto_sunset.png";
 
+	/**
+	 * This method creates and sets constraints for the reset game button
+	 * @return reset game button
+	 */
 	static Button getResetGameButton(GamesModule gameMenu) {
 		
 		Button resetGameButton = new Button("Click to reset current Games Module game");
 		resetGameButton.setPrefSize(440,60);
 		resetGameButton.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
-		resetGameButton = GlossButton.addGlossEffect(resetGameButton, 18, "#D5D5D5", "#ECECEC");
+		GlossButton.addGlossEffect(resetGameButton, 18);
 		resetGameButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
 				boolean resetGame = ConfirmBox.displayConfirm("Game reset", "Are you sure you want to reset the game?"
@@ -45,12 +53,15 @@ public class SettingsComponents {
 		
 		return resetGameButton;
 	}
-	
+	/**
+	 * This method creates and sets constraints for the reset scoreboard button
+	 * @return reset scoreboard button
+	 */
 	static Button getResetScoreboardButton(Scoreboard score) {
 		Button resetScoreboardButton = new Button("Click to reset the scoreboard");
 		resetScoreboardButton.setPrefSize(440,60);
 		resetScoreboardButton.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
-		resetScoreboardButton = GlossButton.addGlossEffect(resetScoreboardButton, 18, "#D5D5D5", "#ECECEC");
+		GlossButton.addGlossEffect(resetScoreboardButton, 18);
 		resetScoreboardButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
 				boolean resetScoreboard = ConfirmBox.displayConfirm("Game reset", "Are you sure you want to reset"
@@ -63,12 +74,16 @@ public class SettingsComponents {
 		
 		return resetScoreboardButton;
 	}
-	
+	/**
+	 * This method sets the constraints for the set up of colourblind button
+	 * 
+	 */
 	static void setupColourBlindButton(Button colourBlindButton) {
 		colourBlindButton.setText(_saveColourBlind);
 		colourBlindButton.setPrefSize(440, 60);
 		colourBlindButton.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
-		GlossButton.addGlossEffect(colourBlindButton, 18, "#D5D5D5", "#ECECEC");
+		GlossButton.addGlossEffect(colourBlindButton, 18);
+		//Update button label and function everytime button is clicked
 		colourBlindButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle (ActionEvent e) {
 				if (colourBlindButton.getText().equals("Click to enable colour blind mode")) {
@@ -83,6 +98,10 @@ public class SettingsComponents {
 			}
 		});
 	}
+	/**
+	 * This method creates and sets constraints for the combobox to change background of games module
+	 *
+	 */
 	static ComboBox<String> setBackgroundBox() {
 		
 		ComboBox<String> backgroundBox = new ComboBox<String>();
@@ -110,11 +129,15 @@ public class SettingsComponents {
 		});
 		return backgroundBox;
 	}
+	/**
+	 *  This method creates and sets constraints for the change playback speed button
+	 * @return change playback speed button
+	 */
 	static Button getChangePlaybackSpeedButton() {
 		Button changePlaybackSpeedButton = new Button("Change speech playback speed");
 		changePlaybackSpeedButton.setPrefSize(440, 60);
 		changePlaybackSpeedButton.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 18;");
-		GlossButton.addGlossEffect(changePlaybackSpeedButton, 18, "D5D5D5", "#ECECEC");
+		GlossButton.addGlossEffect(changePlaybackSpeedButton, 18);
 		changePlaybackSpeedButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -126,6 +149,11 @@ public class SettingsComponents {
 		
 		return changePlaybackSpeedButton;
 	}
+	/**
+	 * This method creates and sets constraints for the back button
+	 * @param window | main menu stage
+	 * @param menuScene | main menu Scene
+	 */
 	static Button getBackButton(Stage window, Scene menuScene) {
 		Button back = new Button("Back");
 		back.setStyle("-fx-border-color: #067CA0;-fx-border-width: 1;-fx-font-size: 16;");
@@ -135,9 +163,13 @@ public class SettingsComponents {
 				window.show();
 			}
 		});
-		back = GlossButton.addGlossEffect(back, 18, "#D5D5D5", "#ECECEC");
+		back = GlossButton.addGlossEffect(back, 18);
 		return back;
 	}
+	/**
+	 * This method saves the current settings data to a file in directory
+	 *
+	 */
 	public static void saveSettingData() {
 		
 		//Write colour blind mode and background setting to file
@@ -150,6 +182,10 @@ public class SettingsComponents {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * This method reads and sets saved settings everytime Quinzical is booted up
+	 *
+	 */
 	public static void setSettingsFromFile() {
 
 		File settingsFile = new File(_save_loc);
@@ -171,6 +207,10 @@ public class SettingsComponents {
 	public static String getBackgroundName() {
 		return _backgroundName;
 	}
+	/**
+	 * This method returns the current colour blind mode state
+	 * @return saved colour blind mode
+	 */
 	public static String getSavedColourBlindMode() {
 		return _saveColourBlind;
 	}

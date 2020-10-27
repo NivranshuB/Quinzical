@@ -13,6 +13,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
+/**
+ * This class contains methods to display the question board for the games module as well as including their functionalities
+ * @author team 41
+ */
 public class QuestionGrid {
 
 	/**
@@ -86,7 +90,8 @@ public class QuestionGrid {
 			} else {
 				categoryLabel = GamesModuleComponents.getIncompleteCategoryLabel(c);
 			}
-
+			
+			//categoryLabel = GamesModuleComponents.getIncompleteCategoryLabel(c);
 
 			if (c.getCategoryName().equalsIgnoreCase("international")) {
 				if (categoriesDone < 2) {
@@ -112,10 +117,11 @@ public class QuestionGrid {
 						if (!Main._scoreboard.gameFinished()) {
 							int winnings = game.getWinnings();
 							if (winnings != 0) {
-								Main._scoreboard.addToScoreboard("Game finished", "Congratulations!!! You earned $" + winnings + ". Save your score to view your reward", "#067CA0", winnings);
+								Main._scoreboard.addToScoreboard("Game finished", "Congratulations!!! You earned $" + winnings +
+										". Save your score to view your reward", "#067CA0", winnings);
 							} else if (winnings == 0){
-								Main._scoreboard.addToScoreboard("Game finished", "Even though you earned $0, you still won a reward! Save your score to view your reward"
-									, "#067CA0", winnings);
+								Main._scoreboard.addToScoreboard("Game finished", "Even though you earned $0, you still won a "
+										+ "reward! Save your score to view your reward", "#067CA0", winnings);
 							}
 							
 							Main._scoreboard.setGameFinished(true);
@@ -186,13 +192,13 @@ public class QuestionGrid {
 				}
 			} else {
 				if (feedback.equals("Ran out of time!")) {
-					AlertBox.displayAlert("Time ran out", feedback, "#BC0808");
+					AlertBox.displayAlert("Time ran out", feedback, "#ff6969");
 				} else if (feedback.equals("Its fine you don't know!")) {
-					AlertBox.displayAlert("Don't know", feedback, "#BC0808");
+					AlertBox.displayAlert("Don't know", feedback, "#ff6969");
 				} else if (feedback.equals("The question you selected is now considered as attempted")) {
-					AlertBox.displayAlert("Attempted", feedback, "#BC0808");
+					AlertBox.displayAlert("Attempted", feedback, "#ff6969");
 				} else {
-					AlertBox.displayAlert("Incorrect answer", feedback, "#BC0808");
+					AlertBox.displayAlert("Incorrect answer", feedback, "#ff6969");
 				}
 			}
 		}

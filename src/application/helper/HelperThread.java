@@ -1,6 +1,5 @@
 package application.helper;
 
-import application.helper.CompletedTaskPaper;
 import javafx.application.Platform;
 
 
@@ -14,6 +13,10 @@ public class HelperThread extends Thread {
 	private String _question;
 	private double _playSpeed;
 	
+	/**
+	 * Two different constructors for this class, one for default playspeed and other for specified playspeed
+	 *
+	 */
 	public HelperThread(String question) {
 		_question = question;
 		_playSpeed = 1.0;

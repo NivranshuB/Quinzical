@@ -10,7 +10,6 @@ import java.nio.file.Paths;
 
 import application.Main;
 import application.MainMenuComponents;
-import application.helper.AlertBox;
 import application.helper.ConfirmBox;
 import application.questions.Category;
 import application.questions.Question;
@@ -79,7 +78,8 @@ public class GamesModule {
 	 */
 	private void checkSaveData() {
 
-		String save_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "game_data" + System.getProperty("file.separator") + "save_data";
+		String save_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "game_data"
+		+ System.getProperty("file.separator") + "save_data";
 		File save_data = new File(save_loc);
 
 		//check if there exists a save_data containing winnings and questions data
@@ -167,7 +167,8 @@ public class GamesModule {
 	 */
 	private void saveAndExitGame() {
 
-		String save_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "game_data" + System.getProperty("file.separator") + "save_data";
+		String save_loc = System.getProperty("user.dir") + System.getProperty("file.separator") + "game_data" 
+		+ System.getProperty("file.separator") + "save_data";
 		Path pathCategoryData = Paths.get(save_loc + System.getProperty("file.separator") + "categories");
 		
 		try {
