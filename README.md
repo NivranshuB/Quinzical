@@ -29,3 +29,10 @@ All blacks: Photo from stuff.co.nz credited to Phil Walter/Getty images
 Mount Cook: Photo from allhdwallpapers.com
 Paua shell: Photo from shopnz.com
 
+References for background images:
+
+Skytower night view: Photo from https://www.nzherald.co.nz/nz/sky-tower-celebrates-20-year-anniversary/WKSSRFVNHXLYEEGGLIUBYWMYNQ/
+Rangitoto sunset: Photo from https://www.newzealand.com/int/rangitoto-island/
+
+Reference for code to destroy festival processes: 206 Piazza @174
+Reference for alternatives to red and green colour for colour blind mode: https://www.visualisingdata.com/2015/11/colour-swatch-alternatives-to-green-and-red/
