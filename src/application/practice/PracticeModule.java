@@ -133,7 +133,7 @@ public class PracticeModule {
 				if (Main.colourBlindMode()) {
 					AlertBox.displayAlert("Incorrect answer", "Incorrect. Try again!", "#7B3294");
 				} else {
-					AlertBox.displayAlert("Incorrect answer", "Incorrect. Try again!", "#BC0808");
+					AlertBox.displayAlert("Incorrect answer", "Incorrect. Try again!", "#ff6969");
 				}
 			}
 			else {
@@ -142,7 +142,7 @@ public class PracticeModule {
 				+ ques.getQuestion() + "' is " + ques.getAnswer(), "#7B3294");
 				} else {
 					AlertBox.displayAlert("Incorrect answer", "Incorrect. " + "The correct answer to '"
-				+ ques.getQuestion() + "' is " + ques.getAnswer(), "#BC0808");
+				+ ques.getQuestion() + "' is " + ques.getAnswer(), "#ff6969");
 				}
 			}
 		}
