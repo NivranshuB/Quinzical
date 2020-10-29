@@ -64,6 +64,9 @@
 
 => Whan made sure that all the comments and documentation for the classes and methods of the Quinzical source code were consistent and to a high standard.
 
+28/10/20 & 29/10/20 - Collaborated online on the User Manual for Quinzical
+	= Divided the different sections of the user manual between the two of us to ensure that we were working to our strength
+
 
 
 
