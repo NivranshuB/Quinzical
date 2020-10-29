@@ -20,7 +20,7 @@ Instructions are below:
 
 	4) Move the provided 'akl_nz_jdt_diphone' folder into 'Computer/usr/share/festival/voices' using the new directory window
 
-	5) Enter "cd $HOME/assignment4beta_team41_v1/assignment-3-and-project-team-41-master" in terminal
+	5) Enter "cd $HOME/project_team41_v1/assignment-3-and-project-team-41-master" in terminal
 
 	6) Enter "chmod +x run.sh"
 
