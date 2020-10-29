@@ -12,7 +12,7 @@ Developed by: 	(Team 41)
 Instructions are below:
 
 
-	1) Unzip provided 'assignment4beta_team41_v1.zip' folder into 'HOME' directory
+	1) Unzip provided 'project_team41_v1.zip' folder into 'HOME' directory
 
 	2) Open terminal and enter "sudo nautilus"
 
