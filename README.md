@@ -4,29 +4,10 @@ Welcome to the Quinzical application!!!
 
 Enjoy while learning about New Zealand...
 
-Developed by: 	(Team 41)
-		Whan Jung,
-		Nivranshu Bose
+Developed by: 	Nivranshu Bose
+		Whan Jung
+For the Softeng206 course at the University of Auckland. This is a Linux-based game written in Java.
 	
-
-Instructions are below:
-
-
-	1) Unzip provided 'project_team41_v1.zip' folder into 'HOME' directory
-
-	2) Open terminal and enter "sudo nautilus"
-
-	3) Enter your password and a directory window should pop up
-
-	4) Move the provided 'akl_nz_jdt_diphone' folder into 'Computer/usr/share/festival/voices' using the new directory window
-
-	5) Enter "cd $HOME/project_team41_v1/assignment-3-and-project-team-41-master" in terminal
-
-	6) Enter "chmod +x run.sh"
-
-	7) Enter "./run.sh"
-
-
 
 Adding new questions and categories to the question bank:
 
@@ -97,7 +78,5 @@ REFERENCES FOR BACKGROUND IMAGES:
 
 
 OTHER REFERENCES
-
-	Reference for code to destroy festival processes: 206 Piazza @174
 
 	Reference for alternatives to red and green colour for colour blind mode: https://www.visualisingdata.com/2015/11/colour-swatch-alternatives-to-green-and-red/
