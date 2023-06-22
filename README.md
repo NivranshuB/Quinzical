@@ -4,8 +4,9 @@ Welcome to the Quinzical application!!!
 
 Enjoy while learning about New Zealand...
 
-Developed by: 	Nivranshu Bose
+Developed by: 	Nivranshu Bose &
 		Whan Jung
+  
 For the Softeng206 course at the University of Auckland. This is a Linux-based game written in Java.
 	
 
